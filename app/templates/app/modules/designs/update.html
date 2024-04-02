@@ -1,0 +1,422 @@
+{% extends 'app/layout.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load super_filters %}
+
+{% block title %}
+	Rhinestone Inventions Disclosure Tools | Design
+{% endblock title %}
+
+{% block css %}
+<!-- vendor css -->
+<link rel="stylesheet" href="{% static 'assets/css/plugins/dataTables.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/plugins/select2.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+{% endblock css %}
+	
+
+{% block content %}
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Design Module</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/app/"><i class="feather icon-home"></i>&nbsp;Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="/app/modules/design/list/">Design List</a></li>
+                            <li class="breadcrumb-item"><a href="/app/modules/design/edit/{{item.id}}/">Design Edit</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+        <!-- [ Main Content ] start -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+					<div class="card-body">
+                        <div class="row ">
+                        
+                            <!-- <div class="col-12">
+                                <button class="btn btn-primary float-right">Add Design</button>
+                            </div> -->
+                            <div class="col-12 mb-4">
+                                <form class="page-form" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-row">
+                                        <div class="col-12 mb-4 text-center">
+                                            <button class="btn btn-sm btn-outline-primary">Audit Trail</button>
+                                            <button class="btn btn-sm btn-outline-primary"><i class="feather icon-copy"></i></button>
+                                            <button class="btn btn-sm btn-outline-primary">Customer Special Instructions</button>
+                                            <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-left"></i></button>
+                                            <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-right"></i></button>
+                                            <button class="btn btn-sm btn-outline-primary"><i class="feather icon-printer"></i></button>
+                                            <button type="reset" class="btn btn-sm btn-outline-primary"><i class="feather icon-delete"></i>&nbsp;Delete</button>
+                                            <button type="submit" class="btn btn-sm btn-outline-primary"><i class="feather icon-save"></i>&nbsp;Save</button>
+                                        </div>
+                                    </div>
+                                    {% crispy form %}
+                                </form>
+                            </div>
+                            <div class="col-12 mb-4">
+                                <ul class="nav nav-tabs mb-3" id="family-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link text active" id="pills-Actions-tab" data-toggle="pill" href="#pills-Actions" role="tab" aria-controls="pills-Actions" aria-selected="true"><b> Actions </b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-applicant-tab" data-toggle="pill" href="#pills-applicant" role="tab" aria-controls="pills-applicant" aria-selected="false"><b> Applicant(s) </b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-Inventors-tab" data-toggle="pill" href="#pills-Inventors" role="tab" aria-controls="pills-Inventors" aria-selected="false"><b> Inventor(s) </b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-Title-tab" data-toggle="pill" href="#pills-Title" role="tab" aria-controls="pills-Title" aria-selected="false"><b> Title </b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-Invoices-tab" data-toggle="pill" href="#pills-Invoices" role="tab" aria-controls="pills-Invoices" aria-selected="false"><b> Invoices </b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-Annuities-tab" data-toggle="pill" href="#pills-Annuities" role="tab" aria-controls="pills-Annuities" aria-selected="false"><b> Annuities </b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-Prior-tab" data-toggle="pill" href="#pills-Prior" role="tab" aria-controls="pills-Prior" aria-selected="false"><b> Prior Art </b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-Related-tab" data-toggle="pill" href="#pills-Related" role="tab" aria-controls="pills-Related" aria-selected="false"><b> Related Case Links </b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-Abstract-tab" data-toggle="pill" href="#pills-Abstract" role="tab" aria-controls="pills-Abstract" aria-selected="false"><b> Abstract & Figures Field</b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-Documents-tab" data-toggle="pill" href="#pills-Documents" role="tab" aria-controls="pills-Documents" aria-selected="false"><b> Documents </b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-Notes-tab" data-toggle="pill" href="#pills-Notes" role="tab" aria-controls="pills-Notes" aria-selected="false"><b>Notes</b></a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="family-tabs-content">
+                                    <div class="tab-pane fade show active" id="pills-Actions" role="tabpanel" aria-labelledby="pills-Actions-tab">
+                                        <div class="media">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Action Code</th>
+                                                            <th>Action Spellout</th>
+                                                            <th>Due Date</th>
+                                                            <th>Taken Date</th>
+                                                            <th>Completed Date</th>
+                                                            <th>Responsible Person</th>
+                                                            <th>Notes</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>001/11</td>
+                                                            <td>TEST</td>
+                                                            <td>29/07/2022</td>
+                                                            <td>30/07/2022</td>
+                                                            <td>1/08/2022</td>
+                                                            <td>Demo</td>
+                                                            <td>TEST Note</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-applicant" role="tabpanel" aria-labelledby="pills-applicant-tab">
+                                        <div class="media">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Applicant ID</th>
+                                                            <th>Surname</th>
+                                                            <th>Given Name(s)</th>
+                                                            <th>Nationality</th>
+                                                            <th>Employment Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>TEST-001</td>
+                                                            <td>TEST Surname</td>
+                                                            <td>TEST Given Name</td>
+                                                            <td>Ethiopian</td>
+                                                            <td>Active</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-Inventors" role="tabpanel" aria-labelledby="pills-Inventors-tab">
+                                        <div class="media">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Inventor ID</th>
+                                                            <th>Surname</th>
+                                                            <th>Given Name(s)</th>
+                                                            <th>Nationality</th>
+                                                            <th>Employment Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>TEST-001</td>
+                                                            <td>TEST Surname</td>
+                                                            <td>TEST Given Name</td>
+                                                            <td>Ethiopian</td>
+                                                            <td>Active</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-Title" role="tabpanel" aria-labelledby="pills-Title-tab">
+                                        <div class="media">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Formal Title</th>
+                                                            <th>Internal Title</th>
+                                                            <th>isLicenced</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>001</td>
+                                                            <td>Invention Disclosure Tools</td>
+                                                            <td>Disclosure Tools</td>
+                                                            <td>Yes</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-Invoices" role="tabpanel" aria-labelledby="pills-Invoices-tab">
+                                        <div class="media">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Invoice No</th>
+                                                            <th>Items</th>
+                                                            <th>Customer Name</th>
+                                                            <th>Address</th>
+                                                            <th>Payment Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>CA-0000012</td>
+                                                            <td>Service</td>
+                                                            <td>Jems</td>
+                                                            <td>Kenya</td>
+                                                            <td>Pending</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-Annuities" role="tabpanel" aria-labelledby="pills-Annuities-tab">
+                                        <div class="media">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Result-1</th>
+                                                            <th>Address-2</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>001</td>
+                                                            <td>Demo Result</td>
+                                                            <td>Demo Address</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-Prior" role="tabpanel" aria-labelledby="pills-Prior-tab">
+                                        <div class="media">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Owners Name</th>
+                                                            <th>Address</th>
+                                                            <th>Nationality</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>001</td>
+                                                            <td>Demo Name</td>
+                                                            <td>Asefa Teruneh Street</td>
+                                                            <td>Ethiopia</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-Related" role="tabpanel" aria-labelledby="pills-Related-tab">
+                                        <div class="media">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Reference Number</th>
+                                                            <th>Country</th>
+                                                            <th>Application Number</th>
+                                                            <th>Application Date</th>
+                                                            <th>Inventors</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>23456121</td>
+                                                            <td>UK</td>
+                                                            <td>rt4523I2</td>
+                                                            <td>12/06/2022</td>
+                                                            <td>Inventor</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-Abstract" role="tabpanel" aria-labelledby="pills-Abstract-tab">
+                                        <div class="media">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>No Of Drawing</th>
+                                                            <th>No Of View</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>0001</td>
+                                                            <td>1</td>
+                                                            <td>4</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-Documents" role="tabpanel" aria-labelledby="pills-Documents-tab">
+                                        <div class="media">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Document</th>
+                                                            <th>Name of Document</th>
+                                                            <th>Upload Date</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>File.Docx</td>
+                                                            <td>Request</td>
+                                                            <td>20/07/2022</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-Notes" role="tabpanel" aria-labelledby="pills-Notes-tab">
+                                        <div class="media">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Note</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, molestias in quam corrupti nobis provident doloribus quia cumque vel suscipit commodi blanditiis nostrum labore atque laboriosam sint, hic dolorem earum?</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+					</div>
+                </div>
+            </div>
+        </div>
+        <!-- [ Main Content ] end -->
+
+    </div>
+</section>
+<!-- [ Main Content ] end -->
+
+{% endblock content %}
+{% block js %}
+<!-- Required Js -->
+<script src="{% static 'assets/js/vendor-all.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/ripple.js' %}"></script>
+<script src="{% static 'assets/js/pcoded.min.js' %}"></script>
+<!-- select2 Js -->
+<script src="{% static 'assets/js/plugins/select2.full.min.js' %}"></script>
+<!-- datatables Js -->
+<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+<!-- <script src="{% static 'assets/js/plugins/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.print.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/pdfmake.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jszip.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.html5.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/js/pages/data-export-custom.js' %}"></script> -->
+<!-- Apex Chart
+<script src="{% static 'assets/js/plugins/apexcharts.min.js' %}"></script>
+-->
+
+<script>
+	// Form start
+	$(".page-form select").select2();
+	// Form end
+	// DataTable start
+	$('.data-table').DataTable({
+		dom: 'Bfrtip',
+		// buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+	});
+	// DataTable end
+</script>
+{% endblock js %}

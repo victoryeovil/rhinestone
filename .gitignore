@@ -1,0 +1,11 @@
+/env
+*.sqlite3
+*.pyc
+/dev
+/template
+/media
+/.vscode/*
+/app/static/assets/images/*
+*.pem
+/static
+**/migrations/

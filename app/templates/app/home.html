@@ -1,0 +1,130 @@
+{% extends 'app/layout.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load super_filters %}
+
+{% block title %}
+    Rhinestone Inventions Disclosure Tools | Admin | Home
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/dataTables.bootstrap4.min.css' %}">
+    <!-- vendor css -->
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+{% endblock css %}
+
+{% block style %}
+    {{ block.super }}
+    <style>
+        .page-form .fieldset  {
+            border: 1px groove #ced4da !important;
+        }
+    </style>
+{% endblock style %}
+
+{% block content %}
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-content">
+            <!-- [ breadcrumb ] start -->
+            <div class="page-header">
+                <div class="page-block">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <div class="page-header-title">
+                                <h5 class="m-b-10">Home</h5>
+                            </div>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/app/"><i class="feather icon-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="#!">Home</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- [ breadcrumb ] end -->
+            <!-- [ Main Content ] start -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Quick Search</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12 mb-4">
+                                    <form class="page-form" action="/app/" method="post" novalidate>
+                                        {% csrf_token %}
+                                        {% crispy form %}
+                                    </form>
+                                </div>
+                                <div class="container">
+                                    <h1 class="mt-4">Results</h1>
+                                    {% if form.is_bound and result %}
+    <div class="container">
+       
+        <table id="search-results-table" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Agent</th>
+                    <th>Agent Ref</th>
+                    <th>Filing Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ result.id }}</td>
+                    <td>{{ result.titles }}</td>
+                    <td>{{ result.agent }}</td>
+                    <td>{{ result.agent_ref }}</td>
+                    <td>{{ result.type_of_filing }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <p>Search not found.</p>
+{% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- [ Main Content ] end -->
+        </div>
+    </div>
+    <!-- [ End Main Content ] start -->
+{% endblock content %}
+
+{% block js %}
+    <!-- Required Js -->
+    <script src="{% static 'assets/js/vendor-all.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/ripple.js' %}"></script>
+    <script src="{% static 'assets/js/pcoded.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/select2.full.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+    <script>
+        if ("POST" === "{{request.method}}") {
+            document.querySelector("table#search-results-table").scrollIntoView();
+        }
+    </script>
+    <script>
+        // Form start
+        $(".page-form select").select2();
+        // Form end
+        // DataTable start
+        $('.data-table').DataTable({
+            dom: 'Bfrtip',
+            // buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        });
+        // DataTable end
+    </script>
+{% endblock js %}

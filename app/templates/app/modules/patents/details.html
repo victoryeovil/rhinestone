@@ -1,0 +1,323 @@
+{% extends 'app/layout.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load super_filters %}
+
+{% block title %}
+	Rhinestone Inventions Disclosure Tools | Patent
+{% endblock title %}
+
+{% block css %}
+<!-- vendor css -->
+<link rel="stylesheet" href="{% static 'assets/css/plugins/dataTables.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/plugins/select2.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+{% endblock css %}
+	
+
+{% block content %}
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Patent Module</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/app/"><i class="feather icon-home"></i>&nbsp;Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="/app/modules/patents/list/">Patent List</a></li>
+                            <li class="breadcrumb-item"><a href="/app/modules/patents/detail/{{i.id}}/">Patent Detail</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+        <!-- [ Main Content ] start -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+					<div class="card-body">
+                        <div class="row ">
+                        
+                            <!-- <div class="col-12">
+                                <button class="btn btn-primary float-right">Add Patent</button>
+                            </div> -->
+                            <div class="col-12 mb-4 text-center">
+                                <button class="btn btn-sm btn-outline-primary">Audit Trail</button>
+                                <button class="btn btn-sm btn-outline-primary"><i class="feather icon-copy"></i></button>
+                                <button class="btn btn-sm btn-outline-primary">Customer Special Instructions</button>
+                                <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-left"></i></button>
+                                <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-right"></i></button>
+                                <button class="btn btn-sm btn-outline-primary"><i class="feather icon-printer"></i></button>
+                                <button class="btn btn-sm btn-outline-primary"><i class="feather icon-delete"></i></button>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">case ref docket no</h5>
+                                <p>
+                                    {{item.case_no}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">country</h5>
+                                <p>
+                                    {{item.country}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">internal title</h5>
+                                <p>
+                                    {{item.internal_title}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">formal title</h5>
+                                <p>
+                                    {{item.formal_title}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">type of filing</h5>
+                                <p>
+                                    {{item.type_of_filing}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">status</h5>
+                                <p>
+                                    {{item.status}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">sub filing type</h5>
+                                <p>
+                                    {{item.sub_filing_type}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">sub status</h5>
+                                <p>
+                                    {{item.sub_status}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">primary attorney</h5>
+                                <p>
+                                    {{item.primary_attorney}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">secondary attorney</h5>
+                                <p>
+                                    {{item.secondary_attorney}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">primary paralegal</h5>
+                                <p>
+                                    {{item.primary_paralegal}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">secondary paralegal</h5>
+                                <p>
+                                    {{item.secondary_paralegal}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">agent</h5>
+                                <p>
+                                    {{item.agent}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">agent_ref</h5>
+                                <p>
+                                    {{item.agent_ref}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">agent 2</h5>
+                                <p>
+                                    {{item.agent_2}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">agent 2 ref</h5>
+                                <p>
+                                    {{item.agent_2_ref}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">cost centre</h5>
+                                <p>
+                                    {{item.cost_centre}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">licence</h5>
+                                <p>
+                                    {{item.licence}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">cost centre code</h5>
+                                <p>
+                                    {{item.cost_centre_code}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">priority provisional application no</h5>
+                                <p>
+                                    {{item.priority_provisional_application_no}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">priority provisional date</h5>
+                                <p>
+                                    {{item.priority_provisional_date}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">next annuity due</h5>
+                                <p>
+                                    {{item.next_annuity_due}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">PCT application no</h5>
+                                <p>
+                                    {{item.PCT_application_no}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">PCT application Date</h5>
+                                <p>
+                                    {{item.PCT_application_Date}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">annuity no</h5>
+                                <p>
+                                    {{item.annuity_no}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">application no</h5>
+                                <p>
+                                    {{item.application_no}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">application date</h5>
+                                <p>
+                                    {{item.application_date}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">taxs paid by</h5>
+                                <p>
+                                    {{item.taxs_paid_by}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">publication no</h5>
+                                <p>
+                                    {{item.publication_no}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">publication date</h5>
+                                <p>
+                                    {{item.publication_date}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">patent term no of days</h5>
+                                <p>
+                                    {{item.patent_term_no_of_days}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">grant number</h5>
+                                <p>
+                                    {{item.grant_number}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">grant date</h5>
+                                <p>
+                                    {{item.grant_date}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h5 class="text-uppercase">large small entity</h5>
+                                <p>
+                                    {{item.large_small_entity}}
+                                </p>
+                            </div>
+                            <div class="col-12 mb-3 text-center">
+                                <a href="/app/modules/patents/list/" class="btn btn-primary">
+                                    <i class="fa fa-list"></i>&nbsp;List
+                                </a>
+                                <a href="/app/modules/patents/edit/{{item.id}}/" class="btn btn-secondary">
+                                    <i class="fa fa-edit"></i>&nbsp;Edit
+                                </a>
+                                <a href="/app/modules/patents/delete/{{item.id}}/" class="btn btn-danger">
+                                    <i class="fa fa-trash"></i>&nbsp;Delete
+                                </a>
+                            </div>
+                        </div>
+					</div>
+                </div>
+            </div>
+        </div>
+        <!-- [ Main Content ] end -->
+
+    </div>
+</section>
+<!-- [ Main Content ] end -->
+
+{% endblock content %}
+{% block js %}
+<!-- Required Js -->
+<script src="{% static 'assets/js/vendor-all.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/ripple.js' %}"></script>
+<script src="{% static 'assets/js/pcoded.min.js' %}"></script>
+<!-- select2 Js -->
+<script src="{% static 'assets/js/plugins/select2.full.min.js' %}"></script>
+<!-- datatables Js -->
+<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+<!-- <script src="{% static 'assets/js/plugins/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.print.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/pdfmake.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jszip.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.html5.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/js/pages/data-export-custom.js' %}"></script> -->
+<!-- Apex Chart
+<script src="{% static 'assets/js/plugins/apexcharts.min.js' %}"></script>
+-->
+
+<script>
+	// Form start
+	$(".page-form select").select2();
+	// Form end
+	// DataTable start
+	$('.data-table').DataTable({
+		dom: 'Bfrtip',
+		// buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+	});
+	// DataTable end
+</script>
+{% endblock js %}

@@ -1,0 +1,1505 @@
+{% extends 'app/layout.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load super_filters %}
+
+{% block title %}
+	Rhinestone Inventions Disclosure Tools | Patent
+{% endblock title %}
+
+{% block css %}
+<!-- vendor css -->
+<link rel="stylesheet" href="{% static 'assets/css/plugins/dataTables.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/plugins/select2.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+{% endblock css %}
+	
+
+{% block content %}
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Patent Module</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/app/"><i class="feather icon-home"></i>&nbsp;Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="/app/modules/patents/list/">Patent List</a></li>
+                            <li class="breadcrumb-item"><a href="/app/modules/patents/add/">Patent Add</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+        <!-- [ Main Content ] start -->
+         <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+                            <!-- <div class="col-12">
+                                                <button class="btn btn-primary float-right">Add Family</button>
+                                            </div> -->
+                            <div class="col-12 mb-4">
+                              <form
+                                class="page-form"
+                                action="/app/modules/patents/add/"
+                                method="post"
+                              >
+                                {% csrf_token %}
+                                <div class="form-row">
+                                  <div class="col-12 mb-4 text-center">
+                                    <button class="btn btn-sm btn-outline-primary">
+                                      Audit Trail
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                      <i class="feather icon-copy"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                      Customer Special Instructions
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        Create Country
+                                      </button>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                      <i class="feather icon-arrow-left"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                      <i class="feather icon-arrow-right"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                      <i class="feather icon-printer"></i>
+                                    </button>
+                                    <button
+                                      type="reset"
+                                      class="btn btn-sm btn-outline-primary"
+                                    >
+                                      <i class="feather icon-delete"></i>&nbsp;Delete
+                                    </button>
+                                    <button
+                                      type="submit"
+                                      class="btn btn-sm btn-outline-primary"
+                                    >
+                                      <i class="feather icon-save"></i>&nbsp;Save
+                                    </button>
+                                  </div>
+                                  <div id="id_add_new" class="col-12 mb-4 text-center"></div>
+                                </div>
+                                {% crispy form %}
+                              </form>
+                            </div>
+                            <div class="col-12 mb-4">
+                              <ul class="nav nav-tabs mb-3" id="family-tabs" role="tablist">
+                                  <li class="nav-item">
+                                      <a class="nav-link text active" id="pills-Actions-tab" data-toggle="pill" href="#pills-Actions" role="tab" aria-controls="pills-Actions" aria-selected="true"><b> Actions </b></a>
+                                  </li>
+                                  <li class="nav-item">
+                                      <a class="nav-link" id="pills-applicant-tab" data-toggle="pill" href="#pills-applicant" role="tab" aria-controls="pills-applicant" aria-selected="false"><b> Applicant(s) </b></a>
+                                  </li>
+                                  <li class="nav-item">
+                                      <a class="nav-link" id="pills-Inventors-tab" data-toggle="pill" href="#pills-Inventors" role="tab" aria-controls="pills-Inventors" aria-selected="false"><b> Inventor(s) </b></a>
+                                  </li>
+                                  <li class="nav-item">
+                                      <a class="nav-link" id="pills-Title-tab" data-toggle="pill" href="#pills-Title" role="tab" aria-controls="pills-Title" aria-selected="false"><b> Title </b></a>
+                                  </li>
+                                  <li class="nav-item">
+                                      <a class="nav-link" id="pills-Invoices-tab" data-toggle="pill" href="#pills-Invoices" role="tab" aria-controls="pills-Invoices" aria-selected="false"><b> Invoices </b></a>
+                                  </li>
+                                  <li class="nav-item">
+                                      <a class="nav-link" id="pills-Annuities-tab" data-toggle="pill" href="#pills-Annuities" role="tab" aria-controls="pills-Annuities" aria-selected="false"><b> Annuities </b></a>
+                                  </li>
+                                <!--  <li class="nav-item">
+                                      <a class="nav-link" id="pills-Prior-tab" data-toggle="pill" href="#pills-Prior" role="tab" aria-controls="pills-Prior" aria-selected="false"><b> Prior Art </b></a>
+                                  </li>-->
+                                  <li class="nav-item">
+                                      <a class="nav-link" id="pills-Related-tab" data-toggle="pill" href="#pills-Related" role="tab" aria-controls="pills-Related" aria-selected="false"><b> Related Case Links </b></a>
+                                  </li>
+                                  <li class="nav-item">
+                                      <a class="nav-link" id="pills-Abstract-tab" data-toggle="pill" href="#pills-Abstract" role="tab" aria-controls="pills-Abstract" aria-selected="false"><b> Abstract & Figures Files</b></a>
+                                  </li>
+                                  <li class="nav-item">
+                                      <a class="nav-link" id="pills-Documents-tab" data-toggle="pill" href="#pills-Documents" role="tab" aria-controls="pills-Documents" aria-selected="false"><b> Documents </b></a>
+                                  </li>
+                                  <li class="nav-item">
+                                      <a class="nav-link" id="pills-Notes-tab" data-toggle="pill" href="#pills-Notes" role="tab" aria-controls="pills-Notes" aria-selected="false"><b>Notes</b></a>
+                                  </li>
+                              </ul>
+                              <div class="tab-content" id="family-tabs-content">
+                                  <div class="tab-pane fade show active" id="pills-Actions" role="tabpanel" aria-labelledby="pills-Actions-tab">
+                                      <div class="media">
+                                          <div class="table-responsive">
+                                              <table class="table">
+                                                  <thead>
+                                                      <tr>
+                                                          <th>Action Code</th>
+                                                          <th>Action Spellout</th>
+                                                          <th>Due Date</th>
+                                                          <th>Taken Date</th>
+                                                          <th>Completed Date</th>
+                                                          <th>Responsible Person</th>
+                                                          <th>Notes</th>
+                                                      </tr>
+                                                  </thead>
+                                                  <tbody id="tablebody">
+
+                                                    
+                                                  </tbody>
+                                              </table>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="tab-pane fade" id="pills-applicant" role="tabpanel" aria-labelledby="pills-applicant-tab">
+                                    <div class="media">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Applicant ID</th>
+                                                        <th>Surname</th>
+                                                        <th>Given Name(s)</th>
+                                                        <th>Nationality</th>
+                                                        <th>Employment Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr id="selected-applicant-details">
+                                                        
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pills-Inventors" role="tabpanel" aria-labelledby="pills-Inventors-tab">
+                                  <div class="media">
+                                      <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                              <tr>
+                                                <th>Inventor ID</th>
+                                                <th>Surname</th>
+                                                <th>Given Name(s)</th>
+                                                <th>Nationality</th>
+                                                <th>Employment Status</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr>
+                                                <td><input type="text" name="inventor_id" oninput="updateInventorFields(this)"></td>
+                                                <td><input type="text" name="surname" oninput="updateInventorFields(this)"></td>
+                                                <td><input type="text" name="given_names" oninput="updateInventorFields(this)"></td>
+                                                <td><input type="text" name="nationality" oninput="updateInventorFields(this)"></td>
+                                                <td><input type="text" name="employment_status" oninput="updateInventorFields(this)"></td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                      </div>
+                                  </div>
+                              </div>  
+                                  <div class="tab-pane fade" id="pills-Title" role="tabpanel" aria-labelledby="pills-Title-tab">
+                                      <div class="media">
+                                          <div class="table-responsive">
+                                              <table class="table">
+                                                  <thead>
+                                                      <tr>
+                                                       
+                                                          <th>Formal Title</th>
+                                                          <th>Internal Title</th>
+                                                          
+                                                      </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                      <tr id="title-table">
+                                                        
+                                                        
+                                                      </tr>
+                                                  </tbody>
+                                              </table>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="tab-pane fade" id="pills-Invoices" role="tabpanel" aria-labelledby="pills-Invoices-tab">
+                                      <div class="media">
+                                          <div class="table-responsive">
+                                              <table class="table">
+                                                  <thead>
+                                                      <tr>
+                                                          <th>Invoice No</th>
+                                                          <th>Items</th>
+                                                          <th>Customer Name</th>
+                                                          <th>Address</th>
+                                                          <th>Payment Status</th>
+                                                      </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                      <tr>
+                                                          <td>CA-0000012</td>
+                                                          <td>Service</td>
+                                                          <td>Jems</td>
+                                                          <td>Kenya</td>
+                                                          <td>Pending</td>
+                                                      </tr>
+                                                  </tbody>
+                                              </table>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="tab-pane fade" id="pills-Annuities" role="tabpanel" aria-labelledby="pills-Annuities-tab">
+                                    <div class="media">
+                                      <div class="table-responsive">
+                                        <table class="table">
+                                          <thead>
+                                            <tr>
+                                              <th>Country</th>
+                                              <th>Annuity Year</th>
+                                              <th>Due Date</th>
+                                              <th>Payment Status</th>
+                                              <th>Receipt Received</th>
+                                              
+                                            </tr>
+                                          </thead>
+                                          <tbody id="annuity-table-body">
+                                            
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  
+                                   
+                                  <div class="tab-pane fade" id="pills-Prior" role="tabpanel" aria-labelledby="pills-Prior-tab">
+                                    <div class="media">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Patentee/Applicant</th>
+                                                        <th>Application No</th>
+                                                        <th>Country</th>
+                                                        <th>Application Date</th>
+                                                        <th>Publication No</th>
+                                                        <th>Publication Date</th>
+                                                        <th>Grant No</th>
+                                                        <th>Grant Date</th>
+                                                        <th>Publication Author</th>
+                                                        <th>Kind Code</th>
+                                                        <th>Include in IDS</th>
+                                                        <th>Submitted as IDS?</th>
+                                                        <th>On which Case Ref</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input type="text" name="patentee_applicant"></td>
+                                                        <td><input type="text" name="applicatin_no"></td>
+                                                        <td>
+                                                            <select id="id_Country" name="country">
+                                                                <!-- Options for countries -->
+                                                            </select>
+                                                        </td>
+                                                        <td><input type="text" name="applicatin_date"></td>
+                                                        <td><input type="text" name="publication_no"></td>
+                                                        <td><input type="date" name="applicatin_date"></td>
+                                                        <td><input type="text" name="grant_no"></td>
+                                                        <td><input type="date" name="grant_date"></td>
+                                                        <td><input type="text" name="publication_author"></td>
+                                                        <td><input type="text" name="kind_code"></td>
+                                                        <td>
+                                                            <select name="include_in_ids">
+                                                                <option value="yes">Yes</option>
+                                                                <option value="no">No</option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <select name="submitted_as_ids">
+                                                                <option value="yes">Yes</option>
+                                                                <option value="no">No</option>
+                                                            </select>
+                                                        </td>
+                                                        <td><input type="text" name="on_case_ref"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>                              
+                                
+                                  <div class="tab-pane fade" id="pills-Related" role="tabpanel" aria-labelledby="pills-Related-tab">
+                                        <div class="media">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Reference Number</th>
+                                                            <th>Country</th>
+                                                            <th>Application Number</th>
+                                                            <th>Application Date</th>
+                                                            <th>Inventors</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr id="related_case">
+                                                            
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  <div class="tab-pane fade" id="pills-Abstract" role="tabpanel" aria-labelledby="pills-Abstract-tab">
+                                    <div class="media">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Abstract</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                      <form action="/" method="post">
+                                                        {% csrf_token %}
+                                                        <textarea id="input-text" name="Abstract" rows="10" cols="50" maxlength="50" placeholder="Enter your abstract here..."></textarea>
+                                                        <br>
+                                                      </form>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+
+                                  </div>
+                                  <div class="tab-pane fade" id="pills-Documents" role="tabpanel" aria-labelledby="pills-Documents-tab">
+                                    <div class="media">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Document</th>
+                                                        <th>Name of Document</th>
+                                                        <th>Upload Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Existing table rows -->
+                                                    <tr>
+                                                        <td>
+                                                            <input type="file" name="document_file" onchange="uploadDocument(this)">
+                                                        </td>
+                                                        <td id="document-name"></td>
+                                                        <td id="upload-date"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                  <div class="tab-pane fade" id="pills-Notes" role="tabpanel" aria-labelledby="pills-Notes-tab">
+                                      <div class="media">
+                                          <div class="table-responsive">
+                                              <table class="table">
+                                                  <thead>
+                                                      <tr>
+                                                          <th>Note</th>
+                                                      </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                      <tr>
+                                                          <td>
+                                                            <form>
+                                                                <input type="text" class="text">
+                                                            </form>
+                                                          </td>
+                                                      </tr>
+                                                  </tbody>
+                                              </table>
+                                          </div>
+                                      </div>
+                                  </div>
+                          </div>
+                        </div>
+					
+                </div>
+            </div>
+        </div>
+        <!-- [ Main Content ] end -->
+
+    </div>
+</section>
+<!-- [ Main Content ] end -->
+
+{% endblock content %}
+{% block js %}
+<!-- Required Js -->
+<script src="{% static 'assets/js/vendor-all.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/ripple.js' %}"></script>
+<script src="{% static 'assets/js/pcoded.min.js' %}"></script>
+<!-- select2 Js -->
+<script src="{% static 'assets/js/plugins/select2.full.min.js' %}"></script>
+<!-- datatables Js -->
+<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+<!-- <script src="{% static 'assets/js/plugins/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.print.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/pdfmake.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jszip.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.html5.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/js/pages/data-export-custom.js' %}"></script> -->
+<!-- Apex Chart
+<script src="{% static 'assets/js/plugins/apexcharts.min.js' %}"></script>
+-->
+
+<script>
+	// Form start
+	$(".page-form select").select2();
+	// Form end
+	// DataTable start
+	$('.data-table').DataTable({
+		dom: 'Bfrtip',
+		// buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+	});
+	// DataTable end
+</script>
+<script>
+  var type_of_filing = "{{type_of_filing}}";
+  var internal_title = "{{internal_title}}" ;
+  var formal_title =  "{{formal_title}}" ;
+  var cost_centre_code = "{{cost_centre_code}}";
+  var primary_attorney = "{{primary_attorney}}";
+  var secondary_attorney = "{{secondary_attorney}}";
+  var primary_paralegal = "{{primary_paralegal}}";
+  var secondary_paralegal = "{{secondary_paralegal}}";
+  var licence = "{{licence}}";
+  var family = "{{family}}";
+  try {$("input#id_internal_title").val(internal_title); } catch (e) {}
+  try {$("input#id_formal_title").val(formal_title); } catch (e) {}
+  try {$("select#id_cost_centre_code option[value=" + cost_centre_code + "]").prop("selected",true).change(); } catch (e) {}
+  try {$("select#id_primary_attorney option[value=" + primary_attorney + "]").prop("selected",true).change(); } catch (e) {}
+  try {$("select#id_secondary_attorney option[value=" + secondary_attorney + "]").prop("selected",true).change(); } catch (e) {}
+  try {$("select#id_primary_paralegal option[value=" + primary_paralegal + "]").prop("selected",true).change(); } catch (e) {}
+  try {$("select#id_secondary_paralegal option[value=" + secondary_paralegal + "]").prop("selected",true).change(); } catch (e) {}
+  try {$("select#id_licence option[value=" + licence + "]").prop("selected",true).change(); } catch (e) {}
+  try {$("select#id_family option[value=" + family + "]").prop("selected",true).change(); } catch (e) {}
+  try {$("select#id_type_of_filing option[value=" + type_of_filing + "]").prop("selected",true).change(); } catch (e) {}
+
+  function differenceInMonths() {
+    //const monthDiff = date1.getMonth() - date2.getMonth();
+    //const yearDiff = date1.getYear() - date2.getYear();
+  
+    //return monthDiff + yearDiff * 12; 
+    const date = new Date(document.getElementById('id_priority_provisional_date').value);
+    if (date.toLocaleDateString()!=='Invalid Date') {
+    var d12 = new Date(date);
+    console.log(d12.toLocaleDateString());
+    d12.setMonth(d12.getMonth() + 12);
+    console.log(d12.toLocaleDateString())  
+
+    var d3 = new Date(date);
+    console.log(d3.toLocaleDateString());
+    d3.setMonth(d3.getMonth() + 9);
+    console.log(d3.toLocaleDateString())  
+
+    var d2 = new Date(date);
+    console.log(d2.toLocaleDateString());
+    d2.setMonth(d2.getMonth() + 10);
+    console.log(d2.toLocaleDateString())  
+
+    var d1 = new Date(date);
+    console.log(d1.toLocaleDateString());
+    d1.setMonth(d1.getMonth() + 11);
+    console.log(d1.toLocaleDateString())  
+
+    var d16 = new Date(date);
+    console.log(d16.toLocaleDateString());
+    d16.setMonth(d16.getMonth() + 16);
+    console.log(d16.toLocaleDateString())  
+
+    var d24 = new Date(date);
+    console.log(d24.toLocaleDateString());
+    d24.setMonth(d24.getMonth() + 24);
+    console.log(d24.toLocaleDateString())  
+
+    var d54 = new Date(date);
+    console.log(d54.toLocaleDateString());
+    d54.setMonth(d54.getMonth() + 54);
+    console.log(d54.toLocaleDateString())  
+
+
+    var d30 = new Date(date);
+    console.log(d30.toLocaleDateString());
+    d30.setMonth(d30.getMonth() + 30);
+    console.log(d30.toLocaleDateString())  
+
+    var d18 = new Date(date);
+    console.log(d18.toLocaleDateString());
+    d18.setMonth(d18.getMonth() + 18);
+    console.log(d18.toLocaleDateString())  
+
+    var d19 = new Date(date);
+    console.log(d19.toLocaleDateString());
+    d19.setMonth(d19.getMonth() + 19);
+    console.log(d19.toLocaleDateString())  
+
+    var d22 = new Date(date);
+    console.log(d22.toLocaleDateString());
+    d22.setMonth(d22.getMonth() + 22);
+    console.log(d22.toLocaleDateString())  
+
+    var d28 = new Date(date);
+    console.log(d28.toLocaleDateString());
+    d28.setMonth(d28.getMonth() + 28);
+    console.log(d28.toLocaleDateString())  
+
+
+
+    const dates_all=[d1,d2,d3,d12,d16,d30,d18,d19,d22,d28]
+    //const dates_all=[d1,d2,d3,d12]
+
+    const dates_gb=[d12,d16,d24,d54]
+    
+  
+   const codes_all=['FFREM1','FFREM2','FFREM3','FF','CER','NP','PUB','DEM','WOSA2','IPRP']
+   //const codes_all=['FFREM1','FFREM2','FFREM3','FF',]
+
+   const codes_gb=['AF1A','F7','F10','']
+   const spellout_all=['Foreign Filing Due in 1 month',
+                        'Foreign Filing Due in 2 months',
+                        'Foreign Filing Due in 3 months'
+                        ,'Foreign Filing due','Certified Copy of Priority document due',
+                        'National/Regional Phase Entry due',
+                        'Check application has published',
+                        'File Demand',
+                        'Respond to WOSA',
+                        'Check IPRP been issued'
+                        ]
+      
+const spellout_gb=['Pay Application Fee','File Form 7 - Inventor details','File Form 10 - Sub. Exam and Fee','Acceptance']
+   /* const dates_all=[d12]
+    const dates_gb=[d12,d16,d24,d54]
+
+    const codes_all=['FF']
+    const codes_gb=['AF1A','F7','F10','']
+    const spellout_all=['Foreign Filing due','Certified Copy of Priority document due',
+                        'National/Regional Phase Entry due',
+                        'Check application has published',
+                        'File Demand',
+                        'Respond to WOSA',
+                        'Check IPRP been issued']
+
+    const spellout_gb=['Pay Application Fee','File Form 7 - Inventor details','File Form 10 - Sub. Exam and Fee','Acceptance']
+*/
+    function actionTable() {
+    const country = document.getElementById('id_country').value;
+    console.log(country);
+    if (country==='GB'){
+        const table = document.getElementById("tablebody");
+
+        function populateTable() {
+        for (let i = 0; i <= codes_gb.length; i++) {
+            const row = document.createElement("tr");
+            const column1 = document.createElement("td");
+            column1.textContent =codes_gb[i];
+            row.appendChild(column1);
+            table.appendChild(row);
+
+            const column2 = document.createElement("td");
+            column2.textContent =spellout_gb[i];
+            row.appendChild(column2);
+            table.appendChild(row);
+            
+            const column3 = document.createElement("td");
+            column3.textContent =dates_gb[i].toLocaleDateString();
+            row.appendChild(column3);
+            table.appendChild(row);
+
+            const column4 = document.createElement("td");
+            const datePicker = document.createElement("input");
+            datePicker.type = "date";
+            column4.appendChild(datePicker);
+            row.appendChild(column4);
+
+            const column5 = document.createElement("td");
+            const datePicker2 = document.createElement("input");
+            datePicker2.type = "date";
+            column5.appendChild(datePicker2);
+            row.appendChild(column5);
+
+            const column6 = document.createElement("td");
+            const textInput1 = document.createElement("input");
+            textInput1.type = "text";
+            column6.appendChild(textInput1);
+            row.appendChild(column6);
+
+            const column7 = document.createElement("td");
+            const textInput2 = document.createElement("input");
+            textInput2.type = "text";
+            column7.appendChild(textInput2);
+            row.appendChild(column7);
+
+        }
+        }
+        const populate =populateTable();
+        console.log(populate);
+    }
+    else {
+          
+        const table = document.getElementById("tablebody");
+
+        //function populateTable() {
+
+        for (let i = 0; i <= codes_all.length; i++) {
+
+        //for (let i = 0; i <= 1; i++) {
+
+            const row = document.createElement("tr");
+            const column1 = document.createElement("td");
+            column1.textContent =codes_all[i];
+            row.appendChild(column1);
+            table.appendChild(row);
+
+            const column2 = document.createElement("td");
+            column2.textContent =spellout_all[i];
+            row.appendChild(column2);
+            table.appendChild(row);
+            
+            const column3 = document.createElement("td");
+            column3.textContent =dates_all[i].toLocaleDateString();
+            row.appendChild(column3);
+            table.appendChild(row);
+            
+
+            const column4 = document.createElement("td");
+            const datePicker = document.createElement("input");
+            datePicker.type = "date";
+            column4.appendChild(datePicker);
+            row.appendChild(column4);
+            table.appendChild(row);
+
+
+            const column5 = document.createElement("td");
+            const datePicker2 = document.createElement("input");
+            datePicker2.type = "date";
+            column5.appendChild(datePicker2);
+            row.appendChild(column5);
+            table.appendChild(row);
+
+
+            const column6 = document.createElement("td");
+            const textInput1 = document.createElement("input");
+            textInput1.type = "text";
+            column6.appendChild(textInput1);
+            row.appendChild(column6);
+            table.appendChild(row);
+
+
+            const column7 = document.createElement("td");
+            const textInput2 = document.createElement("input");
+            textInput2.type = "text";
+            column7.appendChild(textInput2);
+            row.appendChild(column7);
+            table.appendChild(row);
+
+       // }
+       // }
+       // document.getElementById("id_PCT_Country").addEventListener("change",actionTable);
+
+    //document.getElementById("action_code").innerHTML = 'FF';
+//document.getElementById("spellout_date").innerHTML = 'Foreign Filing due';
+
+    
+
+    }
+  }
+
+
+
+}
+
+    //document.getElementById("id_country").addEventListener("change", actionTable)
+
+    
+    const action =actionTable();
+    console.log(action);
+  }
+  }
+  // June 5, 2022
+  function pctTable(){
+    const date = new Date(document.getElementById('id_PCT_application_Date').value);
+    var d28 = new Date(date);
+    console.log(d28.toLocaleDateString());
+    d28.setMonth(d28.getMonth() + 28);
+    console.log(d28.toLocaleDateString())
+
+    const table = document.getElementById("tablebody");
+    const row = document.createElement("tr");
+    const column1 = document.createElement("td");
+    column1.textContent ='ISR';
+    row.appendChild(column1);
+    table.appendChild(row);
+
+    const column2 = document.createElement("td");
+    column2.textContent ='Check ISR issued';
+    row.appendChild(column2);
+    table.appendChild(row);
+    
+    const column3 = document.createElement("td");
+    column3.textContent =d28.toLocaleDateString();
+    row.appendChild(column3);
+    table.appendChild(row);      
+    
+    const column4 = document.createElement("td");
+    const datePicker = document.createElement("input");
+    datePicker.type = "date";
+    column4.appendChild(datePicker);
+    row.appendChild(column4);
+    table.appendChild(row);
+
+    const column5 = document.createElement("td");
+    const datePicker2 = document.createElement("input");
+    datePicker2.type = "date";
+    column5.appendChild(datePicker2);
+    row.appendChild(column5);
+    table.appendChild(row);
+
+
+    const column6 = document.createElement("td");
+    const textInput1 = document.createElement("input");
+    textInput1.type = "text";
+    column6.appendChild(textInput1);
+    row.appendChild(column6);
+    table.appendChild(row);
+
+
+    const column7 = document.createElement("td");
+    const textInput2 = document.createElement("input");
+    textInput2.type = "text";
+    column7.appendChild(textInput2);
+    row.appendChild(column7);
+    table.appendChild(row);
+  }
+
+  document.getElementById("id_PCT_application_Date").addEventListener("change", pctTable)
+  document.getElementById("id_priority_provisional_date").addEventListener("change", differenceInMonths)
+  // March 17, 2021
+ // const date2 = new Date('2021-03-17');
+  
+  const difference = differenceInMonths();
+  
+  console.log(difference); // 15
+
+</script>
+
+<script>
+  function differenceInMonths() {
+    const date1 = new Date(document.getElementById('id_priority_provisional_date').value);
+    const date2 = new Date('2021-03-17'); // Replace with the second date or remove this line
+
+    // Calculate the difference in months between two dates
+    const monthDiff = date1.getMonth() - date2.getMonth();
+    const yearDiff = date1.getFullYear() - date2.getFullYear();
+    return monthDiff + yearDiff * 12;
+  }
+  function actionTable() {
+    const country = document.getElementById('id_PCT_Country').value;
+    console.log(country);
+    if (country==='GB'){
+        const table = document.getElementById("tablebody");
+
+        function populateTable() {
+        for (let i = 0; i <= 4; i++) {
+            const row = document.createElement("tr");
+            const column1 = document.createElement("td");
+            column1.textContent =codes_gb[i];
+            row.appendChild(column1);
+            table.appendChild(row);
+
+            const column2 = document.createElement("td");
+            column2.textContent =spellout_gb[i];
+            row.appendChild(column2);
+            table.appendChild(row);
+            
+            const column3 = document.createElement("td");
+            column3.textContent =dates_gb[i].toLocaleDateString();
+            row.appendChild(column3);
+            table.appendChild(row);
+
+            const column4 = document.createElement("td");
+            const datePicker = document.createElement("input");
+            datePicker.type = "date";
+            column4.appendChild(datePicker);
+            row.appendChild(column4);
+
+            const column5 = document.createElement("td");
+            const datePicker2 = document.createElement("input");
+            datePicker2.type = "date";
+            column5.appendChild(datePicker2);
+            row.appendChild(column5);
+
+            const column6 = document.createElement("td");
+            const textInput1 = document.createElement("input");
+            textInput1.type = "text";
+            column6.appendChild(textInput1);
+            row.appendChild(column6);
+
+            const column7 = document.createElement("td");
+            const textInput2 = document.createElement("input");
+            textInput2.type = "text";
+            column7.appendChild(textInput2);
+            row.appendChild(column7);
+
+        }
+        }
+        const populate =populateTable();
+        console.log(populate);
+    }
+    else {
+          
+        const table = document.getElementById("tablebody");
+
+        //function populateTable() {
+
+        for (let i = 0; i <= codes_all.length; i++) {
+
+        //for (let i = 0; i <= 1; i++) {
+
+            const row = document.createElement("tr");
+            const column1 = document.createElement("td");
+            column1.textContent =codes_all[i];
+            row.appendChild(column1);
+            table.appendChild(row);
+
+            const column2 = document.createElement("td");
+            column2.textContent =spellout_all[i];
+            row.appendChild(column2);
+            table.appendChild(row);
+            
+            const column3 = document.createElement("td");
+            column3.textContent =dates_all[i].toLocaleDateString();
+            row.appendChild(column3);
+            table.appendChild(row);
+            
+
+            const column4 = document.createElement("td");
+            const datePicker = document.createElement("input");
+            datePicker.type = "date";
+            column4.appendChild(datePicker);
+            row.appendChild(column4);
+            table.appendChild(row);
+
+
+            const column5 = document.createElement("td");
+            const datePicker2 = document.createElement("input");
+            datePicker2.type = "date";
+            column5.appendChild(datePicker2);
+            row.appendChild(column5);
+            table.appendChild(row);
+
+
+            const column6 = document.createElement("td");
+            const textInput1 = document.createElement("input");
+            textInput1.type = "text";
+            column6.appendChild(textInput1);
+            row.appendChild(column6);
+            table.appendChild(row);
+
+
+            const column7 = document.createElement("td");
+            const textInput2 = document.createElement("input");
+            textInput2.type = "text";
+            column7.appendChild(textInput2);
+            row.appendChild(column7);
+            table.appendChild(row);
+
+       // }
+       // }
+       // document.getElementById("id_PCT_Country").addEventListener("change",actionTable);
+
+    //document.getElementById("action_code").innerHTML = 'FF';
+//document.getElementById("spellout_date").innerHTML = 'Foreign Filing due';
+
+    
+
+    }
+  }
+
+
+
+}
+
+  function pctTable() {
+    const date = new Date(document.getElementById('id_PCT_application_Date').value);
+    var d28 = new Date(date);
+    console.log(d28.toLocaleDateString());
+    d28.setMonth(d28.getMonth() + 28);
+    console.log(d28.toLocaleDateString())
+
+    const table = document.getElementById("tablebody");
+    const row = document.createElement("tr");
+    const column1 = document.createElement("td");
+    column1.textContent ='ISR';
+    row.appendChild(column1);
+    table.appendChild(row);
+
+    const column2 = document.createElement("td");
+    column2.textContent ='Check ISR issued';
+    row.appendChild(column2);
+    table.appendChild(row);
+
+    const column3 = document.createElement("td");
+    column3.textContent =d28.toLocaleDateString();
+    row.appendChild(column3);
+    table.appendChild(row);
+
+    const column4 = document.createElement("td");
+    const datePicker = document.createElement("input");
+    datePicker.type = "date";
+    column4.appendChild(datePicker);
+    row.appendChild(column4);
+    table.appendChild(row);
+
+    const column5 = document.createElement("td");
+    const datePicker2 = document.createElement("input");
+    datePicker2.type = "date";
+    column5.appendChild(datePicker2);
+    row.appendChild(column5);
+    table.appendChild(row);
+
+    const column6 = document.createElement("td");
+    const textInput1 = document.createElement("input");
+    textInput1.type = "text";
+    column6.appendChild(textInput1);
+    row.appendChild(column6);
+    table.appendChild(row);
+
+    const column7 = document.createElement("td");
+    const textInput2 = document.createElement("input");
+    textInput2.type = "text";
+    column7.appendChild(textInput2);
+    row.appendChild(column7);
+    table.appendChild(row);
+  }
+
+  document.getElementById("id_PCT_application_Date").addEventListener("change", pctTable);
+  document.getElementById("id_priority_provisional_date").addEventListener("change", differenceInMonths);
+
+  // Call the differenceInMonths function to get the result
+  const difference = differenceInMonths();
+  console.log(difference);
+
+</script>
+
+<script>
+  function updateInventorFields(inputField) {
+      const query = inputField.value;
+      if (query.trim() === '') {
+          return; // If input is empty or contains only spaces, do nothing
+      }
+  
+      const url = "{% url 'inventor_autocomplete' %}?query=" + query;
+  
+      fetch(url)
+          .then(response => response.json())
+          .then(data => {
+              console.log(data);
+              const tr = inputField.closest('tr'); // Get the parent <tr> element
+              const [inventorNo, surname, givenNames, nationality, employmentStatus] = tr.querySelectorAll('input[type="text"]');
+  
+              if (data.suggestions.length > 0) {
+                  // Find the best matching inventor (assuming the first inventor is the closest match)
+                  const bestMatch = data.suggestions[0];
+  
+                  // Populate input fields with matching inventor data
+                  inventorNo.value = bestMatch.id;
+                  surname.value = bestMatch.surname;
+                  givenNames.value = bestMatch.name;
+                  nationality.value = bestMatch.nationality;
+                  employmentStatus.value = bestMatch.employer_name;
+              } else {
+                  // Clear specific fields if no match found (leaving the query intact)
+                  surname.value = '';
+                  givenNames.value = '';
+                  nationality.value = '';
+                  employmentStatus.value = '';
+              }
+          })
+          .catch(error => {
+              console.error("Error fetching inventor data:", error);
+          });
+  }
+  </script>
+
+  <script>
+
+  
+    document.getElementById("id_application_date").addEventListener("change", function setSelectValue(){
+      const val ="Pending";
+      document.getElementById("id_status").value=val
+    });
+    document.getElementById("id_PCT_application_Date").addEventListener("change",function setSelectValue(){
+      const val ="Allowed";
+      document.getElementById("id_status").value=val
+    });
+    document.getElementById("id_grant_date").addEventListener("change", function setSelectValue(){
+      const val ="Granted(Live)";
+      document.getElementById("id_status").value=val
+    });
+    document.getElementById("id_publication_date").addEventListener("change", function setSelectValue(){
+      const val ="Published";
+      document.getElementById("id_status").value=val
+    });
+    document.getElementById("id_priority_provisional_date").addEventListener("change",function setSelectValue(){
+      const val ="Filed";
+      document.getElementById("id_status").value=val
+    });
+</script> 
+<script>
+  // Data structure to store the due dates for each country
+  const dueDatesByCountry = {};
+
+  // Function to calculate the due date based on the National filing date and country
+  function calculateDueDate(applicationDate, country) {
+    // Convert the application date string to a Date object
+    const applicationDateObj = new Date(applicationDate);
+
+    // Calculate the due date based on the country
+    switch (country) {
+      case "Brazil":
+        return new Date(applicationDateObj.getFullYear() + 2, applicationDateObj.getMonth(), applicationDateObj.getDate());
+      case "Canada":
+      case "Europe":
+      case "Russia":
+      case "South Africa":
+        return new Date(applicationDateObj.getFullYear() + 3, applicationDateObj.getMonth(), applicationDateObj.getDate());
+      case "Chile":
+        return new Date(applicationDateObj); // 1st renewal due on filing the application
+      case "China":
+      case "Colombia":
+        return new Date(applicationDateObj.getFullYear() + 1, applicationDateObj.getMonth(), applicationDateObj.getDate()); // Due on grant from the first anniversary
+      case "United Kingdom":
+        return new Date(applicationDateObj.getFullYear() + 5, applicationDateObj.getMonth(), applicationDateObj.getDate()); // GB renewals due after grant starting with the 5th year
+      case "Israel":
+        const grantDate = new Date(applicationDateObj);
+        grantDate.setMonth(grantDate.getMonth() + 3); // First fee due within 3 months of grant
+        return grantDate;
+      case "India":
+        const anniversaryDate = new Date(applicationDateObj);
+        anniversaryDate.setFullYear(anniversaryDate.getFullYear() + 1); // First anniversary
+        return anniversaryDate;
+      case "Japan":
+        const grantDateJP = new Date(applicationDateObj);
+        grantDateJP.setFullYear(grantDateJP.getFullYear() + 4); // Fourth annuity fee due 4 years from grant
+        return grantDateJP;
+      default:
+        // Default calculation for other countries (4 years)
+        return new Date(applicationDateObj.getFullYear() + 4, applicationDateObj.getMonth(), applicationDateObj.getDate());
+    }
+  }
+
+  // Function to add a new row to the table
+  function addTableRow(country, dueDate, annuityYear, paymentStatus, receiptReceivedOptions) {
+    const tableBody = document.getElementById("annuity-table-body");
+
+    // Create a new row
+    const newRow = document.createElement("tr");
+
+    // Create and populate cells for the new row
+    const countryCell = document.createElement("td");
+    countryCell.textContent = country;
+    newRow.appendChild(countryCell);
+
+    const annuityYearCell = document.createElement("td");
+    annuityYearCell.textContent = annuityYear;
+    newRow.appendChild(annuityYearCell);
+
+    const dueDateCell = document.createElement("td");
+    dueDateCell.textContent = dueDate.toISOString().split('T')[0];
+    newRow.appendChild(dueDateCell);
+
+    const paymentStatusCell = document.createElement("td");
+    const paymentStatusDropdown = document.createElement("select");
+    paymentStatusDropdown.classList.add("form-control", "payment-status-select");
+    // Add options to the payment status dropdown
+    const unpaidOption = document.createElement("option");
+    unpaidOption.value = "unpaid";
+    unpaidOption.textContent = "Unpaid";
+    const paidOption = document.createElement("option");
+    paidOption.value = "paid";
+    paidOption.textContent = "Paid";
+    paymentStatusDropdown.appendChild(unpaidOption);
+    paymentStatusDropdown.appendChild(paidOption);
+    paymentStatusDropdown.value = paymentStatus;
+    paymentStatusCell.appendChild(paymentStatusDropdown);
+    newRow.appendChild(paymentStatusCell);
+
+    const receiptReceivedCell = document.createElement("td");
+    const receiptReceivedDropdown = document.createElement("select");
+    receiptReceivedDropdown.classList.add("form-control", "receipt-received-dropdown");
+    // Add options to the receipt received dropdown
+    receiptReceivedOptions.forEach((optionText) => {
+      const option = document.createElement("option");
+      option.value = optionText.toLowerCase();
+      option.textContent = optionText;
+      receiptReceivedDropdown.appendChild(option);
+    });
+    receiptReceivedCell.appendChild(receiptReceivedDropdown);
+    newRow.appendChild(receiptReceivedCell);
+
+    // Append the new row to the table body
+    tableBody.appendChild(newRow);
+  }
+
+  // Event listener for the application date field
+  const applicationDateInput = document.getElementById("id_PCT_application_Date");
+  applicationDateInput.addEventListener("input", function (event) {
+    const applicationDate = event.target.value;
+    const selectedCountries = Array.from(document.querySelectorAll("#id_PCT_Country option:checked")).map(option => option.value);
+    console.log(selectedCountries.value);
+
+    // Clear existing rows from the table body
+    const tableBody = document.getElementById("annuity-table-body");
+    tableBody.innerHTML = "";
+
+    selectedCountries.forEach((country) => {
+      const dueDate = calculateDueDate(applicationDate, country);
+      // Store the due dates for each country
+      dueDatesByCountry[country] = dueDate;
+      addTableRow(country, dueDate, "01", "unpaid", ["No", "Yes"]);
+    });
+  });
+
+  // Event listener for the payment status dropdowns
+  const tableBody = document.getElementById("annuity-table-body");
+  tableBody.addEventListener("change", function (event) {
+    const target = event.target;
+    if (target.classList.contains("payment-status-select")) {
+      const selectedOption = target.value;
+      if (selectedOption === "paid") {
+        const currentRow = target.closest("tr");
+        const countryCell = currentRow.querySelector("td:first-child");
+        const country = countryCell.textContent;
+        const previousDueDate = dueDatesByCountry[country];
+        const annuityYearCell = currentRow.querySelector("td:nth-child(2)");
+        const previousAnnuityYear = parseInt(annuityYearCell.textContent);
+        const nextDueDate = new Date(previousDueDate);
+        nextDueDate.setFullYear(nextDueDate.getFullYear() + 1); // Add 1 year for the next annuity
+        const nextAnnuityYear = (previousAnnuityYear + 1).toString().padStart(3, "0");
+        addTableRow(country, nextDueDate, nextAnnuityYear, "unpaid", ["No", "Yes"]);
+        // Update the stored due date for the country
+        dueDatesByCountry[country] = nextDueDate;
+      }
+    }
+  });
+</script>
+<script>
+
+
+  document.getElementById("id_application_date").addEventListener("change", function setSelectValue(){
+    const val ="Pending";
+    document.getElementById("id_status").value=val
+  });
+  document.getElementById("id_PCT_application_Date").addEventListener("change",function setSelectValue(){
+    const val ="Allowed";
+    document.getElementById("id_status").value=val
+  });
+  document.getElementById("id_grant_date").addEventListener("change", function setSelectValue(){
+    const val ="Granted(Live)";
+    document.getElementById("id_status").value=val
+  });
+  document.getElementById("id_publication_date").addEventListener("change", function setSelectValue(){
+    const val ="Published";
+    document.getElementById("id_status").value=val
+  });
+  document.getElementById("id_priority_provisional_date").addEventListener("change",function setSelectValue(){
+    const val ="Filed";
+    document.getElementById("id_status").value=val
+  });
+</script> 
+<script type="text/javascript">
+  // Function to extract titles and populate the inner table
+  function extractAndPopulateTitles() {
+    // Get the values of the internal title and formal title from the input fields
+    const internalTitle = document.getElementById("id_internal_title").value;
+    const formalTitle = document.getElementById("id_formal_title").value;
+    
+    // Get the table row element where the values will be inserted
+    const tableRow = document.getElementById("title-table");
+
+    // Populate the table row with extracted values
+    tableRow.innerHTML = `
+      <td>${formalTitle}</td>
+      <td>${internalTitle}</td>
+     
+    `;
+  }
+
+  // Call the function when needed, e.g., on button click or any relevant event
+  // For example, you can use the following code to call the function when a button is clicked:
+  const button = document.getElementById("pills-Title-tab");
+  button.addEventListener("click", extractAndPopulateTitles);
+</script>
+<script type="text/javascript">
+  document.getElementById("pills-Related-tab").addEventListener("click", function () {
+    // Get the family case number from the form field
+    const familyCaseNumber = document.getElementById("id_case_no").value;
+
+    // Call the related cases view using AJAX
+    fetch("/app/modules/related_cases_view", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-CSRFToken": getCookie("csrftoken")  // Make sure to include CSRF token
+      },
+      body: `family_case_number=${familyCaseNumber}`
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Filter related cases based on familyCaseNumber
+      const relatedCases = data.related_cases.filter(caseData => caseData.case_number === familyCaseNumber);
+
+      // Populate the table with related cases data
+      const tableBody = document.getElementById("related_case");
+      tableBody.innerHTML = "";
+
+      relatedCases.forEach(caseData => {
+        const newRow = document.getElementById("related_case");  // Get the existing tr with ID
+        
+        // Create and populate new td elements
+        const newCell1 = document.createElement("td");
+        newCell1.textContent = caseData.case_number;
+    
+        const newCell2 = document.createElement("td");
+        newCell2.textContent = caseData.country;
+    
+        const newCell3 = document.createElement("td");
+        newCell3.textContent = caseData.application_number;
+    
+        const newCell4 = document.createElement("td");
+        newCell4.textContent = caseData.application_date;
+    
+        const newCell5 = document.createElement("td");
+        newCell5.textContent = caseData.inventors;
+    
+        // Append the new td elements to the existing tr
+        newRow.appendChild(newCell1);
+        newRow.appendChild(newCell2);
+        newRow.appendChild(newCell3);
+        newRow.appendChild(newCell4);
+        newRow.appendChild(newCell5);
+    });
+    
+    })
+    .catch(error => {
+      console.error("Error fetching related cases:", error);
+    });
+  });
+
+  // Helper function to get CSRF token
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      var cookies = document.cookie.split(";");
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + "=")) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      const pctCountrySelect = document.getElementById("id_PCT_Country");
+      const pctCountryOptions = pctCountrySelect.options;
+  
+      const urlParams = new URLSearchParams(window.location.search);
+      const pctCountryIds = urlParams.get("PCT_Country") || "";
+      const pctCountryIdArray = pctCountryIds.split(",").map(id => parseInt(id, 10));
+  
+      for (let i = 0; i < pctCountryOptions.length; i++) {
+          const optionValue = parseInt(pctCountryOptions[i].value, 10);
+          if (pctCountryIdArray.includes(optionValue)) {
+              pctCountryOptions[i].selected = true;
+          }
+      }
+  });
+  </script>
+  
+  <script>
+    function updateApplicant(inputField) {
+        const query = inputField.value;
+        if (query.trim() === '') {
+            return; // If input is empty or contains only spaces, do nothing
+        }
+    
+        const url = "{% url 'applicant_autocomplete' %}?query=" + query;
+    
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                const tr = inputField.closest('tr'); // Get the parent <tr> element
+                const [applicantId, surname, givenNames, nationality, employmentStatus] = tr.querySelectorAll('input[type="text"]');
+    
+                if (data.suggestion.length > 0) {
+                    // Find the best matching applicant (assuming the first applicant is the closest match)
+                    console.log(data)
+                    const bestMatch = data.suggestion[0];
+                    console.log(bestMatch)
+    
+                    // Populate input fields with matching applicant data
+                    applicantId.value = bestMatch.id;
+                    surname.value = bestMatch.surname;
+                    givenNames.value = bestMatch.name;
+                    nationality.value = bestMatch.nationality;
+                    employmentStatus.value = bestMatch.employer_name;
+                } else {
+                    // Clear specific fields if no match found (leaving the query intact)
+                    applicantId.value = '';
+                    surname.value = '';
+                    givenNames.value = '';
+                    nationality.value = '';
+                    employmentStatus.value = '';
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching applicant data:", error);
+            });
+    }
+    </script>
+    <script>
+      function uploadDocument(fileInput) {
+          const documentNameCell = document.getElementById('document-name');
+          const uploadDateCell = document.getElementById('upload-date');
+      
+          const file = fileInput.files[0];
+          if (file) {
+              // Update document name
+              documentNameCell.textContent = file.name;
+      
+              // Get current date and format it as "dd/mm/yyyy"
+              const currentDate = new Date();
+              const day = currentDate.getDate().toString().padStart(2, '0');
+              const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+              const year = currentDate.getFullYear();
+              const formattedDate = `${day}/${month}/${year}`;
+      
+              // Update upload date
+              uploadDateCell.textContent = formattedDate;
+          } else {
+              documentNameCell.textContent = '';
+              uploadDateCell.textContent = '';
+          }
+      }
+      </script>
+
+      <script>
+        const countrySelect = document.getElementById("id_Country");
+    
+        const PCT_COUNTRIES = [
+        {"name": "Albania", "code": "AL"},
+        {"name": "Argentina", "code": "AR"},
+        {"name": "Andorra", "code": "AD"},
+        {"name": "Austria", "code": "AT"},
+        {"name": "Belarus", "code": "BY"},
+        {"name": "Belgium", "code": "BE"},
+        {"name": "Bosnia and Herzegovina", "code": "BA"},
+        {"name": "Bulgaria", "code": "BG"},
+        {"name": "Canada", "code": "CA"},
+        {"name": "Croatia", "code": "HR"},
+        {"name": "Cyprus", "code": "CY"},
+        {"name": "Czech Republic", "code": "CZ"},
+        {"name": "Denmark", "code": "DK"},
+        {"name": "Estonia", "code": "EE"},
+        {"name": "Finland", "code": "FI"},
+        {"name": "France", "code": "FR"},
+        {"name": "Germany", "code": "DE"},
+        {"name": "Greece", "code": "GR"},
+        {"name": "Hungary", "code": "HU"},
+        {"name": "Iceland", "code": "IS"},
+        {"name": "Ireland", "code": "IE"},
+        {"name": "Italy", "code": "IT"},
+        {"name": "Japan", "code": "JP"},
+        {"name": "Korea, Democratic People's Republic of", "code": "KP"},
+        {"name": "Korea, Republic of", "code": "KR"},
+        {"name": "Kosovo", "code": "XK"},
+        {"name": "Latvia", "code": "LV"},
+        {"name": "Liechtenstein", "code": "LI"},
+        {"name": "Lithuania", "code": "LT"},
+        {"name": "Luxembourg", "code": "LU"},
+        {"name": "Malta", "code": "MT"},
+        {"name": "Moldova", "code": "MD"},
+        {"name": "Monaco", "code": "MC"},
+        {"name": "Montenegro", "code": "ME"},
+        {"name": "Netherlands", "code": "NL"},
+        {"name": "North Macedonia", "code": "MK"},
+        {"name": "Norway", "code": "NO"},
+       {"name": "Pakistan", "code": "PK"},
+        {"name": "Poland", "code": "PL"},
+        {"name": "Portugal", "code": "PT"},
+        {"name": "Romania", "code": "RO"},
+        {"name": "Russia", "code": "RU"},
+        {"name": "San Marino", "code": "SM"},
+        {"name": "Serbia", "code": "RS"},
+        {"name": "Slovakia", "code": "SK"},
+        {"name": "Slovenia", "code": "SI"},
+        {"name": "Spain", "code": "ES"},
+        {"name": "Sweden", "code": "SE"},
+        {"name": "Switzerland", "code": "CH"},
+        {"name": "Taiwan", "code": "TW"},
+        {"name": "Ukraine", "code": "UA"},
+        {"name": "United Kingdom", "code": "GB"},
+        {"name": "Vatican City (Holy See)", "code": "VA"}
+      ]
+    
+        PCT_COUNTRIES.forEach(country => {
+            const option = document.createElement("option");
+            option.value = country.code; // Use the country code as the option value
+            option.textContent = country.name;
+            countrySelect.appendChild(option);
+        });
+    </script>
+    <script>
+      $(document).ready(function () {
+          $('#pills-applicant-tab').on('click', function () {
+              // Get the selected applicant ID from your source (e.g., a form field or data attribute)
+              var selectedApplicantId = getSelectedApplicantId();  // Replace this with your actual method to get the ID
+              
+              // Fetch applicant details using AJAX
+              $.ajax({
+                  type: 'GET',
+                  url: '/get-applicant-details/' + selectedApplicantId + '/',  // Replace with your actual URL
+                  dataType: 'json',
+                  success: function (data) {
+                      // Update the table row with the fetched applicant details
+                      $('#selected-applicant-details td:eq(0)').text(data.applicant_id);
+                      $('#selected-applicant-details td:eq(1)').text(data.surname);
+                      $('#selected-applicant-details td:eq(2)').text(data.given_names);
+                      $('#selected-applicant-details td:eq(3)').text(data.nationality);
+                      $('#selected-applicant-details td:eq(4)').text(data.employment_status);
+                  },
+                  error: function (error) {
+                      console.error('Error fetching applicant details:', error);
+                  }
+              });
+          });
+      });
+  </script>
+  
+  
+{% endblock js %}

@@ -1,0 +1,154 @@
+{% extends 'website/layout.html' %}
+
+
+{% block title %}
+{{org.title}} | Contact
+{% endblock title %}
+
+{% block page_wrapper %}
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <div class="page-header-title">
+                    <h1 class="m-b-10">Contact {{org.title}}</h1>
+                </div>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="/"><i class="feather icon-home"></i> Home</a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="/contact/">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ horizontal-layout ] start -->
+<div class="row" id="form">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h2>Email Us Today</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" id="email-form">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="email-name">Name</label>
+                            <input type="text" class="form-control" name="name" id="email-name" placeholder="Micheal Zee">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="email-email">Email</label>
+                            <input type="email" class="form-control" name="email" id="email-email" placeholder="mzee@aone.com">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-8">
+                            <label for="email-phone">Phone</label>
+                            <input type="tel" class="form-control" name="phone" id="email-phone" placeholder="+263-713-122-648">
+                        </div>
+                        <!--
+                        <div class="form-group col-md-4">
+                            <label for="email_to_email">Dept</label>
+                            <select id="email_to_email" name="to_email" class="form-control">
+                                <option value="" selected>Select Department</option>
+                                {% for dept in org.data.departments %}
+                                    <option value="{{dept.email}}">{{dept.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        -->
+                    </div>
+                    <div class="form-group">
+                        <label for="email-subject">Subject</label>
+                        <input type="text" class="form-control" name="subject" id="email-subject" placeholder="My heading">
+                    </div>
+                    <div class="form-group">
+                        <label for="email-message">Message</label>
+                        <textarea name="message" id="email-message" class="form-control" id="email-message" placeholder="Hi, ......"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mx-auto">
+                            <button type="submit" class="btn  btn-primary mx-auto w-100">Send</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ horizontal-layout ] end -->
+
+{% comment %}
+    
+    <div class="row" id="map">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Find Us, visit Us!</h2>
+                    <span class="d-block m-t-5">This is exactly where we are in {{org.city}}, {{org.country}}</span>
+                </div>
+                <div class="card-body">
+                    <iframe src="{{org.geolocation}}" frameborder="0" class="set-map w-100" style="height:400px;" ></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- [ Main Content ] start -->
+    <div class="row">
+        <div class="col-md-6 col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Call Us</h5>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li>
+                            <a href="tel:{{org.phone}}">{{org.phone}}</a>
+                        </li>
+                        <li>
+                            <a href="tel:{{org.telephone}}">{{org.telephone}}</a>
+                        </li>
+                        <li>
+                            <a href="tel:{{org.whatsapp_link}}">{{org.whatsapp_phone}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Email Us</h5>
+                </div>
+                <div class="card-body">
+                    <ol>
+                        <li>
+                            <a href="mailto:{{org.email}}">{{org.email}}</a>
+                        </li>
+                            
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Visit Us</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li>
+                            <address>{{org.address}}</address>
+                        </li>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+{% endcomment %}
+    
+<!-- [ Main Content ] end -->
+{% endblock page_wrapper %}
+    

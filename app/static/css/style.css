@@ -1,0 +1,15 @@
+
+        /* Your custom CSS styles */
+        .dropdown-checkbox select {
+            display: none;
+        }
+
+        .dropdown-checkbox label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .dropdown-checkbox input[type="checkbox"] {
+            margin-right: 5px;
+        }
+ 

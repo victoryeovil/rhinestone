@@ -1,0 +1,51 @@
+{% extends 'website/layout.html' %}
+{% load static %}
+
+{% block title %}
+	Rhinestone Inventions Disclosure Tools | Admin | Error
+{% endblock title %}
+{% block page_wrapper %}
+                                    
+<!-- [ breadcrumb ] start -->
+<div class="page-header">
+	<div class="page-block">
+		<div class="row align-items-center">
+			<div class="col-md-12">
+				<div class="page-header-title">
+					<h5 class="m-b-10">Error View</h5>
+				</div>
+				<ul class="breadcrumb">
+					<li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+					<li class="breadcrumb-item"><a href="#!">Operation error</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- [ breadcrumb ] end -->
+<!-- [ Main Content ] start -->
+<div class="row">
+	<!-- [ static-layout ] start -->
+	<div class="col-sm-12 col-md-6 mx-auto">
+		<div class="card bg-danger text-white">
+			<div class="card-header">
+				<h5>{% firstof subject 'The requested operation failed!' %}</h5>
+			</div>
+			<div class="card-body">
+				{% if msg %}
+                <div class="alert alert-info" role="alert">
+                    <h1>{{code}}</h1>
+					<p>{{msg}}</p>
+                </div>
+				{% endif %}
+                <div class="alert alert-info" role="alert">
+                    Op failed. Please try go somewhere!
+                </div>
+			</div>
+		</div>
+	</div>
+	<!-- [ static-layout ] end -->
+</div>
+<!-- [ Main Content ] end -->
+{% endblock page_wrapper %}
+	

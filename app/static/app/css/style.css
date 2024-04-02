@@ -1,0 +1,33 @@
+#home-main-carousel,
+#home-main-carousel .carousel-inner,
+#home-main-carousel .carousel-item,
+#home-main-carousel img  {
+    height: calc(100vh - 100px);
+}
+@media (min-width: 992px) {
+    #home-main-carousel,
+    #home-main-carousel .carousel-inner,
+    #home-main-carousel .carousel-item,
+    #home-main-carousel img {
+        height: calc(100vh - 130px);
+    }
+}
+
+.underline-heading {
+    text-decoration: solid underline #4680ff 5px;
+}
+
+/* THEME overide */
+form.page-form .form-group.row label.col-form-label {
+    width: 30% !important;
+}
+
+form.page-form .form-group.row label.col-form-label + div{
+    width: 60% !important;
+}
+form.page-form .form-group .form-control,
+form.page-form .form-group .form-select,
+fieldset .form-control,
+fieldset .form-select {
+    border: 1px solid #ced4da;
+ }

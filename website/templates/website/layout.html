@@ -1,0 +1,373 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+        {% block title %}
+            Rhinestone | Inventions Disclosure Tools
+        {% endblock title %}
+    </title>
+    <!-- HTML5 Shim and Respond.js IE11 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 11]>
+    	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    	<![endif]-->
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    
+    {% block meta %}
+    <base href="/">
+    <meta name="Revist-After" content="7 days">
+    <meta name="city" content="Harare Zimbabwe">
+    <meta name="country" content="Zimbabwe">
+    <meta name="subject" content="Rhinestone Inventions Disclosure Tools.">
+    <meta name="author" content="Mike Zinyoni mzinyoni7@outlook.com">
+    <meta name="copyright" content="Koinnon Tech">
+  
+    <meta name="og:title" content="Rhinestone Inventions Disclosure Tools website" />
+    <meta name="og:type" content="Funeral Services" />
+    <meta name="og:url" content="https://ridt.herokuapp.com/" />
+    <meta name="og:image" content="https://ridt.herokuapp.com/static/app/img/carousel/eight.jpg" />
+    <meta name="og:site_name" content="Rhinestone Inventions Disclosure Tools website" />
+    <meta name="og:description" content="Rhinestone Inventions Disclosure Tools." />
+    {% endblock meta %}
+    <!-- Favicon icon -->
+    <link rel="icon" href="/static/assets/images/favicon.ico" type="image/x-icon">
+    
+    {% block pnotify %}
+    {% include 'app/components/messages-notifications.html' %} 
+    {% endblock pnotify %}
+        
+    {% block css %}
+    <!--lightbox css -->
+    <link rel="stylesheet" href="/static/assets/css/plugins/lightbox.min.css">
+    <!-- prism css -->
+    <link rel="stylesheet" href="/static/assets/css/plugins/prism-coy.css">
+    <!-- vendor css -->
+    <link rel="stylesheet" href="/static/assets/css/style.css">
+    <!-- mikes css -->
+    <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+    {% endblock css %}
+
+</head>
+
+<body>
+    {% block body %}
+    <!-- [ Pre-loader ] start -->
+    <div class="loader-bg">
+        <div class="loader-track">
+            <div class="loader-fill"></div>
+        </div>
+    </div>
+    <!-- [ Pre-loader ] End -->
+    {% block navbar %}
+    <!-- [ navigation menu ] start -->
+    <nav class="pcoded-navbar theme-horizontal menu-light brand-blue">
+        <div class="navbar-wrapper container">
+            <div class="navbar-content sidenav-horizontal" id="layout-sidenav">
+                <ul class="nav pcoded-inner-navbar sidenav-inner">
+                    <li class="nav-item pcoded-menu-caption">
+                    	<label>Navigation</label>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/" class="nav-link ">
+                            <span class="pcoded-micon">
+                                <i class="feather icon-home"></i>
+                            </span>
+                            <span class="pcoded-mtext">Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#!" class="nav-link ">
+                            <span class="pcoded-micon">
+                                <i class="feather icon-phone"></i>
+                            </span>
+                            <span class="pcoded-mtext">Contact</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#!" class="nav-link ">
+                            <span class="pcoded-micon">
+                                <i class="feather icon-camera"></i>
+                            </span>
+                            <span class="pcoded-mtext">Gallery</span>
+                        </a>
+                    </li>
+                    
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.is_staff %}
+                        <li class="nav-item">
+                            <a href="/app/" class="nav-link ">
+                                <span class="pcoded-micon">
+                                    <i class="feather icon-settings"></i>
+                                </span>
+                                <span class="pcoded-mtext">Admin</span>
+                            </a>
+                        </li>
+                        {% else %}
+                        <!-- <li class="nav-item">
+                            <a href="/portal/" class="nav-link ">
+                                <span class="pcoded-micon">
+                                    <i class="feather icon-settings"></i>
+                                </span>
+                                <span class="pcoded-mtext">Portal</span>
+                            </a>
+                        </li> -->
+                        {% endif %}
+                    {% else %}
+                    <li class="nav-item">
+                        <a href="/login/" class="nav-link ">
+                            <span class="pcoded-micon">
+                                <i class="feather icon-log-in"></i>
+                            </span>
+                            <span class="pcoded-mtext">Login</span>
+                        </a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a href="/register/" class="nav-link ">
+                            <span class="pcoded-micon">
+                                <i class="feather icon-user-plus"></i>
+                            </span>
+                            <span class="pcoded-mtext">Register</span>
+                        </a>
+                    </li> -->
+                    {% endif %}
+                        
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- [ navigation menu ] end -->
+    {% endblock navbar %}
+
+    
+    {% block header %}
+    <!-- [ Header ] start -->
+    <header class="navbar pcoded-header navbar-expand-lg navbar-light header-blue">
+        <div class="container">
+            <div class="m-header">
+                <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
+                <a href="/" class="b-brand">
+                    <!-- ========   change your logo hear   ============ -->
+                    <!--<img src="/static/assets/images/logo.png" alt="" class="logo">-->
+                    Rhinestone Inventions Disclosure Tools
+                    
+                </a>
+                <a href="#!" class="mob-toggler">
+                    <i class="feather icon-more-vertical"></i>
+                </a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    
+                    {% comment %}
+                        <li class="nav-item">
+                            <a href="#!" class="pop-search"><i class="feather icon-search"></i></a>
+                            <div class="search-bar">
+                                <input type="text" class="form-control border-0 shadow-none" placeholder="Search hear">
+                                <button type="button" class="close" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </li>
+                    {% endcomment %}
+                        
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    {% comment %}
+                    <li>
+                        <div class="dropdown">
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="icon feather icon-bell"></i></a>
+                                <div class="dropdown-menu dropdown-menu-right notification">
+                                    <div class="noti-head">
+                                        <h6 class="d-inline-block m-b-0">Notifications</h6>
+                                        <div class="float-right">
+                                            <a href="#!" class="m-r-10">mark as read</a>
+                                            <a href="#!">clear all</a>
+                                        </div>
+                                    </div>
+                                    <ul class="noti-body">
+                                        <li class="n-title">
+                                            <p class="m-b-0">NEW</p>
+                                        </li>
+                                        <li class="notification">
+                                            <div class="media">
+                                                <img class="img-radius" src="/static/assets/images/user/avatar-1.jpg" alt="Generic placeholder image">
+                                                <div class="media-body">
+                                                    <p><strong>John Doe</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>5 min</span></p>
+                                                    <p>New ticket Added</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="n-title">
+                                            <p class="m-b-0">EARLIER</p>
+                                        </li>
+                                        <li class="notification">
+                                            <div class="media">
+                                                <img class="img-radius" src="/static/assets/images/user/avatar-2.jpg" alt="Generic placeholder image">
+                                                <div class="media-body">
+                                                    <p><strong>Joseph William</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>10 min</span></p>
+                                                    <p>Prchace New Theme and make payment</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="notification">
+                                            <div class="media">
+                                                <img class="img-radius" src="/static/assets/images/user/avatar-1.jpg" alt="Generic placeholder image">
+                                                <div class="media-body">
+                                                    <p><strong>Sara Soudein</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>12 min</span></p>
+                                                    <p>currently login</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="notification">
+                                            <div class="media">
+                                                <img class="img-radius" src="/static/assets/images/user/avatar-2.jpg" alt="Generic placeholder image">
+                                                <div class="media-body">
+                                                    <p><strong>Joseph William</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>30 min</span></p>
+                                                    <p>Prchace New Theme and make payment</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <div class="noti-footer">
+                                        <a href="#!">show all</a>
+                                    </div>
+                                </div>
+                        </div>
+                    </li>
+                    {% endcomment %}
+                    <li>
+                        <div class="dropdown drp-user">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="feather icon-user"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right profile-notification">
+                                <div class="pro-head">
+                                    <img src="{% firstof request.user.profile_pic '/static/app/img/default_profile_pic.jpg' %}" class="img-radius" alt="User-Profile-Image">
+                                    <span>{{request.user}}</span>
+                                    
+                                    {% if request.user.is_authenticated %}
+                                    <a href="/logout/" class="dud-logout" title="Logout" >
+                                        <i class="feather icon-log-out"></i>
+                                    </a>
+                                    {% else %}
+                                    <a href="/login/" class="dud-logout" title="Login" >
+                                        <i class="feather icon-log-in"></i>
+                                    </a>
+                                    {% endif %}
+                                        
+                                </div>
+                                
+                                {% comment %}
+                                    <ul class="pro-body">
+                                        <li><a href="/profile/" class="dropdown-item"><i class="feather icon-user"></i> Profile</a></li>
+                                        <li><a href="/donate/" class="dropdown-item"><i class="feather icon-heart-on"></i> My Messages</a></li>
+                                        <li><a href="auth-signin.html" class="dropdown-item"><i class="feather icon-lock"></i> Lock Screen</a></li>
+                                    </ul>
+                                {% endcomment %}
+                                    
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <!-- [ Header ] end -->
+    {% endblock header %}
+    
+    {% block content %}
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper container">
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <div class="main-body">
+                        <div class="page-wrapper">                  
+                            {% block page_wrapper %}
+                            {% endblock page_wrapper %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->
+    {% endblock content %}
+    {% endblock body %}
+
+    {% block js %}
+    <!-- Required Js -->
+    <script src="/static/assets/js/vendor-all.min.js"></script>
+    <script src="/static/assets/js/plugins/bootstrap.min.js"></script>
+    <script src="/static/assets/js/ripple.js"></script>
+    <script src="/static/assets/js/pcoded.min.js"></script>
+
+    {% comment %}
+        <script src="/static/assets/js/menu-setting.min.js"></script>
+    {% endcomment %}
+    
+    <!-- prism Js -->
+    <script src="/static/assets/js/plugins/prism.js"></script>
+
+    <!--lightbox Js -->
+    <!-- ekko-lightbox Js -->
+    <script src="/static/assets/js/plugins/lightbox.min.js"></script>
+    <script>
+        lightbox.option({
+            'resizeDuration': 200,
+            'wrapAround': true
+        })
+    </script>
+
+    <script>
+        (function() {
+            if ($('#layout-sidenav').hasClass('sidenav-horizontal') || window.layoutHelpers.isSmallScreen()) {
+                return;
+            }
+            try {
+                window.layoutHelpers._getSetting("Rtl")
+                window.layoutHelpers.setCollapsed(
+                    localStorage.getItem('layoutCollapsed') === 'true',
+                    false
+                );
+            } catch (e) {}
+        })();
+        $(function() {
+            $('#layout-sidenav').each(function() {
+                new SideNav(this, {
+                    orientation: $(this).hasClass('sidenav-horizontal') ? 'horizontal' : 'vertical'
+                });
+            });
+            $('body').on('click', '.layout-sidenav-toggle', function(e) {
+                e.preventDefault();
+                window.layoutHelpers.toggleCollapsed();
+                if (!window.layoutHelpers.isSmallScreen()) {
+                    try {
+                        localStorage.setItem('layoutCollapsed', String(window.layoutHelpers.isCollapsed()));
+                    } catch (e) {}
+                }
+            });
+        });
+        $(document).ready(function() {
+            $("#pcoded").pcodedmenu({
+                themelayout: 'horizontal',
+                MenuTrigger: 'hover',
+                SubMenuTrigger: 'hover',
+            });
+        });
+    </script>
+
+    <script src="/static/assets/js/analytics.js"></script>
+
+    {% endblock js %}
+    <script src="/static/assets/js/horizontal-menu.js"></script>
+
+</body>
+
+</html>

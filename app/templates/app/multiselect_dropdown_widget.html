@@ -1,0 +1,31 @@
+{% load widget_tweaks %}
+
+<select multiple id="{{ widget.attrs.id }}" {% include 'django/forms/widgets/attrs.html' %}>
+    {% for group in widget.optgroups %}
+        <optgroup label="{{ group.label }}">
+            {% for option in group %}
+                <option value="{{ option.label }}" {% if option.selected %}selected{% endif %}>
+                    {{ option.choice_label }}
+                </option>
+            {% endfor %}
+        </optgroup>
+    {% endfor %}
+</select>
+
+<div class="dropdown multiselect-dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="{{ widget.attrs.id }}_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Select Options
+    </button>
+    <div class="dropdown-menu" aria-labelledby="{{ widget.attrs.id }}_dropdown">
+        {% for group in widget.optgroups %}
+            <div class="form-check">
+                {% for option in group.0 %}
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value="{{ option.0 }}" name="{{ widget.attrs.name }}[]" id="{{ option.id_for_label }}">
+                        {{ option.choice_label }}
+                    </label>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</div>

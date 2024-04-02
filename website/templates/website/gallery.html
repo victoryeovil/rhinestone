@@ -1,0 +1,82 @@
+{% extends 'website/layout.html' %}
+
+
+{% block title %}
+{{org.data.gallery.title}}
+{% endblock title %}
+
+
+{% block css %}
+<!-- ekko-lightbox css -->
+<link rel="stylesheet" href="/static/assets/css/plugins/ekko-lightbox.css">
+<link rel="stylesheet" href="/static/assets/css/plugins/lightbox.min.css">
+<!-- vendor css -->
+<link rel="stylesheet" href="/static/assets/css/style.css">
+{% endblock css %}
+    
+
+{% block page_wrapper %}
+    <!-- [ breadcrumb ] start -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-12">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">{{org.title}} | Gallery</h5>
+                    </div>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a>Home</li>
+                        <li class="breadcrumb-item"><a href="/gallery/">Gallery</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- [ breadcrumb ] end -->
+    <!-- [ Main Content ] start -->
+    <div class="row">
+        <!-- [ Image-Gallery ] start -->
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Image Gallery</h2>
+                    <p class="text-center">
+                        Our quality shots
+                    </p>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        
+                        {% for item in gallery %}
+                            
+                        <div class="col-lg-4 col-sm-6">
+                            <a href="{{item.image.url}}" data-toggle="lightbox"  data-title="{{item.caption}} on {{item.timestamp}}" data-gallery="example-gallery">
+                                <img src="{{item.image.url}}" class="img-fluid m-b-10" alt="">
+                            </a>
+                        </div>
+                            
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ Image-Gallery ] end -->
+    </div>
+    <!-- [ Main Content ] end -->
+{% endblock page_wrapper %}
+
+
+{% block js %}
+<!-- Required Js -->
+<script src="/static/assets/js/vendor-all.min.js"></script>
+<script src="/static/assets/js/plugins/bootstrap.min.js"></script>
+<script src="/static/assets/js/ripple.js"></script>
+<script src="/static/assets/js/pcoded.min.js"></script>
+
+<!-- ekko-lightbox Js -->
+<script src="/static/assets/js/plugins/ekko-lightbox.min.js"></script>
+<script src="/static/assets/js/plugins/lightbox.min.js"></script>
+<script src="/static/assets/js/pages/ac-lightbox.js"></script>
+{% endblock js %}
+    
+    

@@ -1,0 +1,16 @@
+/* Custom styling for the multiselect dropdown */
+/* You can adjust these styles as needed */
+.multiselect-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.multiselect-dropdown select {
+    display: none;
+}
+
+.multiselect-dropdown .selected-options {
+    border: 1px solid #ccc;
+    padding: 5px;
+    cursor: pointer;
+}

@@ -1,0 +1,401 @@
+{% extends 'app/layout.html' %}
+{% load static %}
+
+{% block title %}
+	Rhinestone Inventions Disclosure Tools | Admin | Dashboard
+{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/dataTables.bootstrap4.min.css' %}">
+    <!-- vendor css -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+{% endblock css %}
+
+{% block content %}
+<!-- [ Main Content ] start -->
+<div class="pcoded-main-container">
+    <div class="pcoded-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Dashboard</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/app/"><i class="feather icon-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#!">Dashboard</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+        <!-- [ Main Content ] start -->
+        <div class="row">
+            <!-- data cards  start -->
+            <!--
+            <div class="col-xl-3 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center m-l-0">
+                            <div class="col-auto">
+                                <i class="fas fa-user-injured f-36 text-c-red"></i>
+                            </div>
+                            <div class="col-auto">
+                                <h6 class="text-muted m-b-10">Therapists</h6>
+                                <h2 class="m-b-0"></h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            -->
+            <div class="col-xl-3 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center m-l-0">
+                            <div class="col-auto">
+                                <i class="fas fa-user-cog f-36 text-c-blue"></i>
+                            </div>
+                            <div class="col-auto">
+                                <h6 class="text-muted m-b-10">Users</h6>
+                                <h2 class="m-b-0">{{users_count}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center m-l-0">
+                            <div class="col-auto">
+                                <i class="fas fa-file-alt f-36 text-c-yellow"></i>
+                            </div>
+                            <div class="col-auto">
+                                <h6 class="text-muted m-b-10">Contacts</h6>
+                                <h2 class="m-b-0">{{contacts_count}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center m-l-0">
+                            <div class="col-auto">
+                                <i class="fas fa-file-alt f-36 text-c-yellow"></i>
+                            </div>
+                            <div class="col-auto">
+                                <h6 class="text-muted m-b-10">Invoices</h6>
+                                <h2 class="m-b-0">{{invoices_count}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center m-l-0">
+                            <div class="col-auto">
+                                <i class="fas fa-file-alt f-36 text-c-yellow"></i>
+                            </div>
+                            <div class="col-auto">
+                                <h6 class="text-muted m-b-10">Invention Disclosure</h6>
+                                <h2 class="m-b-0">{{invention_disclosures_count}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- data cards  end -->
+            <br>
+            <!-- chart cards start -->
+            <div class="col-md-12 col-lg-6">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h4 class="m-t-20 m-b-20"><span class="text-c-blue">Quick</span> Insights</h4>
+                    </div>
+                    <div id="quick-insights"></div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-6">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h4 class="m-t-20 m-b-20"><span class="text-c-blue">Quick</span> Insights</h4>
+                    </div>
+                    <div id="quick-insights1"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h4 class="m-t-20 m-b-20"><span class="text-c-blue">Quick</span> Insights</h4>
+                </div>
+                <div id="quick-insights2"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4 class="m-t-20 m-b-20"><span class="text-c-blue">Quick</span> Insights</h4>
+            </div>
+            <div id="quick-insights3"></div>
+        </div>
+    </div>
+            <!-- chart cards end -->
+
+        </div>
+        <!-- [ Main Content ] end -->
+    </div>
+</div>
+<!-- [ End Main Content ] start -->
+{% endblock content %}
+
+{% block js %}
+    <!-- Required Js -->
+    <script src="{% static 'assets/js/vendor-all.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/ripple.js' %}"></script>
+    <script src="{% static 'assets/js/pcoded.min.js' %}"></script>
+
+    <script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+    <!-- Apex Chart -->
+    <script src="{% static 'assets/js/plugins/apexcharts.min.js' %}"></script>
+    <script>
+        // [ assessments comparison ] start
+        $(function() {
+            var options = {
+                chart: {
+                    height: 320,
+                    type: 'bar',
+                },
+                series: [
+                    {
+                        data: eval(`
+                        [
+                            {% for i in quick_insight %}
+                            {x: '{{i.name}}', y: {{i.count}}},
+                            {% endfor %}
+                        ]
+                        `)
+                    }
+                ],
+                /*series: [{
+                    data: [{
+                        x: 'Premium',
+                        y: 4000,
+                        fillColor: '#4680ff'
+                    }, {
+                        x: 'Basic',
+                        y: 6000,
+                        fillColor: '#0e9e4a'
+                    }, {
+                        x: 'Standard',
+                        y: 12370,
+                        fillColor: '#00acc1'
+                    }]
+                }],*/
+                legend: {
+                    show: true,
+                    position: 'bottom',
+                },
+                dataLabels: {
+                    enabled: true,
+                    dropShadow: {
+                        enabled: false,
+                    }
+                },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+            }
+            var chart = new ApexCharts(
+                document.querySelector("#quick-insights"),
+                options
+            );
+            chart.render();
+
+            var options = {
+                chart: {
+                    height: 320,
+                    type: 'bar',
+                },
+                series: [
+                    {
+                        data: eval(`
+                        [
+                            {% for i in quick_insight1 %}
+                            {x: '{{i.name}}', y: {{i.count}}},
+                            {% endfor %}
+                        ]
+                        `)
+                    }
+                ],
+                /*series: [{
+                    data: [{
+                        x: 'Premium',
+                        y: 4000,
+                        fillColor: '#4680ff'
+                    }, {
+                        x: 'Basic',
+                        y: 6000,
+                        fillColor: '#0e9e4a'
+                    }, {
+                        x: 'Standard',
+                        y: 12370,
+                        fillColor: '#00acc1'
+                    }]
+                }],*/
+                legend: {
+                    show: true,
+                    position: 'bottom',
+                },
+                dataLabels: {
+                    enabled: true,
+                    dropShadow: {
+                        enabled: false,
+                    }
+                },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+            }
+            var chart = new ApexCharts(
+                document.querySelector("#quick-insights1"),
+                options
+            );
+            chart.render();
+
+            var options = {
+                chart: {
+                    height: 320,
+                    type: 'bar',
+                },
+                series: [
+                    {
+                        data: eval(`
+                        [
+                            {% for i in quick_insight2 %}
+                            {x: '{{i.name}}', y: {{i.count}}},
+                            {% endfor %}
+                        ]
+                        `)
+                    }
+                ],
+                /*series: [{
+                    data: [{
+                        x: 'Premium',
+                        y: 4000,
+                        fillColor: '#4680ff'
+                    }, {
+                        x: 'Basic',
+                        y: 6000,
+                        fillColor: '#0e9e4a'
+                    }, {
+                        x: 'Standard',
+                        y: 12370,
+                        fillColor: '#00acc1'
+                    }]
+                }],*/
+                legend: {
+                    show: true,
+                    position: 'bottom',
+                },
+                dataLabels: {
+                    enabled: true,
+                    dropShadow: {
+                        enabled: false,
+                    }
+                },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+            }
+            var chart = new ApexCharts(
+                document.querySelector("#quick-insights2"),
+                options
+            );
+            chart.render();
+        
+            var options = {
+                chart: {
+                    height: 320,
+                    type: 'bar',
+                },
+                series: [
+                    {
+                        data: eval(`
+                        [
+                            {% for i in quick_insight3 %}
+                            {x: '{{i.name}}', y: {{i.count}}},
+                            {% endfor %}
+                        ]
+                        `)
+                    }
+                ],
+                /*series: [{
+                    data: [{
+                        x: 'Premium',
+                        y: 4000,
+                        fillColor: '#4680ff'
+                    }, {
+                        x: 'Basic',
+                        y: 6000,
+                        fillColor: '#0e9e4a'
+                    }, {
+                        x: 'Standard',
+                        y: 12370,
+                        fillColor: '#00acc1'
+                    }]
+                }],*/
+                legend: {
+                    show: true,
+                    position: 'bottom',
+                },
+                dataLabels: {
+                    enabled: true,
+                    dropShadow: {
+                        enabled: false,
+                    }
+                },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+            }
+            var chart = new ApexCharts(
+                document.querySelector("#quick-insights3"),
+                options
+            );
+            chart.render();
+        });
+        // [ assessments comparison ] end
+    </script>
+{% endblock js %}

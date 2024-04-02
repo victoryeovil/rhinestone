@@ -1,0 +1,124 @@
+{% extends 'app/layout.html' %} {% load static %} {% load super_filters %} {%
+block title %} Rhinestone Inventions Disclosure Tools | Address Book {% endblock
+title %} {% block css %}
+<!-- vendor css -->
+<link
+  rel="stylesheet"
+  href="{% static 'assets/css/plugins/dataTables.bootstrap4.min.css' %}"
+/>
+<link
+  rel="stylesheet"
+  href="{% static 'assets/css/plugins/select2.min.css' %}"
+/>
+<link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
+<link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
+<link rel="stylesheet" href="{% static 'app/css/style.css' %}" />
+{% endblock css %} {% block content %}
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+  <div class="pcoded-content">
+    <!-- [ breadcrumb ] start -->
+    <div class="page-header">
+      <div class="page-block">
+        <div class="row align-items-center">
+          <div class="col-md-12">
+            <div class="page-header-title">
+              <h5 class="m-b-10">Address Book</h5>
+            </div>
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="/app/"><i class="feather icon-home"></i></a>
+              </li>
+
+              <li class="breadcrumb-item">
+                <a class="uppercase" href="#!">{{active}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- [ breadcrumb ] end -->
+    <!-- [ Main Content ] start -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h5>Address Book</h5>
+          </div>
+          <div class="card-body">
+            <ul class="nav nav-tabs mb-3" id="contacts-tabs" role="tablist">
+              {% for tab in tabs %}
+              <li class="nav-item">
+                <a
+                  class="nav-link uppercase {% if tab.tab == active %}active{% endif %}"
+                  id="{{tab.tab}}-tab"
+                  href="/app/address-book/{{tab.tab}}"
+                  aria-controls="{{tab.tab}}"
+                  aria-selected="{% if tab.tab == active %}true{% else %}false{% endif %}"
+                  >{{tab.title}}</a
+                >
+              </li>
+              {% endfor %}
+            </ul>
+            <div class="tab-content" id="contacts-tabs-content">
+              {% for tab in tabs %}
+              <div
+                class="tab-pane fade show {% if tab.tab == active %}active{% endif %}"
+                id="{{tab.tab}}"
+                role="tabpanel"
+                aria-labelledby="{{tab.tab}}-tab"
+              >
+                <div class="mb-0">
+                  {% block tab-content %} {% endblock tab-content %}
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- [ Main Content ] end -->
+  </div>
+</section>
+<!-- [ Main Content ] end -->
+
+{% endblock content %} {% block js %}
+<!-- Required Js -->
+<script src="{% static 'assets/js/vendor-all.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/ripple.js' %}"></script>
+<script src="{% static 'assets/js/pcoded.min.js' %}"></script>
+<!-- select2 Js -->
+<script src="{% static 'assets/js/plugins/select2.full.min.js' %}"></script>
+<!-- datatables Js -->
+<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+<!-- <script src="{% static 'assets/js/plugins/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.print.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/pdfmake.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jszip.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.html5.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/js/pages/data-export-custom.js' %}"></script> -->
+<!-- Apex Chart
+<script src="{% static 'assets/js/plugins/apexcharts.min.js' %}"></script>
+-->
+
+<script>
+  // Form start
+  $(".page-form select").select2();
+  // Form end
+  // DataTable start
+  $(".data-table").DataTable({
+    dom: "Bfrtip",
+    // buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+  });
+  // DataTable end
+</script>
+{% endblock js %}

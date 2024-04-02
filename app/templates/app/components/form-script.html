@@ -1,0 +1,23 @@
+{% load static %}
+<!-- Required Js -->
+<script src="{% static 'assets/js/vendor-all.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/ripple.js' %}"></script>
+<script src="{% static 'assets/js/pcoded.min.js' %}"></script>
+<!-- select2 Js -->
+<script src="{% static 'assets/js/plugins/select2.full.min.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $(".django-form input, .django-form textarea, .django-form select").addClass("form-control")
+        $(".django-form select").select2()
+
+        document.querySelectorAll(".django-form input").forEach(el => {
+            if (["DOB", "payment_period"].includes(el.getAttribute("name"))) {
+                el.setAttribute("type", "date")
+            }
+            if (el.getAttribute("id").includes("password")) {
+                el.setAttribute("type", "password")
+            }
+        })
+    })
+</script>

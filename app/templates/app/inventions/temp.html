@@ -1,0 +1,783 @@
+{% extends 'app/layout.html' %} {% load static %} {% load crispy_forms_tags %}
+{% load super_filters %} {% block title %} Rhinestone Inventions Disclosure
+Tools | Invention Disclosures {% endblock title %} {% block css %}
+<!-- vendor css -->
+<link
+  rel="stylesheet"
+  href="{% static 'assets/css/plugins/dataTables.bootstrap4.min.css' %}"
+/>
+<link
+  rel="stylesheet"
+  href="{% static 'assets/css/plugins/select2.min.css' %}"
+/>
+<link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
+<link rel="stylesheet" href="{% static 'app/css/style.css' %}" />
+{% endblock css %} {% block content %}
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+  <div class="pcoded-content">
+    <!-- [ breadcrumb ] start -->
+    <div class="page-header">
+      <div class="page-block">
+        <div class="row align-items-center">
+          <div class="col-md-12">
+            <div class="page-header-title">
+              <h5 class="m-b-10">Invention Disclosure</h5>
+            </div>
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="/app/"><i class="feather icon-home"></i></a>
+              </li>
+              <li class="breadcrumb-item">
+                <a href="#!">Invention Disclosure</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- [ breadcrumb ] end -->
+    <!-- [ Main Content ] start -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card" id="dragarea-container">
+            <div class="card-body">
+              <div class="mt-4">
+                <div
+                  class="accordion accordion-bordered"
+                  id="accordion-4"
+                  role="tablist"
+                >
+                  <div class="card">
+                    <div class="card-header" role="tab" id="heading-10">
+                      {% comment %} <button
+                        form="disclosure-form"
+                        type="submit"
+                        value="Submit"
+                        id="create-btn"
+                        class="collapse show float-right btn btn-primary mr-5 position-relative"
+                        style="min-width: 8%; z-index: 100"
+                      >
+                        Create Invention
+                      </button> {% endcomment %}
+
+                      Invention Disclosures
+                    </div>
+                    <div
+                      id="collapse-10"
+                      class="collapse show"
+                      role="tabpanel"
+                      aria-labelledby="heading-10"
+                      data-parent="#accordion-4"
+                    >
+                      <div class="mb-4 text-center">
+                        <button class="btn btn-sm btn-outline-primary">
+                          Audit Trail
+                        </button>
+                        <button class="btn btn-sm btn-outline-primary">
+                          <i class="feather icon-copy"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-primary">
+                          Customer Special Instructions
+                        </button>
+                        <button class="btn btn-sm btn-outline-primary">
+                          <i class="feather icon-arrow-left"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-primary">
+                          <i class="feather icon-arrow-right"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-primary">
+                          <i class="feather icon-printer"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-primary">
+                          <i class="feather icon-delete"></i>
+                        </button>
+                      </div>
+                      <div class="pt-3 card" style="margin-bottom: 80px">
+                        <div class="card-body row">
+                            <div class="col-12">
+                              <div
+                                id="dropzone_div"
+                                action="test"
+                                class="dropzone mb-5 dz-clickable"
+                              >
+                                <div class="dz-default dz-message">
+                                  <form class="page-form"
+                                    method="post"
+                                    action="file-upload/"
+                                    enctype="multipart/form-data"
+                                  >
+                                    {% csrf_token %} {% crispy form %} 
+                                    {% comment %} {% crispy file_form %} {% endcomment %}
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                            <input
+                              type="hidden"
+                              id="uploaded-files"
+                              name="documents"
+                            />
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div style="display: none" class="row">
+              <div class="col-12">
+                <div class="table-responsive">
+                  <div
+                    id="example_wrapper"
+                    class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer"
+                  >
+                    <div class="row">
+                      <div class="col-sm-12 col-md-6">
+                        <div class="dataTables_length" id="example_length">
+                          <label
+                            >Show
+                            <select
+                              name="example_length"
+                              aria-controls="example"
+                              class="form-control form-control-sm"
+                            >
+                              <option value="10">10</option>
+                              <option value="25">25</option>
+                              <option value="50">50</option>
+                              <option value="100">100</option>
+                            </select>
+                            entries</label
+                          >
+                        </div>
+                      </div>
+                      <div class="col-sm-12 col-md-6">
+                        <div id="example_filter" class="dataTables_filter">
+                          <label
+                            >Search:<input
+                              type="search"
+                              class="form-control form-control-sm"
+                              placeholder=""
+                              aria-controls="example"
+                          /></label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <table
+                          id="example"
+                          class="table dataTable no-footer"
+                          style="width: 100%"
+                          role="grid"
+                          aria-describedby="example_info"
+                        >
+                          <thead class="text-center">
+                            <tr role="row">
+                              <th
+                                class="sorting_asc"
+                                tabindex="0"
+                                aria-controls="example"
+                                rowspan="1"
+                                colspan="1"
+                                aria-sort="ascending"
+                                aria-label="Reference Number: activate to sort column descending"
+                                style="width: 0px"
+                              >
+                                Reference Number
+                              </th>
+                              <th
+                                class="sorting"
+                                tabindex="0"
+                                aria-controls="example"
+                                rowspan="1"
+                                colspan="1"
+                                aria-label="Title: activate to sort column ascending"
+                                style="width: 0px"
+                              >
+                                Title
+                              </th>
+                              <th
+                                class="sorting"
+                                tabindex="0"
+                                aria-controls="example"
+                                rowspan="1"
+                                colspan="1"
+                                aria-label="Date File Opened: activate to sort column ascending"
+                                style="width: 0px"
+                              >
+                                Date File Opened
+                              </th>
+                              <th
+                                class="sorting"
+                                tabindex="0"
+                                aria-controls="example"
+                                rowspan="1"
+                                colspan="1"
+                                aria-label="Status: activate to sort column ascending"
+                                style="width: 0px"
+                              >
+                                Status
+                              </th>
+                              <th
+                                class="sorting"
+                                tabindex="0"
+                                aria-controls="example"
+                                rowspan="1"
+                                colspan="1"
+                                aria-label="Action: activate to sort column ascending"
+                                style="width: 0px"
+                              >
+                                Action
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody class="text-center">
+                            <tr class="odd">
+                              <td
+                                valign="top"
+                                colspan="5"
+                                class="dataTables_empty"
+                              >
+                                No data available in table
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12 col-md-5">
+                        <div
+                          class="dataTables_info"
+                          id="example_info"
+                          role="status"
+                          aria-live="polite"
+                        >
+                          Showing 0 to 0 of 0 entries
+                        </div>
+                      </div>
+                      <div class="col-sm-12 col-md-7">
+                        <div
+                          class="dataTables_paginate paging_simple_numbers"
+                          id="example_paginate"
+                        >
+                          <ul class="pagination">
+                            <li
+                              class="paginate_button page-item previous disabled"
+                              id="example_previous"
+                            >
+                              <a
+                                href="#"
+                                aria-controls="example"
+                                data-dt-idx="0"
+                                tabindex="0"
+                                class="page-link"
+                                >Previous</a
+                              >
+                            </li>
+                            <li
+                              class="paginate_button page-item next disabled"
+                              id="example_next"
+                            >
+                              <a
+                                href="#"
+                                aria-controls="example"
+                                data-dt-idx="1"
+                                tabindex="0"
+                                class="page-link"
+                                >Next</a
+                              >
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <ul
+              class="nav nav-tabs nav-tabs-success"
+              id="pills-tab"
+              role="tablist"
+            >
+              <li class="nav-item">
+                <a
+                  class="nav-link text active"
+                  id="pills-Actions-tab"
+                  data-toggle="pill"
+                  href="#pills-Actions"
+                  role="tab"
+                  aria-controls="pills-Actions"
+                  aria-selected="true"
+                  ><b> Actions </b></a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  id="pills-Prior-tab"
+                  data-toggle="pill"
+                  href="#pills-Prior"
+                  role="tab"
+                  aria-controls="pills-Prior"
+                  aria-selected="false"
+                  ><b> Prior Art/Cited docs </b></a
+                >
+              </li>
+
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  id="pills-Related-tab"
+                  data-toggle="pill"
+                  href="#pills-Related"
+                  role="tab"
+                  aria-controls="pills-Related"
+                  aria-selected="false"
+                  ><b> Related Case Links </b></a
+                >
+              </li>
+
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  id="pills-awards-tab"
+                  data-toggle="pill"
+                  href="#pills-awards"
+                  role="tab"
+                  aria-controls="pills-awards"
+                  aria-selected="false"
+                  ><b>Inventor Compensation </b></a
+                >
+              </li>
+
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  id="pills-Inventors-tab"
+                  data-toggle="pill"
+                  href="#pills-Inventors"
+                  role="tab"
+                  aria-controls="pills-Inventors"
+                  aria-selected="false"
+                  ><b> Inventors </b></a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  id="pills-Documents-tab"
+                  data-toggle="pill"
+                  href="#pills-Documents"
+                  role="tab"
+                  aria-controls="pills-Documents"
+                  aria-selected="false"
+                  ><b> Documents </b></a
+                >
+              </li>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+              <div
+                class="tab-pane fade show active"
+                id="pills-Actions"
+                role="tabpanel"
+                aria-labelledby="pills-Actions-tab"
+              >
+                <div class="media">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Action Code</th>
+                          <th>Action Spellout</th>
+                          <th>Due Date</th>
+                          <th>Taken Date</th>
+                          <th>Completed Date</th>
+                          <th>Responsible Person</th>
+                          <th>Notes</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr> 
+                          <td>001/11</td>
+                          <td>TEST</td>
+                          <td>29/07/2022</td>
+                          <td>30/07/2022</td>
+                          <td>1/08/2022</td>
+                          <td>Demo</td>
+                          <td>TEST Note</td>
+                           
+                          
+                        </tr>
+                        
+                      </tbody>
+
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="tab-pane fade"
+                id="pills-awards"
+                role="tabpanel"
+                aria-labelledby="pills-awards-tab"
+              >
+                <div class="media">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Inventor Name</th>
+                          <th>Percentage Contributed to Inventions</th>
+                          <th>Compensation Calculation</th>
+                          <th>Compensation Paid to Inventor</th>
+                          <th>Date Compensation Paid</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>TestName</td>
+                          <td>95%</td>
+                          <td>8054</td>
+                          <td>3624</td>
+                          <td>01/20/2020</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="tab-pane fade"
+                id="pills-Inventors"
+                role="tabpanel"
+                aria-labelledby="pills-Inventors-tab"
+              >
+                <div class="media">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Inventor ID</th>
+                          <th>Surname</th>
+                          <th>Given Name(s)</th>
+                          <th>Nationality</th>
+                          <th>Employment Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>TEST-001</td>
+                          <td>TEST Surname</td>
+                          <td>TEST Given Name</td>
+                          <td>Ethiopian</td>
+                          <td>Active</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="tab-pane fade"
+                id="pills-Title"
+                role="tabpanel"
+                aria-labelledby="pills-Title-tab"
+              >
+                <div class="media">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>No</th>
+                          <th>Formal Title</th>
+                          <th>Internal Title</th>
+                          <th>isLicenced</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>001</td>
+                          <td>Invention Disclosure Tools</td>
+                          <td>Disclosure Tools</td>
+                          <td>Yes</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="tab-pane fade"
+                id="pills-Invoices"
+                role="tabpanel"
+                aria-labelledby="pills-Invoices-tab"
+              >
+                <div class="media">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Invoice No</th>
+                          <th>Items</th>
+                          <th>Customer Name</th>
+                          <th>Address</th>
+                          <th>Payment Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>CA-0000012</td>
+                          <td>Service</td>
+                          <td>Jems</td>
+                          <td>Kenya</td>
+                          <td>Pending</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="tab-pane fade"
+                id="pills-Annuities"
+                role="tabpanel"
+                aria-labelledby="pills-Annuities-tab"
+              >
+                <div class="media">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>No</th>
+                          <th>Result-1</th>
+                          <th>Address-2</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>001</td>
+                          <td>Demo Result</td>
+                          <td>Demo Address</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="tab-pane fade"
+                id="pills-Prior"
+                role="tabpanel"
+                aria-labelledby="pills-Prior-tab"
+              >
+                <div class="media">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Patentee/Applicant</th>
+                          <th>Application No.</th>
+                          <th>Country</th>
+                          <th>Application Date</th>
+                          <th>Publication No.</th>
+                          <th>Publication date</th>
+                          <th>Grant No.</th>
+                          <th>Grant Date</th>
+                          <th>Publication author, volume, pages e.t.c</th>
+                          <th>Kind code</th>
+                          <th>Include in IDS?</th>
+                          <th>Already Submitted in an IDS</th>
+                          <th>Case ref</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Test User</td>
+                          <td>001</td>
+                          <td>Germany</td>
+                          <td>01/20/2020</td>
+                          <td>345345</td>
+                          <td>01/20/2020</td>
+                          <td>01</td>
+                          <td>01/20/2020</td>
+                          <td>Redet G. volume II, 178</td>
+                          <td>43</td>
+                          <td>Yes</td>
+                          <td>No</td>
+                          <td>Case145</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="tab-pane fade"
+                id="pills-Related"
+                role="tabpanel"
+                aria-labelledby="pills-Related-tab"
+              >
+                <div class="media">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Case ID</th>
+                          <th>Country</th>
+                          <th>Application No</th>
+                          <th>Application Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>23456121</td>
+                          <td>UK</td>
+                          <td>rt4523I2</td>
+                          <td>12/06/2022</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="tab-pane fade"
+                id="pills-Abstract"
+                role="tabpanel"
+                aria-labelledby="pills-Abstract-tab"
+              >
+                <div class="media">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>No</th>
+                          <th>No Of Drawing</th>
+                          <th>No Of View</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>0001</td>
+                          <td>1</td>
+                          <td>4</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="tab-pane fade"
+                id="pills-Documents"
+                role="tabpanel"
+                aria-labelledby="pills-Documents-tab"
+              >
+                <div class="media">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Document</th>
+                          <th>Name of Document</th>
+                          <th>Date Uploaded</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>File.Docx</td>
+                          <td>Request</td>
+                          <td>20/07/2022</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="tab-pane fade"
+                id="pills-Notes"
+                role="tabpanel"
+                aria-labelledby="pills-Notes-tab"
+              >
+                <div class="media">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Note</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Vero, molestias in quam corrupti nobis
+                            provident doloribus quia cumque vel suscipit commodi
+                            blanditiis nostrum labore atque laboriosam sint, hic
+                            dolorem earum?
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- [ Main Content ] end -->
+  </div>
+</section>
+<!-- [ Main Content ] end -->
+
+{% endblock content %} {% block js %}
+<!-- Required Js -->
+<script src="{% static 'assets/js/vendor-all.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/ripple.js' %}"></script>
+<script src="{% static 'assets/js/pcoded.min.js' %}"></script>
+<!-- select2 Js -->
+<script src="{% static 'assets/js/plugins/select2.full.min.js' %}"></script>
+<!-- datatables Js -->
+<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+<!-- <script src="{% static 'assets/js/plugins/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.print.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/pdfmake.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jszip.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.html5.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/js/pages/data-export-custom.js' %}"></script> -->
+<!-- Apex Chart
+<script src="{% static 'assets/js/plugins/apexcharts.min.js' %}"></script>
+-->
+
+<script>
+  // Form start
+  $(".page-form select").select2();
+  // Form end
+  // DataTable start
+  $(".data-table").DataTable({
+    dom: "Bfrtip",
+    // buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+  });
+  // DataTable end
+
+
+</script>
+{% endblock js %}

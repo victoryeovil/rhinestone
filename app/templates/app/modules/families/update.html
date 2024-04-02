@@ -1,0 +1,957 @@
+{% extends 'app/layout.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load super_filters %}
+
+{% block title %}
+	Rhinestone Inventions Disclosure Tools | Family
+{% endblock title %}
+
+{% block css %}
+<!-- vendor css -->
+<link rel="stylesheet" href="{% static 'assets/css/plugins/dataTables.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/plugins/select2.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+{% endblock css %}
+	
+
+{% block content %}
+   <!-- [ Modal For Adding  ] end -->
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Family Module</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/app/"><i class="feather icon-home"></i>&nbsp;Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="/app/modules/families/list/">Family List</a></li>
+                            <li class="breadcrumb-item"><a href="/app/modules/families/edit/{{item.id}}/">Family Edit</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+        <!-- [ Main Content ] start -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+					<div class="card-body">
+                        <div class="row ">
+                        
+                            <!-- <div class="col-12">
+                                <button class="btn btn-primary float-right">Add Family</button>
+                            </div> -->
+                            <div class="col-12 mb-4">
+                                <form class="page-form family" method="post" action="/app/modules/families/edit/{{item.id}}/">
+                                    {% csrf_token %}
+                                    <div class="form-row">
+                                        <div class="col-12 mb-4 text-center">
+                                            <button class="btn btn-sm btn-outline-primary">Audit Trail</button>                                            
+                                            <button class="btn btn-sm btn-outline-primary"><i class="feather icon-copy"></i></button>
+                                            <button class="btn btn-sm btn-outline-primary">Customer Special Instructions</button>
+                                            <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-left"></i></button>
+                                            <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-right"></i></button>
+                                            <button class="btn btn-sm btn-outline-primary"><i class="feather icon-printer"></i></button>
+                                            <button type="reset" class="btn btn-sm btn-outline-primary"><i class="feather icon-delete"></i>&nbsp;Delete</button>
+                                            <button type="submit" class="btn btn-sm btn-outline-primary"><i class="feather icon-save"></i>&nbsp;Save</button>
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                                Create Country
+                                              </button>
+                                              <span id="id_add_new"></span>
+                                        </div>
+                                        <!-- Modal -->
+
+                                    </div>
+                                    {% crispy form %}
+                                </form>
+                                
+                            </div>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Create Country(ies)</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- Removed the CSRF token and crispy form rendering -->
+                                            <form id="pct-countries-form">
+                                                <!-- Container for the checkboxes -->
+                                                <div id="country-checkboxes"></div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 mb-4">
+                                <ul class="nav nav-tabs mb-3" id="family-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link text active" id="pills-Actions-tab" data-toggle="pill" href="#pills-Actions" role="tab" aria-controls="pills-Actions" aria-selected="true"><b> Actions </b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-applicant-tab" data-toggle="pill" href="#pills-applicant" role="tab" aria-controls="pills-applicant" aria-selected="false"><b> Applicant(s) </b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-Inventors-tab" data-toggle="pill" href="#pills-Inventors" role="tab" aria-controls="pills-Inventors" aria-selected="false"><b> Inventor(s) </b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-Title-tab" data-toggle="pill" href="#pills-Title" role="tab" aria-controls="pills-Title" aria-selected="false"><b> Title </b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-Invoices-tab" data-toggle="pill" href="#pills-Invoices" role="tab" aria-controls="pills-Invoices" aria-selected="false"><b> Invoices </b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-Annuities-tab" data-toggle="pill" href="#pills-Annuities" role="tab" aria-controls="pills-Annuities" aria-selected="false"><b> Annuities </b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-Prior-tab" data-toggle="pill" href="#pills-Prior" role="tab" aria-controls="pills-Prior" aria-selected="false"><b> Prior Art </b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-Related-tab" data-toggle="pill" href="#pills-Related" role="tab" aria-controls="pills-Related" aria-selected="false"><b> Related Case Links </b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-Abstract-tab" data-toggle="pill" href="#pills-Abstract" role="tab" aria-controls="pills-Abstract" aria-selected="false"><b> Abstract & Figures Files</b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-Documents-tab" data-toggle="pill" href="#pills-Documents" role="tab" aria-controls="pills-Documents" aria-selected="false"><b> Documents </b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-Notes-tab" data-toggle="pill" href="#pills-Notes" role="tab" aria-controls="pills-Notes" aria-selected="false"><b>Notes</b></a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="family-tabs-content">
+                                    <div class="tab-pane fade show active" id="pills-Actions" role="tabpanel" aria-labelledby="pills-Actions-tab">
+                                        <div class="media">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Action Code</th>
+                                                            <th>Action Spellout</th>
+                                                            <th>Due Date</th>
+                                                            <th>Taken Date</th>
+                                                            <th>Completed Date</th>
+                                                            <th>Responsible Person</th>
+                                                            <th>Notes</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tablebody">
+  
+                                                      
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-applicant" role="tabpanel" aria-labelledby="pills-applicant-tab">
+                                        <div class="media">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Applicant ID</th>
+                                                            <th>Surname</th>
+                                                            <th>Given Name(s)</th>
+                                                            <th>Nationality</th>
+                                                            <th>Employment Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr id="selected-applicant-details">
+                                                           
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="tab-pane fade" id="pills-Inventors" role="tabpanel" aria-labelledby="pills-Inventors-tab">
+                                        <div class="media">
+                                            <div class="table-responsive">
+                                              <table class="table">
+                                                  <thead>
+                                                    <tr>
+                                                      <th>Inventor ID</th>
+                                                      <th>Surname</th>
+                                                      <th>Given Name(s)</th>
+                                                      <th>Nationality</th>
+                                                      <th>Employment Status</th>
+                                                    </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                    <tr>
+                                                      <td><input type="text" name="inventor_id" oninput="updateInventorFields(this)"></td>
+                                                      <td><input type="text" name="surname" oninput="updateInventorFields(this)"></td>
+                                                      <td><input type="text" name="given_names" oninput="updateInventorFields(this)"></td>
+                                                      <td><input type="text" name="nationality" oninput="updateInventorFields(this)"></td>
+                                                      <td><input type="text" name="employment_status" oninput="updateInventorFields(this)"></td>
+                                                    </tr>
+                                                  </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-Title" role="tabpanel" aria-labelledby="pills-Title-tab">
+                                        <div class="media">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                           
+                                                            <th>Formal Title</th>
+                                                            <th>Internal Title</th>
+                                                            
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                      <tr id="title-table">
+                                                            
+                                                            
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-Invoices" role="tabpanel" aria-labelledby="pills-Invoices-tab">
+                                        <div class="media">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Invoice No</th>
+                                                            <th>Items</th>
+                                                            <th>Customer Name</th>
+                                                            <th>Address</th>
+                                                            <th>Payment Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>CA-0000012</td>
+                                                            <td>Service</td>
+                                                            <td>Jems</td>
+                                                            <td>Kenya</td>
+                                                            <td>Pending</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-Annuities" role="tabpanel"     aria-labelledby="pills-Annuities-tab">
+                                        <div class="media">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Country</th>
+                                                        <th>Annuity Year</th>
+                                                        <th>Due Date</th>
+                                                        <th>Payment Status</th>
+                                                        <th>Receipt Received</th>
+                                                
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="annuity-table-body">
+                                              
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                       
+                                    <div class="tab-pane fade" id="pills-Prior" role="tabpanel" aria-labelledby="pills-Prior-tab">
+                                        <div class="media">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Patentee/Applicant</th>
+                                                            <th>Application No</th>
+                                                            <th>Country</th>
+                                                            <th>Application Date</th>
+                                                            <th>Publication No</th>
+                                                            <th>Publication Date</th>
+                                                            <th>Grant No</th>
+                                                            <th>Grant Date</th>
+                                                            <th>Publication Author</th>
+                                                            <th>Kind Code</th>
+                                                            <th>Include in IDS</th>
+                                                            <th>Submitted as IDS?</th>
+                                                            <th>On which Case Ref</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><input type="text" name="patentee_applicant"></td>
+                                                            <td><input type="text" name="applicatin_no"></td>
+                                                            <td>
+                                                                <select id="id_Country" name="country">
+                                                                    <!-- Options for countries -->
+                                                                </select>
+                                                            </td>
+                                                            <td><input type="text" name="applicatin_date"></td>
+                                                            <td><input type="text" name="publication_no"></td>
+                                                            <td><input type="date" name="applicatin_date"></td>
+                                                            <td><input type="text" name="grant_no"></td>
+                                                            <td><input type="date" name="grant_date"></td>
+                                                            <td><input type="text" name="publication_author"></td>
+                                                            <td><input type="text" name="kind_code"></td>
+                                                            <td>
+                                                                <select name="include_in_ids">
+                                                                    <option value="yes">Yes</option>
+                                                                    <option value="no">No</option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <select name="submitted_as_ids">
+                                                                    <option value="yes">Yes</option>
+                                                                    <option value="no">No</option>
+                                                                </select>
+                                                            </td>
+                                                            <td><input type="text" name="on_case_ref"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>                              
+                                    
+                                    
+                                    <div class="tab-pane fade" id="pills-Related" role="tabpanel" aria-labelledby="pills-Related-tab">
+                                        <div class="media">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Reference Number</th>
+                                                            <th>Country</th>
+                                                            <th>Application Number</th>
+                                                            <th>Application Date</th>
+                                                            <th>Inventors</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr id="related_case">
+                                                            
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-Abstract" role="tabpanel" aria-labelledby="pills-Abstract-tab">
+                                      <div class="media">
+                                          <div class="table-responsive">
+                                              <table class="table">
+                                                  <thead>
+                                                      <tr>
+                                                          <th>Abstract</th>
+                                                      </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                      <tr>
+                                                        <form action="/" method="post">
+                                                          {% csrf_token %}
+                                                          <textarea id="input-text" name="Abstract" rows="10" cols="50" maxlength="50" placeholder="Enter your abstract here..."></textarea>
+                                                          <br>
+                                                        </form>
+                                                      </tr>
+                                                  </tbody>
+                                              </table>
+                                          </div>
+                                      </div>
+
+  
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-Documents" role="tabpanel" aria-labelledby="pills-Documents-tab">
+                                        <div class="media">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Document</th>
+                                                            <th>Name of Document</th>
+                                                            <th>Upload Date</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <!-- Existing table rows -->
+                                                        <tr>
+                                                            <td>
+                                                                <input type="file" name="document_file" onchange="uploadDocument(this)">
+                                                            </td>
+                                                            <td id="document-name"></td>
+                                                            <td id="upload-date"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-Notes" role="tabpanel" aria-labelledby="pills-Notes-tab">
+                                        <div class="media">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Note</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                              <form>
+                                                                  <input type="text" class="text">
+                                                              </form>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <!-- [ Main Content ] end -->
+  
+      </div>
+  </section>
+</section>
+<!-- [ Main Content ] end -->
+
+{% endblock content %}
+{% block js %}
+<!-- Required Js -->
+<script src="{% static 'assets/js/vendor-all.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/ripple.js' %}"></script>
+<script src="{% static 'assets/js/pcoded.min.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js">
+</script> 
+
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- select2 Js -->
+<script src="{% static 'assets/js/plugins/select2.full.min.js' %}"></script>
+<!-- datatables Js -->
+<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+<!-- <script src="{% static 'assets/js/plugins/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.print.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/pdfmake.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jszip.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.html5.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/js/pages/data-export-custom.js' %}"></script> -->
+<!-- Apex Chart
+<script src="{% static 'assets/js/plugins/apexcharts.min.js' %}"></script>
+-->
+
+
+<script>
+    $(window).on('load', function(){
+      $('.modal.fade').appendTo('body');
+    })
+    // Form start
+    $(".page-form select").select2();
+    // Form end
+    // DataTable start
+    $(".data-table").DataTable({
+      dom: "Bfrtip",
+      // buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+    });
+    // DataTable end
+  </script>
+  <script>
+    var type_of_filing = "{{type_of_filing}}";
+    if (type_of_filing == "Trademark" ){
+      var primary_attorney = "{{primary_attorney}}" ;
+      var secondary_attorney = "{{primary_attorney}}" ;
+      var primary_paralegal = "{{primary_paralegal}}" ;
+      var secondary_paralegal = "{{secondary_paralegal}}" ;
+      var type_of_filing = "{{type_of_filing}}" ;
+      try {$("form.family select#id_primary_attorney option[value=" + primary_attorney + "]").prop("selected",true).change(); } catch (e) {}
+      try {$("form.family select#id_secondary_attorney option[value=" + secondary_attorney + "]").prop("selected",true).change(); } catch (e) {}
+      try {$("form.family select#id_primary_paralegal option[value=" + primary_paralegal + "]").prop("selected",true).change(); } catch (e) {}
+      try {$("form.family select#id_secondary_paralegal option[value=" + secondary_paralegal + "]").prop("selected",true).change(); } catch (e) {}
+      try {$("form.family select#id_type_of_filing option[value=" + type_of_filing + "]").prop("selected",true).change(); } catch (e) {}
+    }else if (type_of_filing == "Design" ){
+      var internal_title = "{{internal_title}}" ;
+      var formal_title = "{{formal_title}}" ;
+      var licensor = "{{licensor}}" ;
+      var cost_centre_code = "{{cost_centre_code}}" ;
+      try {$("form.family input#id_internal_title").val(internal_title); } catch (e) {}
+      try {$("form.family input#id_formal_title").val(formal_title); } catch (e) {}
+      try {$("form.family select#id_licensor option[value=" + licensor + "]").prop("selected",true).change(); } catch (e) {}
+      try {$("form.family select#id_cost_centre_code option[value=" + cost_centre_code + "]").prop("selected",true).change(); } catch (e) {}
+      try {$("form.family select#id_type_of_filing option[value=" + type_of_filing + "]").prop("selected",true).change(); } catch (e) {}
+    }else if (type_of_filing == "Patent" ){
+      var internal_title = "{{internal_title}}" ;
+      console.log(internal_title)
+      var formal_title =  "{{formal_title}}" ;
+      var internal_title = "{{internal_title}}" ;
+      var cost_centre_code = "{{cost_centre_code}}";
+      var primary_attorney = "{{primary_attorney}}";
+      var secondary_attorney = "{{secondary_attorney}}";
+      var primary_paralegal = "{{primary_paralegal}}";
+      var secondary_paralegal = "{{secondary_paralegal}}";
+      var licenced = "{{licenced}}";
+      try {$("form.family select#id_type_of_filing option[value=" + type_of_filing + "]").prop("selected",true).change(); } catch (e) {}
+      try {$("form.family input#id_internal_title").val(internal_title); } catch (e) {}
+      try {$("form.family input#id_formal_title").val(formal_title); } catch (e) {}
+      try {$("form.family select#id_cost_centre_code option[value=" + cost_centre_code + "]").prop("selected",true).change(); } catch (e) {}
+      try {$("form.family select#id_primary_attorney option[value=" + primary_attorney + "]").prop("selected",true).change(); } catch (e) {}
+      try {$("form.family select#id_secondary_attorney option[value=" + secondary_attorney + "]").prop("selected",true).change(); } catch (e) {}
+      try {$("form.family select#id_primary_paralegal option[value=" + primary_paralegal + "]").prop("selected",true).change(); } catch (e) {}
+      try {$("form.family select#id_secondary_paralegal option[value=" + secondary_paralegal + "]").prop("selected",true).change(); } catch (e) {}
+      try {$("form.family select#id_licenced option[value=" + licenced + "]").prop("selected",true).change(); } catch (e) {}
+    }
+  /*
+    var linkUpper = "{{item.type_of_filing}}";
+    var linkLower = linkUpper.toLowerCase();
+    if (linkUpper !== "") {
+        var linkHtml =
+            '<button type="button" id="id_btn_' +
+            linkLower +
+            '" class="btn btn-primary">' +
+            "Add " +
+            linkUpper +
+            "</button>";
+    
+        $("#id_add_new").html(linkHtml);
+    
+        // Attach event handler to the dynamically created button
+        $("#id_btn_" + linkLower).click(function () {
+            // Save the form using AJAX
+            $.ajax({
+                type: "POST",
+                url: "/app/modules/families/edit/{{item.id}}/",
+                data: $(".page-form.family").serialize(), // Serialize the form data
+                success: function (data) {
+                    console.log(data)
+                    // Handle successful form submission
+                    var selectedCountries = [];
+                $("#country-checkboxes input[name='countries[]']:checked").each(function () {
+                    selectedCountries.push($(this).parent().text().trim()); // Push country names
+                });
+                    console.log(selectedCountries);
+    
+                    // Loop through selected countries and open URLs with a delay
+                    var delay = 500; // milliseconds
+                    selectedCountries.forEach(function (countryName, index) {
+                        var nextPageUrl = "/app/modules/" + linkLower + "s/add/?country=" + encodeURIComponent(countryName);
+                        setTimeout(function () {
+                            window.open(nextPageUrl, "_blank");
+                        }, index * delay);
+                    });
+                },
+                error: function (error) {
+                    console.error("Form submission error:", error);
+                }
+            });
+        });
+    }*/
+
+    var linkUpper = "{{item.type_of_filing}}";
+var linkLower = linkUpper.toLowerCase();
+if (linkUpper !== "") {
+    var linkHtml =
+        '<button type="button" id="id_btn_' +
+        linkLower +
+        '" class="btn btn-primary">' +
+        "Add " +
+        linkUpper +
+        "</button>";
+
+    $("#id_add_new").html(linkHtml);
+
+    // Attach event handler to the dynamically created button
+    $("#id_btn_" + linkLower).click(function () {
+        // Serialize the form data
+        var formData = $(".page-form.family").serialize();
+        // Remove the CSRF token field from the serialized form data
+        formData = formData.replace(/csrfmiddlewaretoken=[^&]+&?/g, '');
+
+        // Get the selected countries
+        var selectedCountries = [];
+        $("#country-checkboxes input[name='countries[]']:checked").each(function () {
+            selectedCountries.push($(this).parent().text().trim());
+        });
+
+        // Loop through selected countries and open URLs in new tabs
+        var delay = 500; // milliseconds
+        selectedCountries.forEach(function (countryName, index) {
+            var countryPart = "country=" + encodeURIComponent(countryName);
+            var dataPart = formData;
+            var nextPageUrl = "/app/modules/" + linkLower + "s/add/?" + countryPart + "&" + dataPart;
+            setTimeout(function () {
+                window.open(nextPageUrl, "_blank");
+            }, index * delay);
+        });
+    });
+}
+
+    
+    
+  </script>
+ 
+  <script type="text/javascript">
+    // Function to extract titles and populate the inner table
+    function extractAndPopulateTitles() {
+      // Get the values of the internal title and formal title from the input fields
+      const internalTitle = document.getElementById("id_internal_title").value;
+      const formalTitle = document.getElementById("id_formal_title").value;
+      
+      // Get the table row element where the values will be inserted
+      const tableRow = document.getElementById("title-table");
+  
+      // Populate the table row with extracted values
+      tableRow.innerHTML = `
+        <td>${formalTitle}</td>
+        <td>${internalTitle}</td>
+        
+      `;
+    }
+  
+    // Call the function when needed, e.g., on button click or any relevant event
+    // For example, you can use the following code to call the function when a button is clicked:
+    const button = document.getElementById("pills-Title-tab");
+    button.addEventListener("click", extractAndPopulateTitles);
+  </script>
+ 
+  <script type="text/javascript">
+    document.getElementById("pills-Related-tab").addEventListener("click", function () {
+      // Get the family case number from the form field
+      const familyCaseNumber = document.getElementById("id_case_no").value;
+  
+      // Call the related cases view using AJAX
+      fetch("/app/modules/related_cases_view", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "X-CSRFToken": getCookie("csrftoken")  // Make sure to include CSRF token
+        },
+        body: `family_case_number=${familyCaseNumber}`
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Filter related cases based on familyCaseNumber
+        const relatedCases = data.related_cases.filter(caseData => caseData.case_number === familyCaseNumber);
+  
+        // Populate the table with related cases data
+        const tableBody = document.getElementById("related_case");
+        tableBody.innerHTML = "";
+  
+        relatedCases.forEach(caseData => {
+            const newRow = document.getElementById("related_case");  // Get the existing tr with ID
+            
+            // Create and populate new td elements
+            const newCell1 = document.createElement("td");
+            newCell1.textContent = caseData.case_number;
+        
+            const newCell2 = document.createElement("td");
+            newCell2.textContent = caseData.country;
+        
+            const newCell3 = document.createElement("td");
+            newCell3.textContent = caseData.application_number;
+        
+            const newCell4 = document.createElement("td");
+            newCell4.textContent = caseData.application_date;
+        
+            const newCell5 = document.createElement("td");
+            newCell5.textContent = caseData.inventors;
+        
+            // Append the new td elements to the existing tr
+            newRow.appendChild(newCell1);
+            newRow.appendChild(newCell2);
+            newRow.appendChild(newCell3);
+            newRow.appendChild(newCell4);
+            newRow.appendChild(newCell5);
+        });
+        
+      })
+      .catch(error => {
+        console.error("Error fetching related cases:", error);
+      });
+    });
+  
+    // Helper function to get CSRF token
+    function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+        var cookies = document.cookie.split(";");
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + "=")) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+  </script>
+ 
+    <script>
+        function updateInventorFields(inputField) {
+            const query = inputField.value;
+            if (query.trim() === '') {
+                return; // If input is empty or contains only spaces, do nothing
+            }
+        
+            const url = "{% url 'inventor_autocomplete' %}?query=" + query;
+        
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    const tr = inputField.closest('tr'); // Get the parent <tr> element
+                    const [inventorNo, surname, givenNames, nationality, employmentStatus] = tr.querySelectorAll('input[type="text"]');
+        
+                    if (data.suggestions.length > 0) {
+                        // Sort inventor suggestions based on user's input query and criteria
+                        const sortedSuggestions = data.suggestions.sort((a, b) => {
+                            // Customize the sorting logic based on your requirements
+                            // Here's an example based on surname
+                            const aSurname = a.surname.toLowerCase();
+                            const bSurname = b.surname.toLowerCase();
+                            return aSurname.localeCompare(bSurname);
+                        });
+        
+                        // Find the best matching inventor (assuming the first inventor is the closest match)
+                        const bestMatch = sortedSuggestions[0];
+        
+                        // Populate input fields with matching inventor data
+                        inventorNo.value = bestMatch.id;
+                        surname.value = bestMatch.surname;
+                        givenNames.value = bestMatch.name;
+                        nationality.value = bestMatch.nationality;
+                        employmentStatus.value = bestMatch.employer_name;
+                    } else {
+                        // Clear specific fields if no match found (leaving the query intact)
+                        surname.value = '';
+                        givenNames.value = '';
+                        nationality.value = '';
+                        employmentStatus.value = '';
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching inventor data:", error);
+                });
+        }
+        </script>
+
+        <script>
+            function updateApplicant(inputField) {
+                const query = inputField.value;
+                if (query.trim() === '') {
+                    return; // If input is empty or contains only spaces, do nothing
+                }
+            
+                const url = "{% url 'applicant_autocomplete' %}?query=" + query;
+            
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        const tr = inputField.closest('tr'); // Get the parent <tr> element
+                        const [applicantId, surname, givenNames, nationality, employmentStatus] = tr.querySelectorAll('input[type="text"]');
+            
+                        if (data.suggestion.length > 0) {
+                            // Find the best matching applicant (assuming the first applicant is the closest match)
+                            console.log(data)
+                            const bestMatch = data.suggestion[0];
+                            console.log(bestMatch)
+            
+                            // Populate input fields with matching applicant data
+                            applicantId.value = bestMatch.id;
+                            surname.value = bestMatch.surname;
+                            givenNames.value = bestMatch.name;
+                            nationality.value = bestMatch.nationality;
+                            employmentStatus.value = bestMatch.employer_name;
+                        } else {
+                            // Clear specific fields if no match found (leaving the query intact)
+                            applicantId.value = '';
+                            surname.value = '';
+                            givenNames.value = '';
+                            nationality.value = '';
+                            employmentStatus.value = '';
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error fetching applicant data:", error);
+                    });
+            }
+            </script>
+            <script>
+                function uploadDocument(fileInput) {
+                    const documentNameCell = document.getElementById('document-name');
+                    const uploadDateCell = document.getElementById('upload-date');
+                
+                    const file = fileInput.files[0];
+                    if (file) {
+                        // Update document name
+                        documentNameCell.textContent = file.name;
+                
+                        // Get current date and format it as "dd/mm/yyyy"
+                        const currentDate = new Date();
+                        const day = currentDate.getDate().toString().padStart(2, '0');
+                        const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+                        const year = currentDate.getFullYear();
+                        const formattedDate = `${day}/${month}/${year}`;
+                
+                        // Update upload date
+                        uploadDateCell.textContent = formattedDate;
+                    } else {
+                        documentNameCell.textContent = '';
+                        uploadDateCell.textContent = '';
+                    }
+                }
+                </script>
+                <script>
+                    const countrySelect = document.getElementById("id_Country");
+                
+                    const PCT_COUNTRIES = [
+                    {"name": "Albania", "code": "AL"},
+                    {"name": "Argentina", "code": "AR"},
+                    {"name": "Andorra", "code": "AD"},
+                    {"name": "Austria", "code": "AT"},
+                    {"name": "Belarus", "code": "BY"},
+                    {"name": "Belgium", "code": "BE"},
+                    {"name": "Bosnia and Herzegovina", "code": "BA"},
+                    {"name": "Bulgaria", "code": "BG"},
+                    {"name": "Canada", "code": "CA"},
+                    {"name": "Croatia", "code": "HR"},
+                    {"name": "Cyprus", "code": "CY"},
+                    {"name": "Czech Republic", "code": "CZ"},
+                    {"name": "Denmark", "code": "DK"},
+                    {"name": "Estonia", "code": "EE"},
+                    {"name": "Finland", "code": "FI"},
+                    {"name": "France", "code": "FR"},
+                    {"name": "Germany", "code": "DE"},
+                    {"name": "Greece", "code": "GR"},
+                    {"name": "Hungary", "code": "HU"},
+                    {"name": "Iceland", "code": "IS"},
+                    {"name": "Ireland", "code": "IE"},
+                    {"name": "Italy", "code": "IT"},
+                    {"name": "Japan", "code": "JP"},
+                    {"name": "Korea, Democratic People's Republic of", "code": "KP"},
+                    {"name": "Korea, Republic of", "code": "KR"},
+                    {"name": "Kosovo", "code": "XK"},
+                    {"name": "Latvia", "code": "LV"},
+                    {"name": "Liechtenstein", "code": "LI"},
+                    {"name": "Lithuania", "code": "LT"},
+                    {"name": "Luxembourg", "code": "LU"},
+                    {"name": "Malta", "code": "MT"},
+                    {"name": "Moldova", "code": "MD"},
+                    {"name": "Monaco", "code": "MC"},
+                    {"name": "Montenegro", "code": "ME"},
+                    {"name": "Netherlands", "code": "NL"},
+                    {"name": "North Macedonia", "code": "MK"},
+                    {"name": "Norway", "code": "NO"},
+                   {"name": "Pakistan", "code": "PK"},
+                    {"name": "Poland", "code": "PL"},
+                    {"name": "Portugal", "code": "PT"},
+                    {"name": "Romania", "code": "RO"},
+                    {"name": "Russia", "code": "RU"},
+                    {"name": "San Marino", "code": "SM"},
+                    {"name": "Serbia", "code": "RS"},
+                    {"name": "Slovakia", "code": "SK"},
+                    {"name": "Slovenia", "code": "SI"},
+                    {"name": "Spain", "code": "ES"},
+                    {"name": "Sweden", "code": "SE"},
+                    {"name": "Switzerland", "code": "CH"},
+                    {"name": "Taiwan", "code": "TW"},
+                    {"name": "Ukraine", "code": "UA"},
+                    {"name": "United Kingdom", "code": "GB"},
+                    {"name": "Vatican City (Holy See)", "code": "VA"}
+                  ]
+                
+                    PCT_COUNTRIES.forEach(country => {
+                        const option = document.createElement("option");
+                        option.value = country.code; // Use the country code as the option value
+                        option.textContent = country.name;
+                        countrySelect.appendChild(option);
+                    });
+                </script>
+                <script>
+                   
+                    // Generate checkboxes for each country
+                    const checkboxesContainer = document.getElementById("country-checkboxes");
+                    PCT_COUNTRIES.forEach(country => {
+                        const checkboxDiv = document.createElement("div");
+                        checkboxDiv.className = "form-check";
+                        
+                        const checkboxInput = document.createElement("input");
+                        checkboxInput.className = "form-check-input";
+                        checkboxInput.type = "checkbox";
+                        checkboxInput.name = "countries[]";
+                        checkboxInput.value = country.code;
+                        checkboxInput.id = country.code;
+                
+                        const checkboxLabel = document.createElement("label");
+                        checkboxLabel.className = "form-check-label";
+                        checkboxLabel.setAttribute("for", country.code);
+                        checkboxLabel.textContent = country.name;
+                
+                        checkboxDiv.appendChild(checkboxInput);
+                        checkboxDiv.appendChild(checkboxLabel);
+                        
+                        checkboxesContainer.appendChild(checkboxDiv);
+                    });
+                </script>
+                <script>
+                    $(document).ready(function () {
+                        $('#pills-applicant-tab').on('click', function () {
+                            // Get selected applicants from the form field
+                            var selectedApplicants = $('#id_applicant').val(); // Assuming it's a multi-select field
+                            console.log(selectedApplicants)
+                            var applicantDetails = JSON.parse($('#applicant-details').val());
+                            console.log(applicantDetails)
+                            // Clear the table body
+                            $('#selected-applicants-table tbody').empty();
+                
+                            // Populate the table with selected applicants' details
+                            selectedApplicants.forEach(function (applicantId) {
+                                var applicant = applicantDetails[applicantId];
+                                if (applicant) {
+                                    var newRow = '<tr>' +
+                                        '<td>' + applicant.applicant_id + '</td>' +
+                                        '<td>' + applicant.surname + '</td>' +
+                                        '<td>' + applicant.given_names + '</td>' +
+                                        '<td>' + applicant.nationality + '</td>' +
+                                        '<td>' + applicant.employment_status + '</td>' +
+                                        '</tr>';
+                                    $('#selected-applicants-table tbody').append(newRow);
+                                }
+                            });
+                        });
+                    });
+                </script>
+                
+                
+{% endblock js %}

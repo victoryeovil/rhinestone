@@ -1,0 +1,8 @@
+ipython
+Django
+django-crispy-forms
+crispy-bootstrap4
+Pillow
+psycopg2-binary
+psycopg2
+gunicorn

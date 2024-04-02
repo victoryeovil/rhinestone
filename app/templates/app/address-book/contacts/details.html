@@ -1,0 +1,90 @@
+{% extends 'app/address-book/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block tab-content %}
+<div class="row ">
+
+    <div class="col-12 mb-4">
+        <h3 class="text-start">Contacts</h3>
+    </div>
+    <div class="col-12 mb-4">
+        <div class="card-body">
+            <div class="row ">
+            
+                <!-- <div class="col-12">
+                    <button class="btn btn-primary float-right">Add Family</button>
+                </div> -->
+                <div class="col-12 mb-4 text-center">
+                    <button class="btn btn-sm btn-outline-primary">Audit Trail</button>
+                    <button class="btn btn-sm btn-outline-primary"><i class="feather icon-copy"></i></button>
+                    <button class="btn btn-sm btn-outline-primary">Customer Special Instructions</button>
+                    <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-left"></i></button>
+                    <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-right"></i></button>
+                    <button class="btn btn-sm btn-outline-primary"><i class="feather icon-printer"></i></button>
+                    <button class="btn btn-sm btn-outline-primary"><i class="feather icon-delete"></i></button>
+                </div>
+                <div class="col-12 mb-3">
+                    <h5 class="text-uppercase">ID</h5>
+                    <p>
+                        {{item.id}}
+                    </p>
+                </div>
+                <div class="col-12 mb-3">
+                    <h5 class="text-uppercase">Name</h5>
+                    <p>
+                        {{item.name}}
+                    </p>
+                </div>
+                <div class="col-12 mb-3">
+                    <h5 class="text-uppercase">Phone</h5>
+                    <p>
+                        {{item.phone}}
+                    </p>
+                </div>
+                <div class="col-12 mb-3">
+                    <h5 class="text-uppercase">Email</h5>
+                    <p>
+                        {{item.email}}
+                    </p>
+                </div>
+                <div class="col-12 mb-3">
+                    <h5 class="text-uppercase">Address Line 2</h5>
+                    <p>
+                        {{item.address_line_1}}
+                    </p>
+                </div>
+                <div class="col-12 mb-3">
+                    <h5 class="text-uppercase">Address Line 1</h5>
+                    <p>
+                        {{item.address_line_2}}
+                    </p>
+                </div>
+                <div class="col-12 mb-3">
+                    <h5 class="text-uppercase">Address City</h5>
+                    <p>
+                        {{item.address_city}}
+                    </p>
+                </div>
+                <div class="col-12 mb-3">
+                    <h5 class="text-uppercase">Type</h5>
+                    <p>
+                        {{item.type}}
+                    </p>
+                </div>
+                <div class="col-12 mb-3 text-center">
+                    <a href="/app/address-book/contacts/" class="btn btn-primary">
+                        <i class="fa fa-list"></i>&nbsp;List
+                    </a>
+                    <a href="/app/address-book/contacts/edit/{{item.id}}/" class="btn btn-secondary">
+                        <i class="fa fa-edit"></i>&nbsp;Edit
+                    </a>
+                    <a href="/app/address-book/contacts/delete/{{item.id}}/" class="btn btn-danger">
+                        <i class="fa fa-trash"></i>&nbsp;Delete
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock tab-content %}

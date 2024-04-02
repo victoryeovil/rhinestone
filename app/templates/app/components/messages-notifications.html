@@ -1,0 +1,23 @@
+<!-- pnotify-custom css -->
+<link rel="stylesheet" href="/static/assets/css/plugins/PNotifyBrightTheme.css">
+<!-- pnotify Js -->
+<script src="/static/assets/js/plugins/PNotify.js" defer></script>
+<script src="/static/assets/js/plugins/PNotifyButtons.js" defer></script>
+<script src="/static/assets/js/plugins/PNotifyCallbacks.js" defer></script>
+<script src="/static/assets/js/plugins/PNotifyDesktop.js" defer></script>
+<script src="/static/assets/js/plugins/PNotifyConfirm.js" defer></script>
+<script src="/static/assets/js/pages/notify-event.js" defer></script>
+<script defer>
+    document.addEventListener("DOMContentLoaded", () => {
+        {% for message in messages %}
+        new PNotify.alert({
+            title: '{{message.tags}} notice',
+            text: '{{message|safe}}',
+            textTrusted: true,
+            type: "{{message.tags}}"
+        });
+        {% endfor %}
+    })
+</script>
+
+    

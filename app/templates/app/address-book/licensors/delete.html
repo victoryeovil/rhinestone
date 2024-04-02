@@ -1,0 +1,115 @@
+{% extends 'app/layout.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load super_filters %}
+
+{% block title %}
+	Rhinestone Inventions Disclosure Tools | Licensors
+{% endblock title %}
+
+{% block css %}
+<!-- vendor css -->
+<link rel="stylesheet" href="{% static 'assets/css/plugins/dataTables.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/plugins/select2.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+{% endblock css %}
+	
+
+{% block content %}
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Licensors Module</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/app/"><i class="feather icon-home"></i>&nbsp;Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="/app/modules/licensors/list/">Licensors List</a></li>
+                            <li class="breadcrumb-item"><a href="/app/modules/licensors/edit/{{item.id}}/">Licensors Delete</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+        <!-- [ Main Content ] start -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+					<div class="card-body">
+                        <div class="row ">
+                        
+                            <!-- <div class="col-12">
+                                <button class="btn btn-primary float-right">Add Licensors</button>
+                            </div> -->
+                            <div class="col-12">
+                                <div class="alert alert-danger">
+                                    <p>
+                                        Are you sure you wish to delete the Licensors item <strong>{{item}}</strong> with system id {{item.id}}?
+                                    </p>
+                                    <p>
+                                        <strong class="text-uppercase">This action is irreversable</strong>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-4">
+                                <form class="page-form" method="post">
+                                    {% csrf_token %}
+                                    {% crispy form %}
+                                </form>
+                            </div>
+                        </div>
+					</div>
+                </div>
+            </div>
+        </div>
+        <!-- [ Main Content ] end -->
+
+    </div>
+</section>
+<!-- [ Main Content ] end -->
+
+{% endblock content %}
+{% block js %}
+<!-- Required Js -->
+<script src="{% static 'assets/js/vendor-all.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/ripple.js' %}"></script>
+<script src="{% static 'assets/js/pcoded.min.js' %}"></script>
+<!-- select2 Js -->
+<script src="{% static 'assets/js/plugins/select2.full.min.js' %}"></script>
+<!-- datatables Js -->
+<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+<!-- <script src="{% static 'assets/js/plugins/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.print.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/pdfmake.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jszip.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.html5.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/js/pages/data-export-custom.js' %}"></script> -->
+<!-- Apex Chart
+<script src="{% static 'assets/js/plugins/apexcharts.min.js' %}"></script>
+-->
+
+<script>
+	// Form start
+	$(".page-form select").select2();
+	// Form end
+	// DataTable start
+	$('.data-table').DataTable({
+		dom: 'Bfrtip',
+		// buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+	});
+	// DataTable end
+</script>
+{% endblock js %}

@@ -1,0 +1,19 @@
+server {
+    listen 8080  default_server;
+    server_name _;
+    access_log  /home/ubuntu/ridt/media/access.log;
+    error_log  /home/ubuntu/ridt/media/error.log;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location / {
+        client_max_body_size 15M;
+        include proxy_params;
+        proxy_pass http://localhost:8000;
+    }
+    location /static/ {
+        alias /home/ubuntu/ridt/static/;
+    }
+    location /media/ {
+        alias /home/ubuntu/ridt/media/;
+    }
+}

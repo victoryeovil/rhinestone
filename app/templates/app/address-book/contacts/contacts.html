@@ -1,0 +1,29 @@
+{% extends 'app/address-book/base.html' %}
+{% block tab-content %}
+<div class="row">
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped mb-0 data-table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th>Name</th>
+
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in items %}
+                    <tr>
+                        <td scope="col">{{i.MID}}</td>
+                        <td>{{i.name}}</td>
+
+                        <td>{{i.type}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock tab-content %}

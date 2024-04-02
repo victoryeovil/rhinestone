@@ -1,0 +1,221 @@
+{% extends 'app/layout.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load super_filters %}
+
+{% block title %}
+	Rhinestone Inventions Disclosure Tools | Family
+{% endblock title %}
+
+{% block css %}
+<!-- vendor css -->
+<link rel="stylesheet" href="{% static 'assets/css/plugins/dataTables.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/plugins/select2.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+{% endblock css %}
+	
+
+{% block content %}
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Family Module</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/app/"><i class="feather icon-home"></i>&nbsp;Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="/app/modules/families/list/">Family List</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+        <!-- [ Main Content ] start -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+					<div class="card-body">
+                        <div class="row">
+
+
+                        
+                            <div class="col-12 mb-3">
+                                <button class="btn btn-primary float-right dropdown-toggle" type="button" id="country-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <i class="fa fa-plus"></i>&nbsp;Add Family
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="country-dropdown">
+                                  <a class="dropdown-item" href="/app/modules/families-patent/add/">Patent Country</a>
+                                  <a class="dropdown-item" href="/app/modules/families-design/add/">Design Country</a>
+                                  <a class="dropdown-item" href="/app/modules/families-trademark/add/">Trademark Country</a>
+                                </div>
+                              </div>
+                              
+                              
+
+                                                            
+                            <div class="col-12">
+                                <table class="table table-bordered data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Family no</th>
+                                            <th>Internal title</th>
+                                            <th>Formal title</th>
+                                            <th>Status</th>
+                                            <th>Sub status</th>
+                                            <th>Type of filing</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for i in items %}
+                                        <tr>
+                                            <td>{{i.id}}</td>
+                                            <td>{{i.family_no}}</td>
+                                            <td>{{i.internal_title}}</td>
+                                            <td>{{i.formal_title}}</td>
+                                            <td>{{i.status}}</td>
+                                            <td>{{i.sub_status}}</td>
+                                            <td>{{i.type_of_filing}}</td>
+                                            <td>
+                                                <a href="/app/modules/families/detail/{{i.id}}/" class="btn btn-primary btn-icon"><i class="fa fa-eye"></i></a>
+                                                <a href="/app/modules/families/edit/{{i.id}}/" class="btn btn-secondary btn-icon"><i class="fa fa-edit"></i></a>
+                                                <a href="/app/modules/families/delete/{{i.id}}/" class="btn btn-danger btn-icon"><i class="fa fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+					</div>
+                </div>
+            </div>
+        </div>
+        <!-- [ Main Content ] end -->
+
+    </div>
+</section>
+<!-- [ Main Content ] end -->
+
+{% endblock content %}
+{% block js %}
+<!-- Required Js -->
+<script src="{% static 'assets/js/vendor-all.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/ripple.js' %}"></script>
+<script src="{% static 'assets/js/pcoded.min.js' %}"></script>
+<!-- select2 Js -->
+<script src="{% static 'assets/js/plugins/select2.full.min.js' %}"></script>
+<!-- datatables Js -->
+<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+<!-- <script src="{% static 'assets/js/plugins/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.print.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/pdfmake.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jszip.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.html5.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/js/pages/data-export-custom.js' %}"></script> -->
+<!-- Apex Chart
+<script src="{% static 'assets/js/plugins/apexcharts.min.js' %}"></script>
+-->
+<!-- Add jQuery library -->
+<script type="text/javascript">
+  $(document).ready(function () {
+    // Function to generate the button HTML
+    function generateButtonLink(value) {
+      var linkLower = value.toLowerCase();
+      var linkHtml =
+        '<button type="button" name="submit" value="'+ value +'" id="id_btn_' +
+        linkLower +
+        '" class="btn btn-primary" >' +
+        "Add " +
+        value +
+        "</button>";
+      return linkHtml;
+    }
+
+    // Get the query parameter 'type_of_filing' from the URL
+    var urlParams = new URLSearchParams(window.location.search);
+    var typeOfFilingFromUrl = urlParams.get('type_of_filing');
+
+    // Set the initial value of the dropdown
+    if (typeOfFilingFromUrl) {
+      $('#id_type_of_filing').val(typeOfFilingFromUrl);
+    }
+
+    // Generate the button link based on the initial selected value
+    var selectedValue = $('#id_type_of_filing').val();
+    if (selectedValue) {
+      var linkHtml = generateButtonLink(selectedValue);
+      $("#id_add_new").html(linkHtml);
+    }
+
+    // Handle the form submission
+    $('#id_add_new').on('click', '.btn-primary', function (e) {
+      e.preventDefault();
+      var selectedValue = $('#id_type_of_filing').val();
+      if (selectedValue !== "") {
+        var linkLower = selectedValue.toLowerCase();
+        var url = "/app/modules/family-" + linkLower + "s/add/";
+        $("form.family").attr("action", url).submit();
+      }
+    });
+
+    // Handle the change event on the select dropdown
+    $("form.family select#id_type_of_filing").change(function () {
+      var selectedValue = $(this).val();
+      if (selectedValue !== "") {
+        var linkLower = selectedValue.toLowerCase();
+        var linkHtml = generateButtonLink(selectedValue);
+        $("#id_add_new").html(linkHtml);
+      }
+    });
+  });
+</script>
+
+  
+
+<script>
+	// Form start
+	$(".page-form select").select2();
+	// Form end
+	// DataTable start
+	$('.data-table').DataTable({
+		dom: 'Bfrtip',
+		// buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+	});
+	// DataTable end
+</script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock js %}

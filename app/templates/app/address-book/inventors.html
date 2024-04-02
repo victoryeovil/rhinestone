@@ -1,0 +1,49 @@
+{% extends 'app/address-book/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block tab-content %}
+<div class="row ">
+
+    <div class="col-12 mb-4">
+        <h3 class="text-start">Inventor</h3>
+    </div>
+    <div class="col-12 mb-4">
+        <form class="page-form" action="/app/address-book/inventors/" method="post">
+            {% csrf_token %}
+            {% crispy form %}
+        </form>
+    </div>
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped mb-0 data-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Inventors ID</th>
+                        <th>Surname</th>
+                        <th>Given Name(s)</th>
+                        <th>Nationality</th>
+                        <th>Employment Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in items %}
+                    <tr>
+                        <td scope="col">{{i.MID}}</td>
+                        <td>{{i.surname}}</td>
+                        <td>{{i.name}}</td>
+                        <td>{{i.nationality}}</td>
+                        <td>{{i.employment_status}}</td>
+                        <td class="table-action">
+                            <a href="#!" class="btn btn-icon btn-outline-primary"><i class="feather icon-eye"></i></a>
+                            <a href="#!" class="btn btn-icon btn-outline-success"><i class="feather icon-edit"></i></a>
+                            <a href="#!" class="btn btn-icon btn-outline-danger"><i class="feather icon-trash-2"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock tab-content %}

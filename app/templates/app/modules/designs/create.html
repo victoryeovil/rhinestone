@@ -1,0 +1,185 @@
+{% extends 'app/layout.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load super_filters %}
+
+{% block title %}
+    Rhinestone Inventions Disclosure Tools | Design
+{% endblock title %}
+
+{% block css %}
+<!-- vendor css -->
+<link rel="stylesheet" href="{% static 'assets/css/plugins/dataTables.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/plugins/select2.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+<style>
+    .tab-card {
+        height: calc(100vh - 250px); /* Adjust the height as needed */
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Design Module</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/app/"><i class="feather icon-home"></i>&nbsp;Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="/app/modules/designs/list/">Design List</a></li>
+                            <li class="breadcrumb-item"><a href="/app/modules/designs/add/">Design Add</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+        <!-- [ Main Content ] start -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 mb-4">
+                                <form class="page-form" action="/app/modules/designs/add/" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-row">
+                                        <div class="col-12 mb-4 text-center">
+                                            <button class="btn btn-sm btn-outline-primary">Audit Trail</button>
+                                            <button class="btn btn-sm btn-outline-primary"><i class="feather icon-copy"></i></button>
+                                            <button class="btn btn-sm btn-outline-primary">Customer Special Instructions</button>
+                                            <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-left"></i></button>
+                                            <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-right"></i></button>
+                                            <button class="btn btn-sm btn-outline-primary"><i class="feather icon-printer"></i></button>
+                                            <button type="reset" class="btn btn-sm btn-outline-primary"><i class="feather icon-delete"></i>&nbsp;Delete</button>
+                                            <button type="submit" class="btn btn-sm btn-outline-primary"><i class="feather icon-save"></i>&nbsp;Save</button>
+                                        </div>
+                                        <div id="id_add_new" class="col-12 mb-4 text-center"></div>
+                                    </div>
+                                    {% crispy form %}
+                                </form>
+
+                            </div>
+                            
+                              <div class="card-body" >
+                                  <div class="row" style="width: 100%;">
+                                      <div class="col-12 mb-12">
+                                          <!-- Add the tabs here -->
+                                          <ul class="nav nav-tabs">
+                                              <li class="nav-item">
+                                                  <a class="nav-link active" data-toggle="tab" href="#actions">Actions</a>
+                                              </li>
+                                              <li class="nav-item">
+                                                  <a class="nav-link" data-toggle="tab" href="#designs">Designs</a>
+                                              </li>
+                                              <li class="nav-item">
+                                                  <a class="nav-link" data-toggle="tab" href="#applicants">Applicants</a>
+                                              </li>
+                                              <li class="nav-item">
+                                                  <a class="nav-link" data-toggle="tab" href="#figures">Figures</a>
+                                              </li>
+                                              <li class="nav-item">
+                                                  <a class="nav-link" data-toggle="tab" href="#notes">Notes</a>
+                                              </li>
+                                              <li class="nav-item">
+                                                  <a class="nav-link" data-toggle="tab" href="#annuities">Annuities</a>
+                                              </li>
+                                          </ul>
+                                          <div class="tab-content mt-4">
+                                              <!-- Add the tab content here -->
+                                              <div class="tab-pane fade show active" id="actions">
+                                                  <!-- Content for the Actions tab -->
+                                                  <p>Actions tab content goes here.</p>
+                                              </div>
+                                              {% for design in designs %}
+                                                <div class="tab-pane fade" id="designs">
+                                                  <!-- Content for the Designs tab -->
+                                                  <table class="data-table" style="width: 100%;">
+                                                      <thead>
+                                                          <tr>
+                                                              <th>Case Ref/Docket No</th>
+                                                              <th>Internal Title</th>
+                                                              <th>Formal Title</th>
+                                                              <th>Status</th>
+                                                          </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                          
+                                                              <tr>
+                                                                  <td>{{ design.case_no }}</td>
+                                                                  <td>{{ design.internal_title }}</td>
+                                                                  <td>{{ design.formal_title }}</td>
+                                                                  <td>{{ design.status }}</td>
+                                                              </tr>
+                                                          
+                                                      </tbody>
+                                                  </table>
+                                              </div>
+                                             
+                                              <div class="tab-pane fade" id="applicants">
+                                                  <p>{{i.no_of_views}}</p>
+                                                  
+                                              </div>
+                                              <div class="tab-pane fade" id="figures">
+                                                  <!-- Content for the Figures tab -->
+                                                  <p>Figures tab content goes here.</p>
+                                              </div>
+                                              <div class="tab-pane fade" id="notes">
+                                                  <!-- Content for the Notes tab -->
+                                                  <p>Notes tab content goes here.</p>
+                                              </div>
+                                              <div class="tab-pane fade" id="annuities">
+                                                  <!-- Content for the Annuities tab -->
+                                                  <p>{{i.next_annuity_no}}</p>
+                                              </div>
+                                              {% endfor %}
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                
+        </div>
+        <!-- [ Main Content ] end -->
+    </div>
+</section>
+<!-- [ Main Content ] end -->
+{% endblock content %}
+
+{% block js %}
+<!-- Required Js -->
+<script src="{% static 'assets/js/vendor-all.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/ripple.js' %}"></script>
+<script src="{% static 'assets/js/pcoded.min.js' %}"></script>
+<!-- select2 Js -->
+<script src="{% static 'assets/js/plugins/select2.full.min.js' %}"></script>
+<!-- datatables Js -->
+<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+<script>
+    // Form start
+    $(".page-form select").select2();
+    // Form end
+    // DataTable start
+    $('.data-table').DataTable({
+        dom: 'Bfrtip',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+    });
+    // DataTable end
+</script>
+{% endblock js %}
