@@ -25,8 +25,14 @@ SECRET_KEY = 'django-insecure-&etq#^jbn=!uv*viq+eqw4864i*d55@*&mo9gsvnbo5dzl=k4h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
-
+ALLOWED_HOSTS = ["*", "rhinestone.onrender.com"]
+CSRF_TRUSTED_ORIGINS = [
+    'https://rhinestone.onrender.com',
+    'https://www.rhinestone.onrender.com',
+    "http://rhinestone.onrender.com",
+    
+    # Add other domains as needed
+]
 
 # Application definition
 
