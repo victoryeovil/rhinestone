@@ -8,4 +8,4 @@
 /app/static/assets/images/*
 *.pem
 /static
-**/migrations/
+
