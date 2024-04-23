@@ -308,28 +308,27 @@ def designs_detail_view(request: HttpRequest, pk):
 
 
 def designs_create_view(request: HttpRequest):
-    if (request.session['Design']!={}):
-        form =DesignForm(initial=MultiValueDict(request.session['Design']))
+    if 'Design' in request.session and request.session['Design'] != {}:
+        form = DesignForm(initial=MultiValueDict(request.session['Design']))
         print(request.session['Design']["country"])
     else:
-
         form = DesignForm(initial=MultiValueDict(request.GET).dict())
-    if request.POST:
+
+    if request.method == 'POST':
         form = DesignForm(data=request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, f"Item successfully created!")
+            messages.success(request, "Item successfully created!")
             return HttpResponseRedirect("/app/modules/designs/list/")
-        messages.error(request, f"Failed to create. Form is not valid!")
-        messages.error(request, form.errors.as_ul())
-    content = request.session.get('Design' , {})
-    request.session['Design'] = {}
-    designs = Design.objects.all()  # Fetch all items from the Design model
+        else:
+            messages.error(request, "Failed to create. Form is not valid!")
+            messages.error(request, form.errors.as_ul())
 
     content = {
         'form': form,
-        'designs': designs,  # Pass the designs queryset to the template
+        'designs': Design.objects.all(),  # Fetch all items from the Design model
     }
+
     print(content)
     return render(request, "app/modules/designs/create.html", content)
 
@@ -371,27 +370,26 @@ def trademarks_detail_view(request: HttpRequest, pk):
 
 
 def trademarks_create_view(request: HttpRequest):
-    if (request.session['Trademark']!={}):
-        form =TrademarkForm(initial=MultiValueDict(request.session['Trademark']))
+    if 'Trademark' in request.session and request.session['Trademark'] != {}:
+        form = TrademarkForm(initial=MultiValueDict(request.session['Trademark']))
         print(request.session['Trademark']["country"])
     else:
-
         form = TrademarkForm(initial=MultiValueDict(request.GET).dict())
-    if request.POST:
+
+    if request.method == 'POST':
         form = TrademarkForm(data=request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, f"Item successfully created!")
+            messages.success(request, "Item successfully created!")
             return HttpResponseRedirect("/app/modules/trademarks/list/")
-        messages.error(request, f"Failed to create. Form is not valid!")
-    content = request.session.get('Trademark' , {})
-    request.session['Trademark'] = {}
-    trademark = Trademark.objects.all()  # Fetch all items from the Design model
+        else:
+            messages.error(request, "Failed to create. Form is not valid!")
 
     content = {
         'form': form,
-        'designs': trademark,  # Pass the designs queryset to the template
+        'trademarks': Trademark.objects.all(),  # Fetch all items from the Trademark model
     }
+
     return render(request, "app/modules/trademarks/create.html", content)
 
 
