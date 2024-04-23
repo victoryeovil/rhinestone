@@ -123,7 +123,7 @@ class Consultant(Contact):
     nationality = models.CharField(max_length=10, blank=True, null=True, choices=data.countries.COUNTRIES_OPTIONS)
     country_of_registration = models.CharField(max_length=10, blank=True, null=True, choices=data.countries.COUNTRIES_OPTIONS, verbose_name="Country")
     notes = models.TextField(max_length=512, blank=True, null=True)
-    zip_postal_code = models.CharField("Zip/Postal Code", max_length=12, blank=True, null=True)
+    zip_postal_code = models.CharField("Zip/Postal Code", max_length=12, blank=True)
     def __str__(self):
         return self.consultant_no
 
