@@ -8,4 +8,8 @@
 /app/static/assets/images/*
 *.pem
 /static
+venv
+.env
+.idea
+db.sqlite3
 
