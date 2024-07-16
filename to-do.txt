@@ -1,0 +1,6 @@
+- remove the table --done
+- only show the name, id and type and search functionality --done --> 4h
+- add a new functionality to view the details of the contact
+- add a new functionality to delete the contact
+- add a new functionality to edit the contact
+- add in Applicant / inventor yes or no field

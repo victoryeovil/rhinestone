@@ -8,6 +8,7 @@ from app.views import (
     inventions,
     modules
 )
+from app.views.contacts_crud import contact_detail_view, contact_edit_view, contact_delete_view
 
 urlpatterns = [
     # ADMIN VIEWS
@@ -16,7 +17,10 @@ urlpatterns = [
     # Files
     path("file/upload/", files.upload_file),  # file.upload),
     # ADDRESS BOOK
-    path("address-book/contacts/", contacts.contacts_view),
+    path("address-book/contacts/", contacts.contacts_view, name="contacts"),
+    path('contacts/<str:model_name>/<int:pk>/', contact_detail_view, name='contact_detail'),
+    path('contacts/<str:model_name>/<int:pk>/edit/', contact_edit_view, name='contact_edit'),
+    path('contacts/<str:model_name>/<int:pk>/delete/', contact_delete_view, name='contact_delete'),
     # contacts.inventors_view),
     path("address-book/inventors/", contacts.inventors_view),
     path("address-book/inventors/add/", contacts.inventors_create_view),
@@ -59,6 +63,7 @@ urlpatterns = [
     path("address-book/consultants/detail/<int:pk>/", contacts.consultants_detail_view),
     path("address-book/consultants/edit/<int:pk>/", contacts.consultants_update_view),
     path("address-book/consultants/delete/<int:pk>/", contacts.consultants_delete_view),
+
     # contacts.agents_view),
     path("address-book/agents/", contacts.agents_view),
     path("address-book/agents/add/", contacts.agents_create_view),

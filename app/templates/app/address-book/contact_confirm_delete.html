@@ -1,0 +1,51 @@
+{% extends 'app/layout.html' %}
+
+{% block content %}
+<div class="pcoded-main-container">
+    <div class="pcoded-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 mb-4">
+                    <h1 class="text-start">Confirm Delete {{ model_name|capfirst }}</h1>
+                    <p class="text-start">Are you sure you want to delete {{ instance.name }}?</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <form method="post" class="form-horizontal">
+                        {% csrf_token %}
+                        <div class="form-group text-center mt-3">
+                            <button type="submit" class="btn btn-danger">Yes, delete</button>
+                            <a href="{% url 'contacts' %}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .pcoded-main-container {
+        padding-top: 0px;
+    }
+    .pcoded-content {
+        margin-top: 0px;
+    }
+    .container {
+        padding-top: 20px;
+    }
+    h1 {
+        margin-bottom: 20px;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .btn-danger, .btn-secondary {
+        margin-top: 20px;
+    }
+    .text-start {
+        text-align: left;
+    }
+</style>
+{% endblock %}

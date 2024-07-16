@@ -138,10 +138,11 @@ def applicants_detail_view(request: HttpRequest, pk):
     item = Applicant.objects.get(id=pk)
     context = {
         "tabs": tabs,
-        "item" : item,
+        "item": item,
         "active": "applicants",
     }
-    return render(request, "app/address-book/applicants/details.html",context)
+    return render(request, "app/address-book/applicants/details.html", context)
+
 
 def applicants_create_view(request: HttpRequest):
     form = ApplicantForm(initial=MultiValueDict(request.GET).dict())
@@ -152,9 +153,10 @@ def applicants_create_view(request: HttpRequest):
             attorney.type = 'Applicant'  # Set the value of 'type' here
             attorney.save()
             messages.success(request, "Item successfully created!")
-        else :
+        else:
             messages.error(request, f"Failed to create. Form is not valid!")
-    return  HttpResponseRedirect("/app/address-book/applicants")
+    return HttpResponseRedirect("/app/address-book/applicants")
+
 
 def applicants_delete_view(request: HttpRequest, pk):
     item = Applicant.objects.get(id=pk)
@@ -164,10 +166,11 @@ def applicants_delete_view(request: HttpRequest, pk):
         if form.is_valid():
             item.delete()
             messages.success(request, f"Item successfully deleted!")
-            return  HttpResponseRedirect("/app/address-book/applicants")
-        else :
+            return HttpResponseRedirect("/app/address-book/applicants")
+        else:
             messages.error(request, f"Failed to create. Form is not valid!")
     return render(request, "app/address-book/applicants/delete.html", {"item": item, "form": form})
+
 
 def applicants_update_view(request: HttpRequest, pk):
     item = Applicant.objects.get(id=pk)
@@ -177,16 +180,17 @@ def applicants_update_view(request: HttpRequest, pk):
         if form.is_valid():
             form.save()
             messages.success(request, f"Item successfully updated!")
-            return  HttpResponseRedirect("/app/address-book/applicants")
-        else :
+            return HttpResponseRedirect("/app/address-book/applicants")
+        else:
             messages.error(request, f"Failed to update. Form is not valid!")
     context = {
         "tabs": tabs,
-        "item" : item,
-        "form" : form,
+        "item": item,
+        "form": form,
         "active": "applicants",
     }
     return render(request, "app/address-book/applicants/update.html", context)
+
 
 ### LICENSOR MODULE
 def licensors_view(request):
@@ -194,7 +198,7 @@ def licensors_view(request):
         "tabs": tabs,
         "active": "licensors",
         "items": Licensor.objects.all(),
-        "form" : LicensorForm
+        "form": LicensorForm
     }
     return render(request, "app/address-book/licensors/licensors.html", context)
 
@@ -203,10 +207,11 @@ def licensors_detail_view(request: HttpRequest, pk):
     item = Licensor.objects.get(id=pk)
     context = {
         "tabs": tabs,
-        "item" : item,
+        "item": item,
         "active": "licensors",
     }
-    return render(request, "app/address-book/licensors/details.html",context)
+    return render(request, "app/address-book/licensors/details.html", context)
+
 
 def licensors_create_view(request: HttpRequest):
     form = LicensorForm(initial=MultiValueDict(request.GET).dict())
@@ -231,7 +236,7 @@ def licensors_delete_view(request: HttpRequest, pk):
             item.delete()
             messages.success(request, f"Item successfully deleted!")
             return HttpResponseRedirect("/app/address-book/licensors/")
-        else :
+        else:
             messages.error(request, f"Failed to create. Form is not valid!")
     return render(request, "app/address-book/licensors/delete.html", {"item": item, "form": form})
 
@@ -244,16 +249,17 @@ def licensors_update_view(request: HttpRequest, pk):
         if form.is_valid():
             form.save()
             messages.success(request, f"Item successfully updated!")
-            return  HttpResponseRedirect("/app/address-book/licensors")
-        else :
+            return HttpResponseRedirect("/app/address-book/licensors")
+        else:
             messages.error(request, f"Failed to update. Form is not valid!")
     context = {
         "tabs": tabs,
-        "item" : item,
-        "form" : form,
+        "item": item,
+        "form": form,
         "active": "licensors",
     }
     return render(request, "app/address-book/licensors/update.html", context)
+
 
 ### LICENSEES MODULE
 def licensees_view(request):
@@ -261,18 +267,20 @@ def licensees_view(request):
         "tabs": tabs,
         "active": "licensees",
         "items": Licensee.objects.all(),
-        "form" : LicenseeForm
+        "form": LicenseeForm
     }
     return render(request, "app/address-book/licensees/licensees.html", context)
+
 
 def licensees_detail_view(request: HttpRequest, pk):
     item = Licensee.objects.get(id=pk)
     context = {
         "tabs": tabs,
-        "item" : item,
+        "item": item,
         "active": "licensees",
     }
-    return render(request, "app/address-book/licensees/details.html",context)
+    return render(request, "app/address-book/licensees/details.html", context)
+
 
 def licensees_create_view(request: HttpRequest):
     form = LicenseeForm(initial=MultiValueDict(request.GET).dict())
@@ -283,9 +291,10 @@ def licensees_create_view(request: HttpRequest):
             attorney.type = 'Licensee'  # Set the value of 'type' here
             attorney.save()
             messages.success(request, "Item successfully created!")
-        else :
+        else:
             messages.error(request, f"Failed to create. Form is not valid!")
     return HttpResponseRedirect("/app/address-book/licensees/")
+
 
 def licensees_delete_view(request: HttpRequest, pk):
     item = Licensee.objects.get(id=pk)
@@ -296,7 +305,7 @@ def licensees_delete_view(request: HttpRequest, pk):
             item.delete()
             messages.success(request, f"Item successfully deleted!")
             return HttpResponseRedirect("/app/address-book/licensees/")
-        else :
+        else:
             messages.error(request, f"Failed to create. Form is not valid!")
     return render(request, "app/address-book/licensees/delete.html", {"item": item, "form": form})
 
@@ -309,16 +318,17 @@ def licensees_update_view(request: HttpRequest, pk):
         if form.is_valid():
             form.save()
             messages.success(request, f"Item successfully updated!")
-            return  HttpResponseRedirect("/app/address-book/licensees")
-        else :
+            return HttpResponseRedirect("/app/address-book/licensees")
+        else:
             messages.error(request, f"Failed to update. Form is not valid!")
     context = {
         "tabs": tabs,
-        "item" : item,
-        "form" : form,
+        "item": item,
+        "form": form,
         "active": "licensees",
     }
     return render(request, "app/address-book/licensees/update.html", context)
+
 
 ### CONSULTANTS MODULE
 def consultants_view(request):
@@ -326,7 +336,7 @@ def consultants_view(request):
         "tabs": tabs,
         "active": "consultants",
         "items": Consultant.objects.all(),
-        "form" : ConsultantForm
+        "form": ConsultantForm
     }
     return render(request, "app/address-book/consultants/consultants.html", context)
 
@@ -335,10 +345,11 @@ def consultants_detail_view(request: HttpRequest, pk):
     item = Consultant.objects.get(id=pk)
     context = {
         "tabs": tabs,
-        "item" : item,
+        "item": item,
         "active": "consultants",
     }
-    return render(request, "app/address-book/consultants/details.html",context)
+    return render(request, "app/address-book/consultants/details.html", context)
+
 
 def consultants_create_view(request: HttpRequest):
     form = ConsultantForm(initial=MultiValueDict(request.GET).dict())
@@ -351,7 +362,8 @@ def consultants_create_view(request: HttpRequest):
             messages.success(request, "Item successfully created!")
         else:
             messages.error(request, f"Failed to create. Form is not valid!")
-    return  HttpResponseRedirect("/app/address-book/consultants")
+    return HttpResponseRedirect("/app/address-book/consultants")
+
 
 def consultants_delete_view(request: HttpRequest, pk):
     item = Consultant.objects.get(id=pk)
@@ -360,27 +372,27 @@ def consultants_delete_view(request: HttpRequest, pk):
         form = DeleteForm(data=request.POST, module_name="consultants")
         if form.is_valid():
             item.delete()
-            return  HttpResponseRedirect("/app/address-book/consultants")
-        else :
+            return HttpResponseRedirect("/app/address-book/consultants")
+        else:
             messages.error(request, f"Failed to create. Form is not valid!")
     return render(request, "app/address-book/consultants/delete.html", {"item": item, "form": form})
 
 
 def consultants_update_view(request: HttpRequest, pk):
     item = Consultant.objects.get(id=pk)
-    form =ConsultantForm(instance=item)
+    form = ConsultantForm(instance=item)
     if request.POST:
         form = ConsultantForm(data=request.POST, instance=item)
         if form.is_valid():
             form.save()
             messages.success(request, f"Item successfully updated!")
-            return  HttpResponseRedirect("/app/address-book/consultants")
-        else :
+            return HttpResponseRedirect("/app/address-book/consultants")
+        else:
             messages.error(request, f"Failed to update. Form is not valid!")
     context = {
         "tabs": tabs,
-        "item" : item,
-        "form" : form,
+        "item": item,
+        "form": form,
         "active": "consultants",
     }
     return render(request, "app/address-book/consultants/update.html", context)
@@ -392,18 +404,20 @@ def agents_view(request):
         "tabs": tabs,
         "active": "agents",
         "items": Agent.objects.all(),
-        "form" : AgentForm
+        "form": AgentForm
     }
     return render(request, "app/address-book/agents/agents.html", context)
+
 
 def agents_detail_view(request: HttpRequest, pk):
     item = Agent.objects.get(id=pk)
     context = {
         "tabs": tabs,
-        "item" : item,
+        "item": item,
         "active": "agents",
     }
-    return render(request, "app/address-book/agents/details.html",context)
+    return render(request, "app/address-book/agents/details.html", context)
+
 
 def agents_create_view(request: HttpRequest):
     form = AgentForm(initial=MultiValueDict(request.GET).dict())
@@ -416,7 +430,8 @@ def agents_create_view(request: HttpRequest):
             messages.success(request, "Item successfully created!")
         else:
             messages.error(request, f"Failed to create. Form is not valid!")
-    return  HttpResponseRedirect("/app/address-book/agents")
+    return HttpResponseRedirect("/app/address-book/agents")
+
 
 def agents_delete_view(request: HttpRequest, pk):
     item = Agent.objects.get(id=pk)
@@ -426,8 +441,8 @@ def agents_delete_view(request: HttpRequest, pk):
         if form.is_valid():
             item.delete()
             messages.success(request, f"Item successfully deleted!")
-            return  HttpResponseRedirect("/app/address-book/agents")
-        else :
+            return HttpResponseRedirect("/app/address-book/agents")
+        else:
             messages.error(request, f"Failed to create. Form is not valid!")
     return render(request, "app/address-book/agents/delete.html", {"item": item, "form": form})
 
@@ -440,13 +455,13 @@ def agents_update_view(request: HttpRequest, pk):
         if form.is_valid():
             form.save()
             messages.success(request, f"Item successfully updated!")
-            return  HttpResponseRedirect("/app/address-book/agents")
-        else :
+            return HttpResponseRedirect("/app/address-book/agents")
+        else:
             messages.error(request, f"Failed to update. Form is not valid!")
     context = {
         "tabs": tabs,
-        "item" : item,
-        "form" : form,
+        "item": item,
+        "form": form,
         "active": "agents",
     }
     return render(request, "app/address-book/agents/update.html", context)
@@ -458,18 +473,20 @@ def paralegals_view(request):
         "tabs": tabs,
         "active": "paralegals",
         "items": Paralegal.objects.all(),
-        "form" : ParalegalForm
+        "form": ParalegalForm
     }
     return render(request, "app/address-book/paralegals/paralegals.html", context)
+
 
 def paralegals_detail_view(request: HttpRequest, pk):
     item = Paralegal.objects.get(id=pk)
     context = {
         "tabs": tabs,
-        "item" : item,
+        "item": item,
         "active": "paralegals",
     }
-    return render(request, "app/address-book/paralegals/details.html",context)
+    return render(request, "app/address-book/paralegals/details.html", context)
+
 
 def paralegals_create_view(request: HttpRequest):
     form = ParalegalForm(initial=MultiValueDict(request.GET).dict())
@@ -480,9 +497,10 @@ def paralegals_create_view(request: HttpRequest):
             attorney.type = 'Paralegal'  # Set the value of 'type' here
             attorney.save()
             messages.success(request, "Item successfully created!")
-            return  HttpResponseRedirect("/app/address-book/paralegals")
+            return HttpResponseRedirect("/app/address-book/paralegals")
         messages.error(request, f"Failed to create. Form is not valid!")
-    return  HttpResponseRedirect("/app/address-book/paralegals")
+    return HttpResponseRedirect("/app/address-book/paralegals")
+
 
 def paralegals_delete_view(request: HttpRequest, pk):
     item = Paralegal.objects.get(id=pk)
@@ -492,10 +510,11 @@ def paralegals_delete_view(request: HttpRequest, pk):
         if form.is_valid():
             item.delete()
             messages.success(request, f"Item successfully deleted!")
-            return  HttpResponseRedirect("/app/address-book/paralegals")
-        else :
+            return HttpResponseRedirect("/app/address-book/paralegals")
+        else:
             messages.error(request, f"Failed to create. Form is not valid!")
     return render(request, "app/address-book/paralegals/delete.html", {"item": item, "form": form})
+
 
 def paralegals_update_view(request: HttpRequest, pk):
     item = Paralegal.objects.get(id=pk)
@@ -505,13 +524,13 @@ def paralegals_update_view(request: HttpRequest, pk):
         if form.is_valid():
             form.save()
             messages.success(request, f"Item successfully updated!")
-            return  HttpResponseRedirect("/app/address-book/paralegals")
-        else :
+            return HttpResponseRedirect("/app/address-book/paralegals")
+        else:
             messages.error(request, f"Failed to update. Form is not valid!")
     context = {
         "tabs": tabs,
-        "item" : item,
-        "form" : form,
+        "item": item,
+        "form": form,
         "active": "paralegals",
     }
     return render(request, "app/address-book/paralegals/update.html", context)
@@ -523,7 +542,7 @@ def attorneys_view(request):
         "tabs": tabs,
         "active": "attorneys",
         "items": Attorney.objects.all(),
-        "form" : AttorneyForm
+        "form": AttorneyForm
     }
     return render(request, "app/address-book/attorneys/attorneys.html", context)
 
@@ -532,10 +551,11 @@ def attorneys_detail_view(request: HttpRequest, pk):
     item = Attorney.objects.get(id=pk)
     context = {
         "tabs": tabs,
-        "item" : item,
+        "item": item,
         "active": "attorneys",
     }
-    return render(request, "app/address-book/attorneys/details.html",context)
+    return render(request, "app/address-book/attorneys/details.html", context)
+
 
 def attorneys_create_view(request: HttpRequest):
     form = AttorneyForm(initial=MultiValueDict(request.GET).dict())
@@ -546,10 +566,10 @@ def attorneys_create_view(request: HttpRequest):
             attorney.type = 'Attorney'  # Set the value of 'type' here
             attorney.save()
             messages.success(request, "Item successfully created!")
-            
+
         else:
             messages.error(request, f"Failed to create. Form is not valid!")
-    return  HttpResponseRedirect("/app/address-book/attorneys")
+    return HttpResponseRedirect("/app/address-book/attorneys")
 
 
 def attorneys_delete_view(request: HttpRequest, pk):
@@ -560,10 +580,11 @@ def attorneys_delete_view(request: HttpRequest, pk):
         if form.is_valid():
             item.delete()
             messages.success(request, f"Item successfully deleted!")
-            return  HttpResponseRedirect("/app/address-book/attorneys")
-        else :
+            return HttpResponseRedirect("/app/address-book/attorneys")
+        else:
             messages.error(request, f"Failed to create. Form is not valid!")
     return render(request, "app/address-book/attorneys/delete.html", {"item": item, "form": form})
+
 
 def attorneys_update_view(request: HttpRequest, pk):
     item = Attorney.objects.get(id=pk)
@@ -573,13 +594,13 @@ def attorneys_update_view(request: HttpRequest, pk):
         if form.is_valid():
             form.save()
             messages.success(request, f"Item successfully updated!")
-            return  HttpResponseRedirect("/app/address-book/attorneys")
-        else :
+            return HttpResponseRedirect("/app/address-book/attorneys")
+        else:
             messages.error(request, f"Failed to update. Form is not valid!")
     context = {
         "tabs": tabs,
-        "item" : item,
-        "form" : form,
+        "item": item,
+        "form": form,
         "active": "attorneys",
     }
     return render(request, "app/address-book/attorneys/update.html", context)
