@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
-from app.models import Inventor, Applicant, Licensor, Licensee, Consultant, Attorney
-from app.forms import AttorneyForm, InventorForm, ApplicantForm, LicensorForm, LicenseeForm, ConsultantForm
+from app.models import Inventor, Applicant, Licensor, Licensee, Consultant, Attorney, Associate
+from app.forms import AttorneyForm, InventorForm, ApplicantForm, LicensorForm, LicenseeForm, ConsultantForm, AssociateForm
 
 
 def contact_detail_view(request, model_name, pk):

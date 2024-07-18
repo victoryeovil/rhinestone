@@ -1,6 +1,18 @@
 - remove the table --done
-- only show the name, id and type and search functionality --done --> 4h
-- add a new functionality to view the details of the contact
-- add a new functionality to delete the contact
-- add a new functionality to edit the contact
-- add in Applicant / inventor yes or no field
+- only show the name, id and type and search functionality --done --> 5h
+- add a new functionality to view the details of the contact --done --> 8h(730pm - 0330am)
+- add a new functionality to delete the contact --done --> 1h
+- add a new functionality to edit the contact --done --> 1h
+- add in Applicant / inventor yes or no field --started 0900am --done
+- Inventor contact fields.--done
+- Applicant contact fields.--done
+- RENAME Associates to Associates: --done --> 1h
+- Consultant – NOT REQUIRED – REMOVE FROM CONTACTS - hide it for now in the drop down--done
+- check address book dropdown--done
+- Associates fields--done
+- Paralegal fields--done
+- Attorney fields--done
+- New model Other provider/Law firm Clients: --done
+- link special instructions to the contact
+- Family
+- Invention Disclosure button to create a family, move tabs up

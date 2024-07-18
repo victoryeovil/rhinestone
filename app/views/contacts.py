@@ -11,9 +11,9 @@ from app.models import (
     Licensor,
     Licensee,
     Consultant,
-    Agent,
+    Associate,
     Paralegal,
-    Attorney,
+    Attorney, OtherProvider,
 )
 from app.forms import (
     ContactForm,
@@ -22,10 +22,10 @@ from app.forms import (
     LicensorForm,
     LicenseeForm,
     ConsultantForm,
-    AgentForm,
+    AssociateForm,
     ParalegalForm,
     AttorneyForm,
-    DeleteForm,
+    DeleteForm, OtherProviderForm,
 
 )
 
@@ -35,10 +35,11 @@ tabs = [
     {"title": "Applicant(s)", "tab": "applicants", "label": "Applicant"},
     {"title": "Licensor(s)", "tab": "licensors", "label": "Licensor"},
     {"title": "Licensee(s)", "tab": "licensees", "label": "Licensee"},
-    {"title": "Consultant(s)", "tab": "consultants", "label": "Consultant"},
-    {"title": "Agent(s)", "tab": "agents", "label": "Agent"},
+    #{"title": "Consultant(s)", "tab": "consultants", "label": "Consultant"},
+    {"title": "Associate(s)", "tab": "Associates", "label": "Associate"},
     {"title": "Paralegal(s)", "tab": "paralegals", "label": "Paralegal"},
     {"title": "Attorney(s)", "tab": "attorneys", "label": "Attorney"},
+    {"title": "Other Provider(s)", "tab": "other_provider", "label": "Other Provider"},
 ]
 
 
@@ -75,14 +76,43 @@ def inventors_detail_view(request: HttpRequest, pk):
     return render(request, "app/address-book/inventors/details.html", context)
 
 
+# def inventors_create_view(request: HttpRequest):
+#     form = InventorForm(initial=MultiValueDict(request.GET).dict())
+#     if request.POST:
+#         form = InventorForm(data=request.POST)
+#         if form.is_valid():
+#             attorney = form.save(commit=False)
+#             attorney.type = 'Inventor'  # Set the value of 'type' here
+#             attorney.save()
+#             messages.success(request, "Item successfully created!")
+#         else:
+#             messages.error(request, f"Failed to create. Form is not valid!")
+#     return HttpResponseRedirect("/app/address-book/inventors")
+
 def inventors_create_view(request: HttpRequest):
     form = InventorForm(initial=MultiValueDict(request.GET).dict())
     if request.POST:
         form = InventorForm(data=request.POST)
         if form.is_valid():
-            attorney = form.save(commit=False)
-            attorney.type = 'Inventor'  # Set the value of 'type' here
-            attorney.save()
+            inventor = form.save(commit=False)
+            inventor.type = 'Inventor'  # Set the value of 'type' here
+            inventor.save()
+            if form.cleaned_data['is_applicant']:
+                Applicant.objects.create(
+                    name=inventor.name,
+                    surname=inventor.surname,
+                    phone=inventor.phone,
+                    email=inventor.email,
+                    nationality=inventor.nationality,
+                    country=inventor.country,
+                    # Add other necessary fields from Inventor to Applicant
+                    date_of_incorporation=None,  # Provide appropriate value or leave as None
+                    status=None,  # Provide appropriate value or leave as None
+                    country_of_registration=inventor.country,
+                    zip_postal_code=inventor.zip_postal_code,
+                    notes=inventor.notes,
+                    is_inventor=True
+                )
             messages.success(request, "Item successfully created!")
         else:
             messages.error(request, f"Failed to create. Form is not valid!")
@@ -144,14 +174,54 @@ def applicants_detail_view(request: HttpRequest, pk):
     return render(request, "app/address-book/applicants/details.html", context)
 
 
+# def applicants_create_view(request: HttpRequest):
+#     form = ApplicantForm(initial=MultiValueDict(request.GET).dict())
+#     if request.POST:
+#         form = ApplicantForm(data=request.POST)
+#         if form.is_valid():
+#             attorney = form.save(commit=False)
+#             attorney.type = 'Applicant'  # Set the value of 'type' here
+#             attorney.save()
+#             messages.success(request, "Item successfully created!")
+#         else:
+#             messages.error(request, f"Failed to create. Form is not valid!")
+#     return HttpResponseRedirect("/app/address-book/applicants")
+
 def applicants_create_view(request: HttpRequest):
     form = ApplicantForm(initial=MultiValueDict(request.GET).dict())
     if request.POST:
         form = ApplicantForm(data=request.POST)
         if form.is_valid():
-            attorney = form.save(commit=False)
-            attorney.type = 'Applicant'  # Set the value of 'type' here
-            attorney.save()
+            applicant = form.save(commit=False)
+            applicant.type = 'Applicant'  # Set the value of 'type' here
+            applicant.save()
+            if form.cleaned_data['is_inventor']:
+                Inventor.objects.create(
+                    name=applicant.name,
+                    surname=applicant.surname,
+                    phone=applicant.phone,
+                    email=applicant.email,
+                    nationality=applicant.nationality,
+                    country=applicant.country,
+                    # Add other necessary fields from Applicant to Inventor
+                    title=None,  # Provide appropriate value or leave as None
+                    type_of_contract=None,  # Provide appropriate value or leave as None
+                    employer_name=None,  # Provide appropriate value or leave as None
+                    email_of_future_contact=applicant.email,
+                    date_of_contact=None,  # Provide appropriate value or leave as None
+                    date_of_employment_termination=None,  # Provide appropriate value or leave as None
+                    commencement_date=None,  # Provide appropriate value or leave as None
+                    home=None,  # Provide appropriate value or leave as None
+                    contract=None,  # Provide appropriate value or leave as None
+                    employer_nationality=None,  # Provide appropriate value or leave as None
+                    employer_address_line_1=None,  # Provide appropriate value or leave as None
+                    employer_address_line_2=None,  # Provide appropriate value or leave as None
+                    employer_address_city=None,  # Provide appropriate value or leave as None
+                    employer_address_state=None,  # Provide appropriate value or leave as None
+                    zip_postal_code=applicant.zip_postal_code,
+                    notes=applicant.notes,
+                    is_applicant=True
+                )
             messages.success(request, "Item successfully created!")
         else:
             messages.error(request, f"Failed to create. Form is not valid!")
@@ -398,71 +468,71 @@ def consultants_update_view(request: HttpRequest, pk):
     return render(request, "app/address-book/consultants/update.html", context)
 
 
-### AGENT MODULE
-def agents_view(request):
+### Associate MODULE
+def Associates_view(request):
     context = {
         "tabs": tabs,
-        "active": "agents",
-        "items": Agent.objects.all(),
-        "form": AgentForm
+        "active": "Associates",
+        "items": Associate.objects.all(),
+        "form": AssociateForm
     }
     return render(request, "app/address-book/agents/agents.html", context)
 
 
-def agents_detail_view(request: HttpRequest, pk):
-    item = Agent.objects.get(id=pk)
+def Associates_detail_view(request: HttpRequest, pk):
+    item = Associate.objects.get(id=pk)
     context = {
         "tabs": tabs,
         "item": item,
-        "active": "agents",
+        "active": "Associates",
     }
-    return render(request, "app/address-book/agents/details.html", context)
+    return render(request, "app/address-book/Associates/details.html", context)
 
 
-def agents_create_view(request: HttpRequest):
-    form = AgentForm(initial=MultiValueDict(request.GET).dict())
+def Associates_create_view(request: HttpRequest):
+    form = AssociateForm(initial=MultiValueDict(request.GET).dict())
     if request.POST:
-        form = AgentForm(data=request.POST)
+        form = AssociateForm(data=request.POST)
         if form.is_valid():
             attorney = form.save(commit=False)
-            attorney.type = 'Agent'  # Set the value of 'type' here
+            attorney.type = 'Associate'  # Set the value of 'type' here
             attorney.save()
             messages.success(request, "Item successfully created!")
         else:
             messages.error(request, f"Failed to create. Form is not valid!")
-    return HttpResponseRedirect("/app/address-book/agents")
+    return HttpResponseRedirect("/app/address-book/Associates")
 
 
-def agents_delete_view(request: HttpRequest, pk):
-    item = Agent.objects.get(id=pk)
-    form = DeleteForm(module_name="agents")
+def Associates_delete_view(request: HttpRequest, pk):
+    item = Associate.objects.get(id=pk)
+    form = DeleteForm(module_name="Associates")
     if request.POST:
-        form = DeleteForm(data=request.POST, module_name="agents")
+        form = DeleteForm(data=request.POST, module_name="Associates")
         if form.is_valid():
             item.delete()
             messages.success(request, f"Item successfully deleted!")
-            return HttpResponseRedirect("/app/address-book/agents")
+            return HttpResponseRedirect("/app/address-book/Associates")
         else:
             messages.error(request, f"Failed to create. Form is not valid!")
     return render(request, "app/address-book/agents/delete.html", {"item": item, "form": form})
 
 
-def agents_update_view(request: HttpRequest, pk):
-    item = Agent.objects.get(id=pk)
-    form = AgentForm(instance=item)
+def associates_update_view(request: HttpRequest, pk):
+    item = Associate.objects.get(id=pk)
+    form = AssociateForm(instance=item)
     if request.POST:
-        form = AgentForm(data=request.POST, instance=item)
+        form = AssociateForm(data=request.POST, instance=item)
         if form.is_valid():
             form.save()
             messages.success(request, f"Item successfully updated!")
-            return HttpResponseRedirect("/app/address-book/agents")
+            return HttpResponseRedirect("/app/address-book/Associates")
         else:
             messages.error(request, f"Failed to update. Form is not valid!")
     context = {
         "tabs": tabs,
         "item": item,
         "form": form,
-        "active": "agents",
+        "active": "Associates",
     }
     return render(request, "app/address-book/agents/update.html", context)
 
@@ -604,3 +674,28 @@ def attorneys_update_view(request: HttpRequest, pk):
         "active": "attorneys",
     }
     return render(request, "app/address-book/attorneys/update.html", context)
+
+
+def other_provider_view(request):
+    context = {
+        "tabs": tabs,
+        "active": "other_provider",
+        "items": OtherProvider.objects.all(),
+        "form": OtherProviderForm
+    }
+    return render(request, "app/address-book/attorneys/other.html", context)
+
+
+def create_other_provider(request: HttpRequest):
+    form = OtherProviderForm(initial=MultiValueDict(request.GET).dict())
+    if request.POST:
+        form = OtherProviderForm(data=request.POST)
+        if form.is_valid():
+            attorney = form.save(commit=False)
+            attorney.type = 'OtherProvider'  # Set the value of 'type' here
+            attorney.save()
+            messages.success(request, "Item successfully created!")
+
+        else:
+            messages.error(request, f"Failed to create. Form is not valid!")
+    return HttpResponseRedirect("/app/address-book/other-providers")

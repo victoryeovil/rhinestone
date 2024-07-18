@@ -10,7 +10,7 @@ for model in [
     Licensor,
     Licensee,
     Consultant,
-    Agent,
+    Associate,
     Paralegal,
     Attorney,
     File,

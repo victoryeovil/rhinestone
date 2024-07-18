@@ -60,13 +60,13 @@ def home_search_view(request):
             if type_of_filing:
                 patent_results |= Patent.objects.filter(type_of_filing=type_of_filing)
 
-            agents = cleaned_data.get('_agents')
-            if agents:
-                patent_results |= Patent.objects.filter(agents=agents)
+            Associates = cleaned_data.get('_Associates')
+            if Associates:
+                patent_results |= Patent.objects.filter(Associates=Associates)
 
-            agent_refs = cleaned_data.get('_agent_refs')
-            if agent_refs:
-                patent_results |= Patent.objects.filter(agent_refs=agent_refs)
+            Associate_refs = cleaned_data.get('_Associate_refs')
+            if Associate_refs:
+                patent_results |= Patent.objects.filter(Associate_refs=Associate_refs)
 
             status__in = cleaned_data.get('status__in')
             if status__in:
@@ -89,8 +89,8 @@ def home_view(request):
         secondary_attorney = form.cleaned_data.get('secondary_attorney')
         type_of_filing = form.cleaned_data.get('type_of_filing')
         status = form.cleaned_data.get('status')
-        agents = form.cleaned_data.get('agents')
-        agent_refs = form.cleaned_data.get('agent_refs')
+        Associates = form.cleaned_data.get('Associates')
+        Associate_refs = form.cleaned_data.get('Associate_refs')
 
         # Perform the database query using the provided search parameters
         queryset = Family.objects.none()
@@ -104,10 +104,10 @@ def home_view(request):
             queryset |= Family.objects.filter(type_of_filing__icontains=type_of_filing)
         if status:
             queryset |= Family.objects.filter(status__icontains=status)
-        if agents:
-            queryset |= Family.objects.filter(_agents__icontains=agents)
-        if agent_refs:
-            queryset |= Family.objects.filter(_agent_refs__icontains=agent_refs)
+        if Associates:
+            queryset |= Family.objects.filter(_Associates__icontains=Associates)
+        if Associate_refs:
+            queryset |= Family.objects.filter(_Associate_refs__icontains=Associate_refs)
 
         results = list(queryset)
 

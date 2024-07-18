@@ -422,8 +422,8 @@ def trademarks_update_view(request: HttpRequest, pk):
 
 def intellectual_property_view(request):
     family_data = Family.objects.all().values('id', 'family_no', 'titles', 'official_numbers')
-    patent_data = Patent.objects.all().values('id', 'titles', 'agent', 'agent_ref', 'type_of_filing', 'official_numbers')
-    design_data = Design.objects.all().values('id', 'titles', 'agent', 'agent_ref', 'type_of_filing', 'official_numbers')
+    patent_data = Patent.objects.all().values('id', 'titles', 'Associate', 'Associate_ref', 'type_of_filing', 'official_numbers')
+    design_data = Design.objects.all().values('id', 'titles', 'Associate', 'Associate_ref', 'type_of_filing', 'official_numbers')
 
     combined_data = list(family_data) + list(patent_data) + list(design_data)
 
