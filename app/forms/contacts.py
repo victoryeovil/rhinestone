@@ -56,7 +56,7 @@ class InventorForm(forms.ModelForm):
                     css_class="col-md-6"
                 ),
                 Column(
-                    "address_line_1", "address_line_2", "address_line_3", "zip_postal_code", "country",
+                    "address_line_1", "address_line_2", "address_line_3", "zip_postal_code",
                     "commencement_date", "email_of_future_contact", "notes", "is_applicant",
                     css_class="col-md-6"
                 ),
@@ -155,16 +155,15 @@ class LicensorForm(forms.ModelForm):
         self.helper.layout = Layout(
             Row(
                 Column(
-                    "name", "surname",
-                    "nationality", "date_of_employment_termination", "contractor",
-                    "contractor_type",
+                    "name", "surname", "nationality",
+                    "date_of_employment_termination", "contractor",
+                    "contractor_type",   # Add type_of_contract here
                     "email_of_future_contact", "employer_name", "notes",
                     css_class="col-md-6"
                 ),
                 Column(
-                    "address_line_1",
-                    "address_line_2", "address_city", "address_state",
-                    "employer_address_line_1",
+                    "address_line_1", "address_line_2", "address_city",
+                    "address_state", "employer_address_line_1",
                     "employer_address_line_2", "employer_address_city",
                     "employer_address_state", "zip_postal_code",
                     css_class="col-md-6"
@@ -174,7 +173,6 @@ class LicensorForm(forms.ModelForm):
                     Submit("submit", "Save", css_class="btn btn-primary"),
                     css_class="col-12 pt-3 text-center"
                 )
-
             )
         )
 
@@ -187,6 +185,9 @@ class LicenseeForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
+        date_fields = ["date_of_incorporation"]
+        for field_name in date_fields:
+            self.fields[field_name].widget = forms.DateInput(attrs={'type': 'date'})
         self.helper.form_class = 'form-horizontal'
         self.helper.layout = Layout(
             Row(

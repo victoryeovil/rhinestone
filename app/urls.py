@@ -23,7 +23,7 @@ urlpatterns = [
     path('contacts/<str:model_name>/<int:pk>/delete/', contact_delete_view, name='contact_delete'),
     # other provider
     path("address-book/other_provider/", contacts.other_provider_view),
-    path("address-book/other_providers/add/", contacts.create_other_provider),
+    path("address-book/other_provider/add/", contacts.create_other_provider),
     # contacts.inventors_view),
     path("address-book/inventors/", contacts.inventors_view),
     path("address-book/inventors/add/", contacts.inventors_create_view),

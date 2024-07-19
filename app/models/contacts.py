@@ -10,7 +10,7 @@ from app.functions.generate_id import generate_id
 
 
 class Contact(BaseModel):
-    MID = models.CharField("ID", max_length=10)
+    MID = models.CharField("ID", max_length=10, unique=True, blank=True, null=True)
     name = models.CharField(max_length=128)
     surname = models.CharField(max_length=128, blank=True, null=True)
     phone = models.CharField(max_length=16, blank=True, null=True)
@@ -46,7 +46,8 @@ class ContactDetailsMixin(models.Model):
 class Inventor(Contact, ContactDetailsMixin):
     inventor_no = models.CharField(max_length=128, blank=True, null=True, verbose_name="Inventor Number")
     title = models.CharField(max_length=12, choices=data.contact_titles.CONTACT_TITLES_CHOICES, null=True, blank=True)
-    type_of_contract = models.CharField(max_length=12, choices=data.contracts.CONTRACT_TYPES_CHOICES)
+    type_of_contract = models.CharField(max_length=12, choices=data.contracts.CONTRACT_TYPES_CHOICES, null=True,
+                                        blank=True)
     employer_name = models.CharField(max_length=128, blank=True, null=True)
     email_of_future_contact = models.EmailField(max_length=256, blank=True, null=True, verbose_name="Email")
     date_of_employment_termination = models.DateField(blank=True, null=True)
@@ -56,6 +57,7 @@ class Inventor(Contact, ContactDetailsMixin):
                                     verbose_name="County/State",
                                     choices=data.countries.COUNTRIES_OPTIONS)  # New field for County/State
     profession = models.CharField(max_length=128, blank=True, null=True)  # New field for Profession
+    is_applicant = models.BooleanField(default=False)  # New field to indicate if Inventor is also an Applicant
 
     def __str__(self):
         return self.inventor_no
@@ -68,13 +70,14 @@ class Applicant(Contact, ContactDetailsMixin):
     is_inventor = models.BooleanField(default=False)  # New field to indicate if Applicant is also an Inventor
 
     def __str__(self):
-        return self.applicant_no
+        return self.name if self.name else "Unnamed Applicant"
 
 
 class Licensor(Contact, ContactDetailsMixin):
     licensor_no = models.CharField(max_length=128, blank=True, null=True, verbose_name="Licensor Number")
-    title = models.CharField(max_length=12, choices=data.contact_titles.CONTACT_TITLES_CHOICES)
-    type_of_contract = models.CharField(max_length=12, choices=data.contracts.CONTRACT_TYPES_CHOICES)
+    title = models.CharField(max_length=12, choices=data.contact_titles.CONTACT_TITLES_CHOICES, null=True, blank=True)
+    type_of_contract = models.CharField(max_length=12, choices=data.contracts.CONTRACT_TYPES_CHOICES, null=True,
+                                        blank=True)
     employer_name = models.CharField(max_length=128, blank=True, null=True)
     email_of_future_contact = models.EmailField(max_length=256, blank=True, null=True, verbose_name="Email")
     date_of_contract = models.DateField(blank=True, null=True)
@@ -139,20 +142,26 @@ class OtherProvider(Contact, ContactDetailsMixin):
     authorizer = models.ForeignKey(Contact, on_delete=models.CASCADE, related_name="other_authorizer", verbose_name="Authorizer")
     provider_no = models.CharField(max_length=128, blank=True, null=True, verbose_name="Provider Number")
     applicants = models.ForeignKey(Applicant, on_delete=models.CASCADE, related_name="other_applicant", verbose_name="Applicant")
-    country = models.CharField(max_length=128, blank=True, null=True, verbose_name="Country",
-                               choices=data.countries.COUNTRIES_OPTIONS)
+    country = models.CharField(max_length=128, blank=True, null=True, verbose_name="Country", choices=data.countries.COUNTRIES_OPTIONS)
     address_line_3 = models.CharField(max_length=128, blank=True, null=True, verbose_name="Address Line 3")
-    contact_person = models.CharField(max_length=128, blank=True, null=True, verbose_name="Contact Person(s)")
+    contact_person = models.CharField(max_length=128,verbose_name="Contact Person(s)")
     zip_code = models.CharField(max_length=250, blank=True, null=True, verbose_name="Postal/Zip Code")
     notes = models.TextField(max_length=512, blank=True, null=True)
     country_states = models.CharField(max_length=128, blank=True, null=True, verbose_name="County/State")
 
     def __str__(self):
-        return self.provider_no
+        return self.applicants.name if self.applicants and self.applicants.name else "Unnamed Provider"
 
 
 @receiver(post_save, sender=Contact)
 def update_contact_mid(sender, instance, **kwargs):
+    if not instance.MID:
+        instance.MID = generate_id(6, instance.surname[:4], instance.id)
+        instance.save()
+
+
+@receiver(post_save, sender=Contact)
+def update_otherprovider_mid(sender, instance, **kwargs):
     if not instance.MID:
         instance.MID = generate_id(6, instance.surname[:4], instance.id)
         instance.save()

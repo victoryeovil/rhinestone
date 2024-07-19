@@ -38,17 +38,32 @@
                         <td>{{ i.name }}</td>
                         <td>{{ i.type }}</td>
                         <td>
-                            {% with i.type|capfirst as model_name %}
-                            <a href="{% url 'contact_detail' model_name i.pk %}"><i class="fas fa-eye"></i></a>
-                            <a href="{% url 'contact_edit' model_name i.pk %}"><i class="fas fa-edit"></i></a>
-                            <a href="{% url 'contact_delete' model_name i.pk %}"><i class="fas fa-trash"></i></a>
-                            {% endwith %}
+                            {% if i.type %}
+                                {% with i.type|capfirst as model_name %}
+                                <a href="{% url 'contact_detail' model_name i.pk %}"><i class="fas fa-eye"></i></a>
+                                <a href="{% url 'contact_edit' model_name i.pk %}"><i class="fas fa-edit"></i></a>
+                                <a href="{% url 'contact_delete' model_name i.pk %}"><i class="fas fa-trash"></i></a>
+                                {% endwith %}
+                            {% else %}
+                                <span class="text-muted">No model</span>
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <h5>Invalid Records</h5>
+        <ul>
+            {% for i in invalid_items %}
+                <li>ID: {{ i.MID }}, Name: {{ i.name }} - <span class="text-muted">No model</span></li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
 

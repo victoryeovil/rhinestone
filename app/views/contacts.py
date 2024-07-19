@@ -3,6 +3,7 @@ from django.http.request import HttpRequest
 from django.http.request import HttpRequest
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDict
+import logging
 
 from app.models import (
     Contact,
@@ -43,12 +44,17 @@ tabs = [
 ]
 
 
-def contacts_view(request):
-    items = Contact.objects.all()
+def contacts_view(request: HttpRequest):
+    try:
+        items = Contact.objects.all()
+    except Contact.DoesNotExist:
+        items = []
+
     context = {
         "tabs": tabs,
-        "items": items,
+        "items": [item for item in items if hasattr(item, 'type')],
         "active": "contacts",
+        "invalid_items": [item for item in items if not hasattr(item, 'type')],
     }
     return render(request, "app/address-book/contacts/contacts.html", context)
 
@@ -64,7 +70,7 @@ def inventors_view(request):
         "form": InventorForm
     }
     return render(request, "app/address-book/inventors/inventors.html", context)
-
+logger = logging.getLogger(__name__)
 
 def inventors_detail_view(request: HttpRequest, pk):
     item = Inventor.objects.get(id=pk)
@@ -97,6 +103,7 @@ def inventors_create_view(request: HttpRequest):
             inventor = form.save(commit=False)
             inventor.type = 'Inventor'  # Set the value of 'type' here
             inventor.save()
+            print("saved now saving applicant")
             if form.cleaned_data['is_applicant']:
                 Applicant.objects.create(
                     name=inventor.name,
@@ -104,18 +111,20 @@ def inventors_create_view(request: HttpRequest):
                     phone=inventor.phone,
                     email=inventor.email,
                     nationality=inventor.nationality,
-                    country=inventor.country,
+                    type = 'Applicant',
+                    #country=inventor.county_state,
                     # Add other necessary fields from Inventor to Applicant
                     date_of_incorporation=None,  # Provide appropriate value or leave as None
                     status=None,  # Provide appropriate value or leave as None
-                    country_of_registration=inventor.country,
+                    country_of_registration=inventor.county_state,
                     zip_postal_code=inventor.zip_postal_code,
                     notes=inventor.notes,
                     is_inventor=True
                 )
             messages.success(request, "Item successfully created!")
         else:
-            messages.error(request, f"Failed to create. Form is not valid!")
+            logger.error(f"Form errors: {form.errors.as_json()}")
+            messages.error(request, "Failed to create. Form is not valid!")
     return HttpResponseRedirect("/app/address-book/inventors")
 
 
@@ -189,42 +198,46 @@ def applicants_detail_view(request: HttpRequest, pk):
 
 def applicants_create_view(request: HttpRequest):
     form = ApplicantForm(initial=MultiValueDict(request.GET).dict())
-    if request.POST:
+    if request.method == 'POST':
         form = ApplicantForm(data=request.POST)
         if form.is_valid():
             applicant = form.save(commit=False)
             applicant.type = 'Applicant'  # Set the value of 'type' here
+            applicant.surname = applicant.name
             applicant.save()
+            print("saved now saving inventor")
             if form.cleaned_data['is_inventor']:
                 Inventor.objects.create(
                     name=applicant.name,
-                    surname=applicant.surname,
+                    surname=applicant.name,
                     phone=applicant.phone,
                     email=applicant.email,
                     nationality=applicant.nationality,
-                    country=applicant.country,
+                    county_state=applicant.country_of_registration,
+                    type = 'Inventor',
                     # Add other necessary fields from Applicant to Inventor
                     title=None,  # Provide appropriate value or leave as None
                     type_of_contract=None,  # Provide appropriate value or leave as None
                     employer_name=None,  # Provide appropriate value or leave as None
                     email_of_future_contact=applicant.email,
-                    date_of_contact=None,  # Provide appropriate value or leave as None
+
                     date_of_employment_termination=None,  # Provide appropriate value or leave as None
                     commencement_date=None,  # Provide appropriate value or leave as None
-                    home=None,  # Provide appropriate value or leave as None
-                    contract=None,  # Provide appropriate value or leave as None
-                    employer_nationality=None,  # Provide appropriate value or leave as None
-                    employer_address_line_1=None,  # Provide appropriate value or leave as None
-                    employer_address_line_2=None,  # Provide appropriate value or leave as None
-                    employer_address_city=None,  # Provide appropriate value or leave as None
-                    employer_address_state=None,  # Provide appropriate value or leave as None
+
+
+
+                    # employer_address_line_1=applicant.employer_address_line_1,  # Provide appropriate value or leave as None
+                    # employer_address_line_2=applicant.employer_address_line_2,  # Provide appropriate value or leave as None
+                    # employer_address_city=None,  # Provide appropriate value or leave as None
+                    # employer_address_state=None,  # Provide appropriate value or leave as None
                     zip_postal_code=applicant.zip_postal_code,
                     notes=applicant.notes,
                     is_applicant=True
                 )
             messages.success(request, "Item successfully created!")
         else:
-            messages.error(request, f"Failed to create. Form is not valid!")
+            logger.error(f"Form errors: {form.errors.as_json()}")
+            messages.error(request, "Failed to create. Form is not valid!")
     return HttpResponseRedirect("/app/address-book/applicants")
 
 
@@ -285,7 +298,7 @@ def licensors_detail_view(request: HttpRequest, pk):
 
 def licensors_create_view(request: HttpRequest):
     form = LicensorForm(initial=MultiValueDict(request.GET).dict())
-    if request.POST:
+    if request.method == 'POST':
         form = LicensorForm(data=request.POST)
         if form.is_valid():
             attorney = form.save(commit=False)
@@ -293,7 +306,8 @@ def licensors_create_view(request: HttpRequest):
             attorney.save()
             messages.success(request, "Item successfully created!")
         else:
-            messages.error(request, f"Failed to create. Form is not valid!")
+            logger.error(f"Form errors: {form.errors.as_json()}")
+            messages.error(request, "Failed to create. Form is not valid!")
     return HttpResponseRedirect("/app/address-book/licensors/")
 
 
@@ -423,7 +437,7 @@ def consultants_detail_view(request: HttpRequest, pk):
 
 def consultants_create_view(request: HttpRequest):
     form = ConsultantForm(initial=MultiValueDict(request.GET).dict())
-    if request.POST:
+    if request.method == 'POST':
         form = ConsultantForm(data=request.POST)
         if form.is_valid():
             attorney = form.save(commit=False)
@@ -431,7 +445,8 @@ def consultants_create_view(request: HttpRequest):
             attorney.save()
             messages.success(request, "Item successfully created!")
         else:
-            messages.error(request, f"Failed to create. Form is not valid!")
+            logger.error(f"Form errors: {form.errors.as_json()}")
+            messages.error(request, "Failed to create. Form is not valid!")
     return HttpResponseRedirect("/app/address-book/consultants")
 
 
@@ -496,6 +511,7 @@ def Associates_create_view(request: HttpRequest):
         if form.is_valid():
             attorney = form.save(commit=False)
             attorney.type = 'Associate'  # Set the value of 'type' here
+            attorney.surname = attorney.name
             attorney.save()
             messages.success(request, "Item successfully created!")
         else:
@@ -687,15 +703,20 @@ def other_provider_view(request):
 
 
 def create_other_provider(request: HttpRequest):
-    form = OtherProviderForm(initial=MultiValueDict(request.GET).dict())
-    if request.POST:
+    if request.method == 'POST':
         form = OtherProviderForm(data=request.POST)
         if form.is_valid():
             attorney = form.save(commit=False)
+            attorney.name = attorney.contact_person  # Assuming contact_person is meant to be used as the name
             attorney.type = 'OtherProvider'  # Set the value of 'type' here
             attorney.save()
             messages.success(request, "Item successfully created!")
-
+            return HttpResponseRedirect("/app/address-book/other_provider")
         else:
-            messages.error(request, f"Failed to create. Form is not valid!")
-    return HttpResponseRedirect("/app/address-book/other-providers")
+            logger.error(f"Form errors: {form.errors.as_json()}")
+            messages.error(request, "Failed to create. Form is not valid!")
+    else:
+        form = OtherProviderForm(initial=MultiValueDict(request.GET).dict())
+
+    return HttpResponseRedirect("/app/address-book/other_provider")
+
