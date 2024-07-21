@@ -94,6 +94,7 @@ urlpatterns = [
          files.upload_file),  # file.upload),
     # MODULES
     path("modules/families/list/", modules.families_list_view),
+    path("modules/families/add/", modules.families_create_view),
     path("modules/families-patent/add/", modules.families_create_patent_view),
     path("modules/families-design/add/", modules.families_create_design_view),
     path("modules/families-trademark/add/", modules.families_create_trademark_view),

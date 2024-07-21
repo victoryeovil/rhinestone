@@ -91,7 +91,7 @@ class Licensor(Contact, ContactDetailsMixin):
     employer_address_state = models.CharField(max_length=128, blank=True, null=True)
 
     def __str__(self):
-        return self.licensor_no
+        return self.licensor_no if self.licensor_no else "Unnamed Licensor"
 
 
 class Licensee(Contact, ContactDetailsMixin):
@@ -99,14 +99,14 @@ class Licensee(Contact, ContactDetailsMixin):
     date_of_incorporation = models.DateField(blank=True, null=True)
 
     def __str__(self):
-        return self.licensee_no
+        return self.licensee_no if self.licensee_no else "Unnamed Licensee"
 
 
 class Consultant(Contact, ContactDetailsMixin):
     consultant_no = models.CharField(max_length=128, blank=True, null=True, verbose_name="Consultant Number")
 
     def __str__(self):
-        return self.consultant_no
+        return self.consultant_no if self.consultant_no else "Unnamed Consultant"
 
 
 class Associate(Contact, ContactDetailsMixin):
@@ -121,21 +121,21 @@ class Associate(Contact, ContactDetailsMixin):
     notes = models.TextField(max_length=512, blank=True, null=True)
 
     def __str__(self):
-        return self.Associate_no
+        return self.Associate_no if self.Associate_no else "Unnamed Associate"
 
 
 class Paralegal(Contact, ContactDetailsMixin):
     paralegal_no = models.CharField(max_length=128, blank=True, null=True, verbose_name="Paralegal Number")
 
     def __str__(self):
-        return self.paralegal_no
+        return self.paralegal_no if self.paralegal_no else "Unnamed Paralegal"
 
 
 class Attorney(Contact, ContactDetailsMixin):
     attorney_no = models.CharField(max_length=128, blank=True, null=True, verbose_name="Attorney Number")
 
     def __str__(self):
-        return self.attorney_no
+        return self.attorney_no if self.attorney_no else "Unnamed Attorney"
 
 
 class OtherProvider(Contact, ContactDetailsMixin):

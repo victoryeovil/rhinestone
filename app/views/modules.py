@@ -33,71 +33,47 @@ def families_detail_view(request: HttpRequest, pk):
     return render(request, "app/modules/families/details.html", {"item": Family.objects.get(id=pk)})
 
 
-def families_create_view(request, form, form_p, modal):
-    form = form
-    if request.POST:
-        type_of_filing = (request.POST.get('submit'))
-        form = form_p(data=request.POST)
+def families_create_view(request: HttpRequest, form_class, modal_class):
+    if request.method == "POST":
+        form = form_class(request.POST)
         if form.is_valid():
             family = form.save()
             messages.success(request, f"Item successfully created!")
-            data = form.data.dict()
-            if type_of_filing == "Trademark":
-                content = {"secondary_paralegal": data['secondary_paralegal'], "country": data['country'],
-                           "primary_paralegal": data['primary_paralegal'],
-                           'secondary_attorney': data['secondary_attorney'],
-                           'primary_attorney': data['primary_attorney'], "type_of_filing": type_of_filing,
-                           'family': family.id}
-                request.session['Trademark'] = content
-                return HttpResponseRedirect("/app/modules/trademarks/add/")
-            elif type_of_filing == "Design":
-                content = {"internal_title": data['internal_title'], "formal_title": data['formal_title'],
-                           "country": data['country'],
-                           "secondary_paralegal": data['secondary_paralegal'],
-                           "primary_paralegal": data['primary_paralegal'],
-                           'secondary_attorney': data['secondary_attorney'],
-                           'primary_attorney': data['primary_attorney'],
-                           'cost_centre_code': data['cost_centre_code'], 'licencor': data['licensor'],
-                           'licence': data['licenced'], 'cost_centre': data['cost_centre'],
-                           'status': data['sub_status'], "type_of_filing": type_of_filing, 'family': family.id}
-                request.session['Design'] = content
-                return HttpResponseRedirect("/app/modules/designs/add/")
-            elif type_of_filing == "Patent":
-                content = {"internal_title": data['internal_title'], "formal_title": data['formal_title'],
-                           'cost_centre_code': data['cost_centre_code'], 'licence': data['licenced'],
-                           'primary_attorney': data['primary_attorney'],
-                           'secondary_attorney': data['secondary_attorney']
-                    , 'primary_paralegal': data['primary_paralegal'],
-                           'secondary_paralegal': data['secondary_paralegal'],
-                           "type_of_filing": type_of_filing, 'family': family.id}
-                request.session['Patent'] = content
-                return HttpResponseRedirect("/app/modules/patents/add/")
-            else:
-                return HttpResponseRedirect("/app/modules/families/list/")
-        messages.error(request, f"Failed to create. Form is not valid!")
+            data = form.cleaned_data
+            type_of_filing = data.get('type_of_filing')
+            content = {
+                "internal_title": data['internal_title'],
+                "formal_title": data['formal_title'],
+                "cost_centre_code": data['cost_centre_code'],
+                "primary_attorney": data['primary_attorney'],
+                "secondary_attorney": data['secondary_attorney'],
+                "primary_paralegal": data['primary_paralegal'],
+                "secondary_paralegal": data['secondary_paralegal'],
+                "licenced": data['licenced'],
+                "type_of_filing": type_of_filing,
+                'family': family.id
+            }
+            request.session[type_of_filing] = content
+            return HttpResponseRedirect(f"/app/modules/{type_of_filing.lower()}s/add/")
+        else:
+            messages.error(request, f"Failed to create. Form is not valid!")
+    else:
+        form = form_class()
+        modal = modal_class()
+
     return render(request, "app/modules/families/create.html", {"form": form, 'modal': modal})
 
 
 def families_create_patent_view(request: HttpRequest):
-    form = FamilyPatentForm(initial=MultiValueDict(request.GET).dict())
-    form_p = FamilyPatentForm()
-    modal = PatentPCTForm()  # Instantiate the PatentPCTForm
-
-    return families_create_view(request, form, form_p, modal)
+    return families_create_view(request, FamilyPatentForm, PatentPCTForm)
 
 
 def families_create_design_view(request: HttpRequest):
-    form = FamilyDesignForm(initial=MultiValueDict(request.GET).dict())
-    form_p = FamilyDesignForm
-    modal = PatentPCTForm()
-    return families_create_view(request, form, form_p, modal)
+    return families_create_view(request, FamilyDesignForm, PatentPCTForm)
 
 
 def families_create_trademark_view(request: HttpRequest):
-    form = FamilyTrademarkForm(initial=MultiValueDict(request.GET).dict())
-    form_p = FamilyTrademarkForm
-    modal = PatentPCTForm()
-    return families_create_view(request, form, form_p, modal)
+    return families_create_view(request, FamilyTrademarkForm, PatentPCTForm)
 
 
 def families_delete_view(request: HttpRequest, pk):
