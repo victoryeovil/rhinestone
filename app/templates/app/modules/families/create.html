@@ -58,7 +58,7 @@ Tools | Family {% endblock title %} {% block css %}
                   method="post"> -->
                   <form class="page-form family"
                   method="post">
-                  
+
                   {% csrf_token %}
                   <div class="form-row">
                     <div class="col-12 mb-4 text-center">
@@ -105,10 +105,11 @@ Tools | Family {% endblock title %} {% block css %}
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Create PCT Countries</h5>
+                      <h5 class="modal-title" id="exampleModalLabel">Create Countries</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
+                        <span id="add-patent-btn-container"></span>
                     </div>
                     <div class="modal-body">
 
@@ -116,10 +117,11 @@ Tools | Family {% endblock title %} {% block css %}
                               <!-- Add your country creation form here -->
                               {% crispy modal %}
                     </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      
-                    </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <span id="add-filing-btn-container"></span> <!-- General placeholder for the dynamic button -->
+                        </div>
+
                   </div>
                 </div>
               </div>
@@ -177,7 +179,7 @@ Tools | Family {% endblock title %} {% block css %}
                                     </thead>
                                     <tbody id="tablebody">
 
-                                      
+
                                     </tbody>
                                 </table>
                             </div>
@@ -242,16 +244,16 @@ Tools | Family {% endblock title %} {% block css %}
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                           
+
                                             <th>Formal Title</th>
                                             <th>Internal Title</th>
-                                           
+
                                         </tr>
                                     </thead>
                                     <tbody>
                                       <tr id="title-table">
-                                            
-                                            
+
+
                                         </tr>
                                     </tbody>
                                 </table>
@@ -295,17 +297,17 @@ Tools | Family {% endblock title %} {% block css %}
                                 <th>Due Date</th>
                                 <th>Payment Status</th>
                                 <th>Receipt Received</th>
-                                
+
                               </tr>
                             </thead>
                             <tbody id="annuity-table-body">
-                              
+
                             </tbody>
                           </table>
                         </div>
                       </div>
                     </div>
-                    
+
                             </div>
                         </div>
                     </div>
@@ -348,7 +350,7 @@ Tools | Family {% endblock title %} {% block css %}
                                     </thead>
                                     <tbody>
                                         <tr id="related_case">
-                                            
+
                                         </tr>
                                     </tbody>
                                 </table>
@@ -463,182 +465,111 @@ Tools | Family {% endblock title %} {% block css %}
   // DataTable end
 </script>
 <script>
-  var type_of_filing = "{{type_of_filing}}";
-  if (type_of_filing === "Trademark" ){
-    var primary_attorney = "{{primary_attorney}}" ;
-    var secondary_attorney = "{{primary_attorney}}" ;
-    var primary_paralegal = "{{primary_paralegal}}" ;
-    var secondary_paralegal = "{{secondary_paralegal}}" ;
-    var type_of_filing = "{{type_of_filing}}" ;
-    try {$("form.family select#id_primary_attorney option[value=" + primary_attorney + "]").prop("selected",true).change(); } catch (e) {}
-    try {$("form.family select#id_secondary_attorney option[value=" + secondary_attorney + "]").prop("selected",true).change(); } catch (e) {}
-    try {$("form.family select#id_primary_paralegal option[value=" + primary_paralegal + "]").prop("selected",true).change(); } catch (e) {}
-    try {$("form.family select#id_secondary_paralegal option[value=" + secondary_paralegal + "]").prop("selected",true).change(); } catch (e) {}
-    try {$("form.family select#id_type_of_filing option[value=" + type_of_filing + "]").prop("selected",true).change(); } catch (e) {}
-  }else if (type_of_filing == "Design" ){
-    var internal_title = "{{internal_title}}" ;
-    var formal_title = "{{formal_title}}" ;
-    var licensor = "{{licensor}}" ;
-    var cost_centre_code = "{{cost_centre_code}}" ;
-    try {$("form.family input#id_internal_title").val(internal_title); } catch (e) {}
-    try {$("form.family input#id_formal_title").val(formal_title); } catch (e) {}
-    try {$("form.family select#id_licensor option[value=" + licensor + "]").prop("selected",true).change(); } catch (e) {}
-    try {$("form.family select#id_cost_centre_code option[value=" + cost_centre_code + "]").prop("selected",true).change(); } catch (e) {}
-    try {$("form.family select#id_type_of_filing option[value=" + type_of_filing + "]").prop("selected",true).change(); } catch (e) {}
-  }else if (type_of_filing === "Patent" ){
-    var internal_title = "{{internal_title}}" ;
-    var formal_title =  "{{formal_title}}" ;
-    var internal_title = "{{internal_title}}" ;
-    var cost_centre_code = "{{cost_centre_code}}";
-    var primary_attorney = "{{primary_attorney}}";
-    var secondary_attorney = "{{secondary_attorney}}";
-    var primary_paralegal = "{{primary_paralegal}}";
-    var secondary_paralegal = "{{secondary_paralegal}}";
-    var licenced = "{{licenced}}";
-    try {$("form.family select#id_type_of_filing option[value=" + type_of_filing + "]").prop("selected",true).change(); } catch (e) {}
-    try {$("form.family input#id_internal_title").val(internal_title); } catch (e) {}
-    try {$("form.family input#id_formal_title").val(formal_title); } catch (e) {}
-    try {$("form.family select#id_cost_centre_code option[value=" + cost_centre_code + "]").prop("selected",true).change(); } catch (e) {}
-    try {$("form.family select#id_primary_attorney option[value=" + primary_attorney + "]").prop("selected",true).change(); } catch (e) {}
-    try {$("form.family select#id_secondary_attorney option[value=" + secondary_attorney + "]").prop("selected",true).change(); } catch (e) {}
-    try {$("form.family select#id_primary_paralegal option[value=" + primary_paralegal + "]").prop("selected",true).change(); } catch (e) {}
-    try {$("form.family select#id_secondary_paralegal option[value=" + secondary_paralegal + "]").prop("selected",true).change(); } catch (e) {}
-    try {$("form.family select#id_licenced option[value=" + licenced + "]").prop("selected",true).change(); } catch (e) {}
-  }
-  /*var linkUpper = "{{item.type_of_filing}}";
-  var linkLower = linkUpper.toLowerCase();
-  if (linkUpper !== "") {
-    var linkHtml =
-      '<button type="submit"  href="/app/modules/family-' +
-      linkLower +
-      's/add/" name="submit" value="'+ linkUpper +'" id="id_btn_' +
-      linkLower +
-      '" class="btn btn-primary"  >' +
-      "Add " +
-      linkUpper +
-      "</button>";
-    $("#id_add_new").html(linkHtml);
-  }*/
-  var linkUpper = "{{item.type_of_filing}}";
-  var linkLower = linkUpper.toLowerCase();
-  console.log(linkLower)
-  if (linkUpper !== "") {
-      var linkHtml =
-          '<button type="submit"  href="/app/modules/families-' +
-          linkLower +
-          's/add/" name="submit" value="'+ linkUpper +'" id="id_btn_' +
-          linkLower +
-          '" class="btn btn-primary"  >' +
-          "Add " +
-          linkUpper +
-          "</button>";
-      
-      $("#id_add_new").html(linkHtml);
-      
-      // Attach event handler to the dynamically created button
-      $("#id_btn_" + linkLower).click(function () {
-          // Save the form using AJAX
-          $.ajax({
-              type: "POST",
-              url: "/app/modules/families/edit/{{item.id}}/",
-              data: $(".page-form.family").serialize(), // Serialize the form data
-              success: function (data) {
-                  // Handle successful form submission
-                  var selectedCountries = [];
-                  $("input[name='pct_country']:checked").each(function (  ) {
-                      selectedCountries.push($(this).val());
-                  });
-                  console.log(selectedCountries)
+  $(document).ready(function() {
+    var type_of_filing = $("form.page-form select#id_type_of_filing").val();
+    console.log("type_of_filing", type_of_filing);
 
-                  // Append selected countries to the URL
-                  var nextPageUrl = "/app/modules/" + linkLower + "s/add/?PCT_Country=" + selectedCountries.join(",");
-                  
-                  // Redirect to the next page with selected countries in the URL
-                  window.location.href = nextPageUrl;
-              },
-              error: function (error) {
-                  console.error("Form submission error:", error);
-              }
-          });
+    var formSelectors = {
+      "Trademark": ["primary_attorney", "secondary_attorney", "primary_paralegal", "secondary_paralegal", "type_of_filing"],
+      "Design": ["internal_title", "formal_title", "licensor", "cost_centre_code", "type_of_filing"],
+      "Patent": ["internal_title", "formal_title", "cost_centre_code", "primary_attorney", "secondary_attorney", "primary_paralegal", "secondary_paralegal", "licenced", "type_of_filing"]
+    };
+
+    function setFormValues(fields) {
+      fields.forEach(function(field) {
+        try {
+          var selector = field.includes("title") || field.includes("code") ? `input#id_${field}` : `select#id_${field} option[value=${eval(field)}]`;
+          $(`form.family ${selector}`).prop("selected", true).change();
+        } catch (e) {
+          console.error(`Error setting field ${field}:`, e);
+        }
       });
-  }
-
-</script>
-  
-  <script type="text/javascript">
-    // Function to extract titles and populate the inner table
-    function extractAndPopulateTitles() {
-      // Get the values of the internal title and formal title from the input fields
-      const internalTitle = document.getElementById("id_internal_title").value;
-      const formalTitle = document.getElementById("id_formal_title").value;
-      
-      // Get the table row element where the values will be inserted
-      const tableRow = document.getElementById("title-table");
-  
-      // Populate the table row with extracted values
-      tableRow.innerHTML = `
-        <td>${formalTitle}</td>
-        <td>${internalTitle}</td>
-        
-      `;
     }
-    const button = document.getElementById("pills-Title-tab");
-    button.addEventListener("click", extractAndPopulateTitles);
-  </script>
-  <script type="text/javascript">
-    document.getElementById("pills-Related-tab").addEventListener("click", function () {
-      // Get the family case number from the form field
-      const familyCaseNumber = document.getElementById("id_case_no").value;
-  
-      // Call the related cases view using AJAX
-      fetch("/app/modules/related_cases_view", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "X-CSRFToken": getCookie("csrftoken")  // Make sure to include CSRF token
-        },
-        body: `family_case_number=${familyCaseNumber}`
-      })
-      .then(response => response.json())
-      .then(data => {
-        // Filter related cases based on familyCaseNumber
-        const relatedCases = data.related_cases.filter(caseData => caseData.case_number === familyCaseNumber);
-  
-        // Populate the table with related cases data
-        const tableBody = document.getElementById("related_case");
-        tableBody.innerHTML = "";
-  
-        relatedCases.forEach(caseData => {
-          const newRow = document.createElement("tr");
-          newRow.innerHTML = `
-            <td>${caseData.case_number}</td>
-            <td>${caseData.country}</td>
-            <td>${caseData.application_number}</td>
-            <td>${caseData.application_date}</td>
-            <td>${caseData.inventors}</td>
-          `;
-          tableBody.appendChild(newRow);
-        });
-      })
-      .catch(error => {
-        console.error("Error fetching related cases:", error);
-      }); 
-    });
-  
-    // Helper function to get CSRF token
-    function getCookie(name) {
-      var cookieValue = null;
-      if (document.cookie && document.cookie !== "") {
-        var cookies = document.cookie.split(";");
-        for (var i = 0; i < cookies.length; i++) {
-          var cookie = cookies[i].trim();
-          if (cookie.substring(0, name.length + 1) === (name + "=")) {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
+
+    if (formSelectors[type_of_filing]) {
+      setFormValues(formSelectors[type_of_filing]);
+    } else {
+      console.error("Invalid type_of_filing:", type_of_filing);
+    }
+
+    var linkUpper = $("form.page-form select#id_type_of_filing").val();
+    var linkLower = linkUpper.toLowerCase();
+    console.log("linkUpper", linkUpper);
+    console.log("linkLower", linkLower);
+
+    if (linkUpper !== "") {
+      var linkHtml = `<button type="submit" href="/app/modules/families-${linkLower}s/add/" name="submit" value="${linkUpper}" id="id_btn_${linkLower}" class="btn btn-primary">Add ${linkUpper}</button>`;
+      $("#add-filing-btn-container").html(linkHtml);
+      $("#id_btn_" + linkLower).click(function () {
+        $.ajax({
+          type: "POST",
+          url: `/app/modules/families-${linkLower}/add/`,  // Corrected URL
+          data: $(".page-form.family").serialize(),
+          success: function (data) {
+            var selectedCountries = [];
+            $("input[name='pct_country']:checked").each(function () {
+              selectedCountries.push($(this).val());
+            });
+            window.location.href = `/app/modules/${linkLower}s/add/?PCT_Country=${selectedCountries.join(",")}`;
+          },
+          error: function (error) {
+            console.error("Form submission error:", error);
           }
+        });
+      });
+    } else {
+      console.error("linkUpper is empty");
+    }
+  });
+</script>
+
+
+<script type="text/javascript">
+  function extractAndPopulateTitles() {
+    const internalTitle = document.getElementById("id_internal_title").value;
+    const formalTitle = document.getElementById("id_formal_title").value;
+    const tableRow = document.getElementById("title-table");
+    tableRow.innerHTML = `<td>${formalTitle}</td><td>${internalTitle}</td>`;
+  }
+  document.getElementById("pills-Title-tab").addEventListener("click", extractAndPopulateTitles);
+
+  document.getElementById("pills-Related-tab").addEventListener("click", function () {
+    const familyCaseNumber = document.getElementById("id_case_no").value;
+    fetch("/app/modules/related_cases_view", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-CSRFToken": getCookie("csrftoken")
+      },
+      body: `family_case_number=${familyCaseNumber}`
+    })
+    .then(response => response.json())
+    .then(data => {
+      const relatedCases = data.related_cases.filter(caseData => caseData.case_number === familyCaseNumber);
+      const tableBody = document.getElementById("related_case");
+      tableBody.innerHTML = "";
+      relatedCases.forEach(caseData => {
+        const newRow = document.createElement("tr");
+        newRow.innerHTML = `<td>${caseData.case_number}</td><td>${caseData.country}</td><td>${caseData.application_number}</td><td>${caseData.application_date}</td><td>${caseData.inventors}</td>`;
+        tableBody.appendChild(newRow);
+      });
+    })
+    .catch(error => console.error("Error fetching related cases:", error));
+  });
+
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      var cookies = document.cookie.split(";");
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + "=")) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
         }
       }
-      return cookieValue;
     }
-  </script>
+    return cookieValue;
+  }
+</script>
 {% endblock js %}

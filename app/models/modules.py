@@ -87,7 +87,7 @@ class Family(ModuleBaseModel):
     keywords = models.CharField(max_length=128, blank=True, null=True, verbose_name="Keywords")
 
     def __str__(self):
-        return self.family_no
+        return str(self.family_no)
 
     def save(self, *args, **kwargs):
         super(Family, self).save(*args, **kwargs)
@@ -107,7 +107,7 @@ class Country(models.Model):
     code = models.CharField(max_length=2)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.code})"
 
 
 class Patent(ModuleBaseModel):
@@ -199,7 +199,7 @@ class Patent(ModuleBaseModel):
     payment_statuses = models.JSONField(blank=True, null=True, verbose_name="Payment Statuses")
 
     def __str__(self):
-        return self.case_no
+        return self.case_no if self.case_no else "Patent: {}".format(self.id)
 
     def save(self, *args, **kwargs):
         super(Patent, self).save(*args, **kwargs)

@@ -187,6 +187,7 @@ class FamilyPatentForm(forms.ModelForm):
     class Meta:
         model = Family
         fields = "__all__"
+        exclude = ["case_no"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -196,7 +197,7 @@ class FamilyPatentForm(forms.ModelForm):
             Row(
                 Column(
                     Row(
-                        Column("case_no", "internal_title", "formal_title", "status", "sub_status", "sub_filing",
+                        Column("internal_title", "formal_title", "status", "sub_status", "sub_filing",
                                "type_of_filing", "licenced", "licensor", css_class="col-md-4"),
                         Column("primary_attorney", "secondary_attorney", "primary_paralegal", "secondary_paralegal",
                                "applicant", "inventor", "cost_centre", "cost_centre_code", "keywords",
@@ -337,7 +338,7 @@ class DesignForm(forms.ModelForm):
                             css_class="col-md-6"
                         ),
                         Column(
-                            "Associate", "Associate_ref", "Associate_2", "Associate_2_ref", "registration_no",
+                            "associate", "associate_ref", "associate_2", "associate_2_ref", "registration_no",
                             css_class="col-md-6"
                         ),
                         Column(
@@ -394,7 +395,7 @@ class TrademarkForm(forms.ModelForm):
                             css_class="col-md-6"
                         ),
                         Column(
-                            "Associate", "Associate_ref", "next_tax_date", "taxes_paid_by", "does_it_expire", "date",
+                            "associate", "associate_ref", "next_tax_date", "taxes_paid_by", "does_it_expire", "date",
                             css_class="col-md-6"
                         ),
                     ),
@@ -461,7 +462,7 @@ class PatentForm(forms.ModelForm):
                             css_class="col-md-6 col-sm-12"  # Modify col-md-6 to col-md-6 col-sm-12
                         ),
                         Column(
-                            "Associate", "Associate_ref", "Associate_2", "Associate_2_ref", "PCT_Country", "licence",
+                            "associate", "associate_ref", "associate_2", "associate_2_ref", "PCT_Country", "licence",
                             "next_annuity_due", "annuity_no", "taxs_paid_by", "patent_term_no_of_days",
                             "large_small_entity",
                             css_class="col-md-6 col-sm-12"  # Modify col-md-6 to col-md-6 col-sm-12
@@ -536,7 +537,7 @@ class PatentForms(forms.ModelForm):
                             css_class="col-md-6 col-sm-12"  # Modify col-md-6 to col-md-6 col-sm-12
                         ),
                         Column(
-                            "Associate", "Associate_ref", "Associate_2", "Associate_2_ref", "country", "PCT_Country", "licence",
+                            "associate", "associate_ref", "associate_2", "associate_2_ref", "country", "PCT_Country", "licence",
                             "next_annuity_due", "annuity_no", "taxs_paid_by", "patent_term_no_of_days",
                             "large_small_entity",
                             css_class="col-md-6 col-sm-12"  # Modify col-md-6 to col-md-6 col-sm-12
