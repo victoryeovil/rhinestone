@@ -68,10 +68,10 @@ title %} {% block css %}
                                                                     aria-selected="false"><b> Consultant(s) </b></a>
                                                             </li>
                                                             <li class="nav-item">
-                                                                <a class="nav-link" id="pills-Agents-tab"
-                                                                    data-toggle="pill" href="#pills-Agents" role="tab"
-                                                                    aria-controls="pills-Agents"
-                                                                    aria-selected="false"><b> Agent(s) </b></a>
+                                                                <a class="nav-link" id="pills-Associates-tab"
+                                                                    data-toggle="pill" href="#pills-Associates" role="tab"
+                                                                    aria-controls="pills-Associates"
+                                                                    aria-selected="false"><b> Associate(s) </b></a>
                                                             </li>
                                                             <li class="nav-item">
                                                                 <a class="nav-link" id="pills-Paralegals-tab"
@@ -2045,10 +2045,10 @@ title %} {% block css %}
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="tab-pane fade" id="pills-Agents" role="tabpanel"
-                                                                aria-labelledby="pills-Agents-tab">
+                                                            <div class="tab-pane fade" id="pills-Associates" role="tabpanel"
+                                                                aria-labelledby="pills-Associates-tab">
                                                                 <fieldset>
-                                                                    <legend class="font-weight-light">Agent</legend>
+                                                                    <legend class="font-weight-light">Associate</legend>
                                                                     <div class="card-body row">
                                                                         <div class="col-6">
                                                                             <div class="form-group row">
@@ -2057,27 +2057,27 @@ title %} {% block css %}
                                                                                     Associate ID:
                                                                                 </label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input name="agent_ID"
+                                                                                    <input name="Associate_ID"
                                                                                         style="max-width: 120px"
-                                                                                        type="agent_ID"
+                                                                                        type="Associate_ID"
                                                                                         class="form-control"
-                                                                                        placeholder=" Agent ID" value=""
+                                                                                        placeholder=" Associate ID" value=""
                                                                                         required="" />
                                                                                 </div>
                                                                             </div>
                                                                             <div class="form-group row">
                                                                                 <label
-                                                                                    class="col-sm-4 col-form-label text-right">Agent
+                                                                                    class="col-sm-4 col-form-label text-right">Associate
                                                                                     Name:
                                                                                 </label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input name="agent_name"
-                                                                                        id="agent_name"
-                                                                                        type="agent_name"
+                                                                                    <input name="Associate_name"
+                                                                                        id="Associate_name"
+                                                                                        type="Associate_name"
                                                                                         class="form-control"
-                                                                                        placeholder=" Agent Name"
+                                                                                        placeholder=" Associate Name"
                                                                                         value="" required="" />
-                                                                                    <div id="agent_nameList"></div>
+                                                                                    <div id="Associate_nameList"></div>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="form-group row">
@@ -2142,7 +2142,7 @@ title %} {% block css %}
                                                                                     class="col-sm-4 col-form-label text-right">Nationality:
                                                                                 </label>
                                                                                 <div class="col-sm-8">
-                                                                                    <select name="agent_nationality"
+                                                                                    <select name="Associate_nationality"
                                                                                         class="form-control form-select"
                                                                                         required="">
                                                                                         {% include 'app/address-book/country-options.html' %}
@@ -2155,12 +2155,12 @@ title %} {% block css %}
                                                                                     Person:
                                                                                 </label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input name="agent_contact_person"
-                                                                                        id="agent_contact_person"
+                                                                                    <input name="Associate_contact_person"
+                                                                                        id="Associate_contact_person"
                                                                                         type="text" class="form-control"
                                                                                         placeholder=" Contact person"
                                                                                         value="" required="" />
-                                                                                    <div id="agent_contact_personList">
+                                                                                    <div id="Associate_contact_personList">
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -2186,12 +2186,12 @@ title %} {% block css %}
                                                                                     Address:
                                                                                 </label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input name="agent_email"
-                                                                                        id="agent_email" type="email"
+                                                                                    <input name="Associate_email"
+                                                                                        id="Associate_email" type="email"
                                                                                         class="form-control"
-                                                                                        placeholder=" Agent's e-Mail"
+                                                                                        placeholder=" Associate's e-Mail"
                                                                                         value="" required="" />
-                                                                                    <div id="agent_emailList"></div>
+                                                                                    <div id="Associate_emailList"></div>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="form-group row">
@@ -2200,13 +2200,13 @@ title %} {% block css %}
                                                                                     Number:
                                                                                 </label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input name="agent_fax_number"
-                                                                                        id="agent_fax_number"
-                                                                                        type="agent_fax_number"
+                                                                                    <input name="Associate_fax_number"
+                                                                                        id="Associate_fax_number"
+                                                                                        type="Associate_fax_number"
                                                                                         class="form-control"
-                                                                                        placeholder=" Agent's Fax Number"
+                                                                                        placeholder=" Associate's Fax Number"
                                                                                         value="" required="" />
-                                                                                    <div id="agent_fax_numberList">
+                                                                                    <div id="Associate_fax_numberList">
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -2216,13 +2216,13 @@ title %} {% block css %}
                                                                                     Contact:
                                                                                 </label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input name="agent_office_phone"
-                                                                                        id="agent_office_phone"
+                                                                                    <input name="Associate_office_phone"
+                                                                                        id="Associate_office_phone"
                                                                                         type="phone"
                                                                                         class="form-control"
-                                                                                        placeholder=" agent's office contact"
+                                                                                        placeholder=" Associate's office contact"
                                                                                         value="" required="" />
-                                                                                    <div id="agent_office_phoneList">
+                                                                                    <div id="Associate_office_phoneList">
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -2233,23 +2233,23 @@ title %} {% block css %}
                                                                                     Future Contact:
                                                                                 </label>
                                                                                 <div class="col-sm-8">
-                                                                                    <input name="agent_future_email"
-                                                                                        id="agent_future_email"
+                                                                                    <input name="Associate_future_email"
+                                                                                        id="Associate_future_email"
                                                                                         type="email"
                                                                                         class="form-control"
-                                                                                        placeholder=" Agents's email of future contact"
+                                                                                        placeholder=" Associates's email of future contact"
                                                                                         value="" required="" />
-                                                                                    <div id="agent_future_emailList">
+                                                                                    <div id="Associate_future_emailList">
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="form-group row">
                                                                                 <label
-                                                                                    class="col-sm-4 col-form-label text-right">Agent
+                                                                                    class="col-sm-4 col-form-label text-right">Associate
                                                                                     Status:
                                                                                 </label>
                                                                                 <div class="col-sm-8">
-                                                                                    <select name="agent_status"
+                                                                                    <select name="Associate_status"
                                                                                         class="form-control form-select"
                                                                                         required="">
                                                                                         <option value="">Select option
@@ -2273,16 +2273,16 @@ title %} {% block css %}
                                                                 </fieldset>
                                                                 <div class="media">
                                                                     <div class="table-responsive">
-                                                                        <div id="Devroagent_wrapper"
+                                                                        <div id="DevroAssociate_wrapper"
                                                                             class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
                                                                             <div class="row">
                                                                                 <div class="col-sm-12 col-md-6">
                                                                                     <div class="dataTables_length"
-                                                                                        id="Devroagent_length">
+                                                                                        id="DevroAssociate_length">
                                                                                         <label>Show
                                                                                             <select
-                                                                                                name="Devroagent_length"
-                                                                                                aria-controls="Devroagent"
+                                                                                                name="DevroAssociate_length"
+                                                                                                aria-controls="DevroAssociate"
                                                                                                 class="form-control form-control-sm">
                                                                                                 <option value="10">10
                                                                                                 </option>
@@ -2297,27 +2297,27 @@ title %} {% block css %}
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-sm-12 col-md-6">
-                                                                                    <div id="Devroagent_filter"
+                                                                                    <div id="DevroAssociate_filter"
                                                                                         class="dataTables_filter">
                                                                                         <label>Search:<input
                                                                                                 type="search"
                                                                                                 class="form-control form-control-sm"
                                                                                                 placeholder=""
-                                                                                                aria-controls="Devroagent" /></label>
+                                                                                                aria-controls="DevroAssociate" /></label>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row">
                                                                                 <div class="col-sm-12">
-                                                                                    <table id="Devroagent"
+                                                                                    <table id="DevroAssociate"
                                                                                         class="table dataTable no-footer"
                                                                                         style="width: 100%" role="grid"
-                                                                                        aria-describedby="Devroagent_info">
+                                                                                        aria-describedby="DevroAssociate_info">
                                                                                         <thead class="text-center">
                                                                                             <tr role="row">
                                                                                                 <th class="sorting_asc"
                                                                                                     tabindex="0"
-                                                                                                    aria-controls="Devroagent"
+                                                                                                    aria-controls="DevroAssociate"
                                                                                                     rowspan="1"
                                                                                                     colspan="1"
                                                                                                     aria-sort="ascending"
@@ -2327,7 +2327,7 @@ title %} {% block css %}
                                                                                                 </th>
                                                                                                 <th class="sorting"
                                                                                                     tabindex="0"
-                                                                                                    aria-controls="Devroagent"
+                                                                                                    aria-controls="DevroAssociate"
                                                                                                     rowspan="1"
                                                                                                     colspan="1"
                                                                                                     aria-label="Email: activate to sort column ascending"
@@ -2336,7 +2336,7 @@ title %} {% block css %}
                                                                                                 </th>
                                                                                                 <th class="sorting"
                                                                                                     tabindex="0"
-                                                                                                    aria-controls="Devroagent"
+                                                                                                    aria-controls="DevroAssociate"
                                                                                                     rowspan="1"
                                                                                                     colspan="1"
                                                                                                     aria-label="Phone Number: activate to sort column ascending"
@@ -2345,7 +2345,7 @@ title %} {% block css %}
                                                                                                 </th>
                                                                                                 <th class="sorting"
                                                                                                     tabindex="0"
-                                                                                                    aria-controls="Devroagent"
+                                                                                                    aria-controls="DevroAssociate"
                                                                                                     rowspan="1"
                                                                                                     colspan="1"
                                                                                                     aria-label="Nationality: activate to sort column ascending"
@@ -2354,7 +2354,7 @@ title %} {% block css %}
                                                                                                 </th>
                                                                                                 <th class="sorting"
                                                                                                     tabindex="0"
-                                                                                                    aria-controls="Devroagent"
+                                                                                                    aria-controls="DevroAssociate"
                                                                                                     rowspan="1"
                                                                                                     colspan="1"
                                                                                                     aria-label="Status: activate to sort column ascending"
@@ -2363,7 +2363,7 @@ title %} {% block css %}
                                                                                                 </th>
                                                                                                 <th class="text-center sorting"
                                                                                                     tabindex="0"
-                                                                                                    aria-controls="Devroagent"
+                                                                                                    aria-controls="DevroAssociate"
                                                                                                     rowspan="1"
                                                                                                     colspan="1"
                                                                                                     aria-label="Action: activate to sort column ascending"
@@ -2388,7 +2388,7 @@ title %} {% block css %}
                                                                             <div class="row">
                                                                                 <div class="col-sm-12 col-md-5">
                                                                                     <div class="dataTables_info"
-                                                                                        id="Devroagent_info"
+                                                                                        id="DevroAssociate_info"
                                                                                         role="status"
                                                                                         aria-live="polite">
                                                                                         Showing 0 to 0 of 0 entries
@@ -2396,20 +2396,20 @@ title %} {% block css %}
                                                                                 </div>
                                                                                 <div class="col-sm-12 col-md-7">
                                                                                     <div class="dataTables_paginate paging_simple_numbers"
-                                                                                        id="Devroagent_paginate">
+                                                                                        id="DevroAssociate_paginate">
                                                                                         <ul class="pagination">
                                                                                             <li class="paginate_button page-item previous disabled"
-                                                                                                id="Devroagent_previous">
+                                                                                                id="DevroAssociate_previous">
                                                                                                 <a href="#"
-                                                                                                    aria-controls="Devroagent"
+                                                                                                    aria-controls="DevroAssociate"
                                                                                                     data-dt-idx="0"
                                                                                                     tabindex="0"
                                                                                                     class="page-link">Previous</a>
                                                                                             </li>
                                                                                             <li class="paginate_button page-item next disabled"
-                                                                                                id="Devroagent_next">
+                                                                                                id="DevroAssociate_next">
                                                                                                 <a href="#"
-                                                                                                    aria-controls="Devroagent"
+                                                                                                    aria-controls="DevroAssociate"
                                                                                                     data-dt-idx="1"
                                                                                                     tabindex="0"
                                                                                                     class="page-link">Next</a>

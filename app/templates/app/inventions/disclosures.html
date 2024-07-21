@@ -4,290 +4,289 @@
 {% load super_filters %}
 
 {% block title %}
-	Rhinestone Inventions Disclosure Tools | Invention Disclosures
+    Rhinestone Inventions Disclosure Tools | Invention Disclosures
 {% endblock title %}
 
 {% block css %}
-<!-- vendor css -->
-<link rel="stylesheet" href="{% static 'assets/css/plugins/dataTables.bootstrap4.min.css' %}">
-<link rel="stylesheet" href="{% static 'assets/css/plugins/select2.min.css' %}">
-<link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
-<link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
 {% endblock css %}
-	
 
 {% block content %}
-<!-- [ Main Content ] start -->
-<section class="pcoded-main-container">
-    <div class="pcoded-content">
-        <!-- [ breadcrumb ] start -->
-        <div class="page-header">
-            <div class="page-block">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <div class="page-header-title">
-                            <h5 class="m-b-10">Invention Disclosure</h5>
+    <!-- Main Content Start -->
+    <section class="pcoded-main-container">
+        <div class="pcoded-content">
+            <!-- Breadcrumb Start -->
+            <div class="page-header">
+                <div class="page-block">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <div class="page-header-title">
+                                <h5 class="m-b-10">Invention Disclosure</h5>
+                            </div>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/app/"><i class="feather icon-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="#!">Invention Disclosure</a></li>
+                            </ul>
                         </div>
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/app/"><i class="feather icon-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="#!">Invention Disclosure</a></li>
-                        </ul>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- [ breadcrumb ] end -->
-        <!-- [ Main Content ] start -->
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5>Invention Disclosures</h5>
-                    </div>
-					<div class="card-body">
-                        <div class="row ">
-                        
-                            <div class="col-12">
-                                <!-- <button class="btn btn-primary">Create Invention Disclosure</button> -->
-                                <button class="btn btn-primary float-right">Create Family</button>
+            <!-- Breadcrumb End -->
+
+            <!-- Main Content Start -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Invention Disclosures</h5>
+                            <div class="row">
+                                <div class="col-12 mb-3">
+                                    <button class="btn btn-primary float-right">Create Family</button>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <button class="btn btn-sm btn-outline-primary">Audit Trail</button>
+                                    <button class="btn btn-sm btn-outline-primary">Customer Special Instructions</button>
+                                    <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-left"></i></button>
+                                    <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-right"></i></button>
+                                    <button class="btn btn-sm btn-outline-primary"><i class="feather icon-printer"></i></button>
+                                    <button class="btn btn-sm btn-outline-primary"><i class="feather icon-delete"></i></button>
+                                    <div class="dropdown float-right ml-2">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" id="country-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-plus"></i>&nbsp;Add Family
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="country-dropdown">
+                                            <a class="dropdown-item" href="/app/modules/families-patent/add/">Patent Family</a>
+                                            <a class="dropdown-item" href="/app/modules/families-design/add/">Design Family</a>
+                                            <a class="dropdown-item" href="/app/modules/families-trademark/add/">Trademark Family</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-12 mb-4 text-center">
-                                <button class="btn btn-sm btn-outline-primary">Audit Trail</button>
-                                <button class="btn btn-sm btn-outline-primary"><i class="feather icon-copy"></i></button>
-                                <button class="btn btn-sm btn-outline-primary">Customer Special Instructions</button>
-                                <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-left"></i></button>
-                                <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-right"></i></button>
-                                <button class="btn btn-sm btn-outline-primary"><i class="feather icon-printer"></i></button>
-                                <button class="btn btn-sm btn-outline-primary"><i class="feather icon-delete"></i></button>
-                            </div>
-                            <div class="col-12 mb-4">
-                                <form class="page-form" action="/app/inventions/disclosures/" method="post">
-                                    {% csrf_token %}
-                                    {% crispy form %}
-                                </form>
-                            </div>
-                            <div class="col-12">
-                                <ul class="nav nav-tabs mb-3" id="invention-disclosure-tabs" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active text-uppercase" id="actions-tab" data-toggle="tab" href="#actions" role="tab" aria-controls="actions" aria-selected="true">Actions</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-uppercase" id="prior-art-cited-docs-tab" data-toggle="tab" href="#prior-art-cited-docs" role="tab" aria-controls="prior-art-cited-docs" aria-selected="false">Prior Art/Cited Docs</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-uppercase" id="related-case-tab" data-toggle="tab" href="#related-case" role="tab" aria-controls="related-case" aria-selected="false">Related Case Links</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-uppercase" id="inventor-compensation-tab" data-toggle="tab" href="#inventor-compensation" role="tab" aria-controls="inventor-compensation" aria-selected="false">Inventor Compensation</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-uppercase" id="documents-tab" data-toggle="tab" href="#documents" role="tab" aria-controls="documents" aria-selected="false">Documents</a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content" id="invention-disclosure-tabs-content">
-                                    <div class="tab-pane fade show active" id="actions" role="tabpanel" aria-labelledby="actions-tab">
-                                        <div class="mb-0">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered table-striped mb-0 data-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th scope="col">Col 1</th>
-                                                            <th>Col 2</th>
-                                                            <th>Col 3</th>
-                                                            <th>Col 4</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {% for i in items %}
-                                                        <tr>
-                                                            <td scope="col">{{i.col_1}}</td>
-                                                            <td>{{i.col_2}}</td>
-                                                            <td>{{i.col_3}}</td>
-                                                            <td>{{i.col_4}}</td>
-                                                            <td class="table-action">
-                                                                <a href="#!" class="btn btn-icon btn-outline-primary"><i class="feather icon-eye"></i></a>
-                                                                <a href="#!" class="btn btn-icon btn-outline-success"><i class="feather icon-edit"></i></a>
-                                                                <a href="#!" class="btn btn-icon btn-outline-danger"><i class="feather icon-trash-2"></i></a>
-                                                            </td>
-                                                        </tr>
-                                                        {% endfor %}
-                                                    </tbody>
-                                                </table>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12 mb-4">
+                                    <form class="page-form" action="/app/inventions/disclosures/" method="post">
+                                        {% csrf_token %}
+                                        {% crispy form %}
+                                    </form>
+                                </div>
+                                <div class="col-12">
+                                    <ul class="nav nav-tabs mb-3" id="invention-disclosure-tabs" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active text-uppercase" id="actions-tab" data-toggle="tab" href="#actions" role="tab" aria-controls="actions" aria-selected="true">Actions</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-uppercase" id="prior-art-cited-docs-tab" data-toggle="tab" href="#prior-art-cited-docs" role="tab" aria-controls="prior-art-cited-docs" aria-selected="false">Prior Art/Cited Docs</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-uppercase" id="related-case-tab" data-toggle="tab" href="#related-case" role="tab" aria-controls="related-case" aria-selected="false">Related Case Links</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-uppercase" id="inventor-compensation-tab" data-toggle="tab" href="#inventor-compensation" role="tab" aria-controls="inventor-compensation" aria-selected="false">Inventor Compensation</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-uppercase" id="documents-tab" data-toggle="tab" href="#documents" role="tab" aria-controls="documents" aria-selected="false">Documents</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content" id="invention-disclosure-tabs-content">
+                                        <div class="tab-pane fade show active" id="actions" role="tabpanel" aria-labelledby="actions-tab">
+                                            <div class="mb-0">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered table-striped mb-0 data-table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">ACTION CODE</th>
+                                                                <th>ACTION SPELLOUT</th>
+                                                                <th>DUE DATE</th>
+                                                                <th>TAKEN DATE</th>
+                                                                <th>COMPLETED DATE</th>
+                                                                <th>RESPONSIBLE PERSON</th>
+                                                                <th>NOTES</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for i in items %}
+                                                            <tr>
+                                                                <td>{{ i.col_1 }}</td>
+                                                                <td>{{ i.col_2 }}</td>
+                                                                <td>{{ i.col_3 }}</td>
+                                                                <td>{{ i.col_4 }}</td>
+                                                                <td>{{ i.col_5 }}</td>
+                                                                <td>{{ i.col_6 }}</td>
+                                                                <td>{{ i.col_7 }}</td>
+                                                                <td class="table-action">
+                                                                    <a href="#!" class="btn btn-icon btn-outline-primary"><i class="feather icon-eye"></i></a>
+                                                                    <a href="#!" class="btn btn-icon btn-outline-success"><i class="feather icon-edit"></i></a>
+                                                                    <a href="#!" class="btn btn-icon btn-outline-danger"><i class="feather icon-trash-2"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="prior-art-cited-docs" role="tabpanel" aria-labelledby="prior-art-cited-docs-tab">
-                                        <div class="mb-0">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered table-striped mb-0 data-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th scope="col">Col 1</th>
-                                                            <th>Col 2</th>
-                                                            <th>Col 3</th>
-                                                            <th>Col 4</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {% for i in items %}
-                                                        <tr>
-                                                            <td scope="col">{{i.col_1}}</td>
-                                                            <td>{{i.col_2}}</td>
-                                                            <td>{{i.col_3}}</td>
-                                                            <td>{{i.col_4}}</td>
-                                                            <td class="table-action">
-                                                                <a href="#!" class="btn btn-icon btn-outline-primary"><i class="feather icon-eye"></i></a>
-                                                                <a href="#!" class="btn btn-icon btn-outline-success"><i class="feather icon-edit"></i></a>
-                                                                <a href="#!" class="btn btn-icon btn-outline-danger"><i class="feather icon-trash-2"></i></a>
-                                                            </td>
-                                                        </tr>
-                                                        {% endfor %}
-                                                    </tbody>
-                                                </table>
+                                        <div class="tab-pane fade" id="prior-art-cited-docs" role="tabpanel" aria-labelledby="prior-art-cited-docs-tab">
+                                            <div class="mb-0">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered table-striped mb-0 data-table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Col 1</th>
+                                                                <th>Col 2</th>
+                                                                <th>Col 3</th>
+                                                                <th>Col 4</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for i in items %}
+                                                            <tr>
+                                                                <td>{{ i.col_1 }}</td>
+                                                                <td>{{ i.col_2 }}</td>
+                                                                <td>{{ i.col_3 }}</td>
+                                                                <td>{{ i.col_4 }}</td>
+                                                                <td class="table-action">
+                                                                    <a href="#!" class="btn btn-icon btn-outline-primary"><i class="feather icon-eye"></i></a>
+                                                                    <a href="#!" class="btn btn-icon btn-outline-success"><i class="feather icon-edit"></i></a>
+                                                                    <a href="#!" class="btn btn-icon btn-outline-danger"><i class="feather icon-trash-2"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="related-case" role="tabpanel" aria-labelledby="related-case-tab">
-                                        <div class="mb-0">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered table-striped mb-0 data-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th scope="col">Col 1</th>
-                                                            <th>Col 2</th>
-                                                            <th>Col 3</th>
-                                                            <th>Col 4</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {% for i in items %}
-                                                        <tr>
-                                                            <td scope="col">{{i.col_1}}</td>
-                                                            <td>{{i.col_2}}</td>
-                                                            <td>{{i.col_3}}</td>
-                                                            <td>{{i.col_4}}</td>
-                                                            <td class="table-action">
-                                                                <a href="#!" class="btn btn-icon btn-outline-primary"><i class="feather icon-eye"></i></a>
-                                                                <a href="#!" class="btn btn-icon btn-outline-success"><i class="feather icon-edit"></i></a>
-                                                                <a href="#!" class="btn btn-icon btn-outline-danger"><i class="feather icon-trash-2"></i></a>
-                                                            </td>
-                                                        </tr>
-                                                        {% endfor %}
-                                                    </tbody>
-                                                </table>
+                                        <div class="tab-pane fade" id="related-case" role="tabpanel" aria-labelledby="related-case-tab">
+                                            <div class="mb-0">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered table-striped mb-0 data-table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Col 1</th>
+                                                                <th>Col 2</th>
+                                                                <th>Col 3</th>
+                                                                <th>Col 4</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for i in items %}
+                                                            <tr>
+                                                                <td>{{ i.col_1 }}</td>
+                                                                <td>{{ i.col_2 }}</td>
+                                                                <td>{{ i.col_3 }}</td>
+                                                                <td>{{ i.col_4 }}</td>
+                                                                <td class="table-action">
+                                                                    <a href="#!" class="btn btn-icon btn-outline-primary"><i class="feather icon-eye"></i></a>
+                                                                    <a href="#!" class="btn btn-icon btn-outline-success"><i class="feather icon-edit"></i></a>
+                                                                    <a href="#!" class="btn btn-icon btn-outline-danger"><i class="feather icon-trash-2"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="inventor-compensation" role="tabpanel" aria-labelledby="inventor-compensation-tab">
-                                        <div class="mb-0">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered table-striped mb-0 data-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th scope="col">Col 1</th>
-                                                            <th>Col 2</th>
-                                                            <th>Col 3</th>
-                                                            <th>Col 4</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {% for i in items %}
-                                                        <tr>
-                                                            <td scope="col">{{i.col_1}}</td>
-                                                            <td>{{i.col_2}}</td>
-                                                            <td>{{i.col_3}}</td>
-                                                            <td>{{i.col_4}}</td>
-                                                            <td class="table-action">
-                                                                <a href="#!" class="btn btn-icon btn-outline-primary"><i class="feather icon-eye"></i></a>
-                                                                <a href="#!" class="btn btn-icon btn-outline-success"><i class="feather icon-edit"></i></a>
-                                                                <a href="#!" class="btn btn-icon btn-outline-danger"><i class="feather icon-trash-2"></i></a>
-                                                            </td>
-                                                        </tr>
-                                                        {% endfor %}
-                                                    </tbody>
-                                                </table>
+                                        <div class="tab-pane fade" id="inventor-compensation" role="tabpanel" aria-labelledby="inventor-compensation-tab">
+                                            <div class="mb-0">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered table-striped mb-0 data-table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Col 1</th>
+                                                                <th>Col 2</th>
+                                                                <th>Col 3</th>
+                                                                <th>Col 4</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for i in items %}
+                                                            <tr>
+                                                                <td>{{ i.col_1 }}</td>
+                                                                <td>{{ i.col_2 }}</td>
+                                                                <td>{{ i.col_3 }}</td>
+                                                                <td>{{ i.col_4 }}</td>
+                                                                <td class="table-action">
+                                                                    <a href="#!" class="btn btn-icon btn-outline-primary"><i class="feather icon-eye"></i></a>
+                                                                    <a href="#!" class="btn btn-icon btn-outline-success"><i class="feather icon-edit"></i></a>
+                                                                    <a href="#!" class="btn btn-icon btn-outline-danger"><i class="feather icon-trash-2"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
-                                        <div class="mb-0">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered table-striped mb-0 data-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th scope="col">Col 1</th>
-                                                            <th>Col 2</th>
-                                                            <th>Col 3</th>
-                                                            <th>Col 4</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {% for i in items %}
-                                                        <tr>
-                                                            <td scope="col">{{i.col_1}}</td>
-                                                            <td>{{i.col_2}}</td>
-                                                            <td>{{i.col_3}}</td>
-                                                            <td>{{i.col_4}}</td>
-                                                            <td class="table-action">
-                                                                <a href="#!" class="btn btn-icon btn-outline-primary"><i class="feather icon-eye"></i></a>
-                                                                <a href="#!" class="btn btn-icon btn-outline-success"><i class="feather icon-edit"></i></a>
-                                                                <a href="#!" class="btn btn-icon btn-outline-danger"><i class="feather icon-trash-2"></i></a>
-                                                            </td>
-                                                        </tr>
-                                                        {% endfor %}
-                                                    </tbody>
-                                                </table>
+                                        <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
+                                            <div class="mb-0">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered table-striped mb-0 data-table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Col 1</th>
+                                                                <th>Col 2</th>
+                                                                <th>Col 3</th>
+                                                                <th>Col 4</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for i in items %}
+                                                            <tr>
+                                                                <td>{{ i.col_1 }}</td>
+                                                                <td>{{ i.col_2 }}</td>
+                                                                <td>{{ i.col_3 }}</td>
+                                                                <td>{{ i.col_4 }}</td>
+                                                                <td class="table-action">
+                                                                    <a href="#!" class="btn btn-icon btn-outline-primary"><i class="feather icon-eye"></i></a>
+                                                                    <a href="#!" class="btn btn-icon btn-outline-success"><i class="feather icon-edit"></i></a>
+                                                                    <a href="#!" class="btn btn-icon btn-outline-danger"><i class="feather icon-trash-2"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-					</div>
+                    </div>
                 </div>
             </div>
+            <!-- Main Content End -->
         </div>
-        <!-- [ Main Content ] end -->
-
-    </div>
-</section>
-<!-- [ Main Content ] end -->
-
+    </section>
+    <!-- Main Content End -->
 {% endblock content %}
-{% block js %}
-<!-- Required Js -->
-<script src="{% static 'assets/js/vendor-all.min.js' %}"></script>
-<script src="{% static 'assets/js/plugins/bootstrap.min.js' %}"></script>
-<script src="{% static 'assets/js/ripple.js' %}"></script>
-<script src="{% static 'assets/js/pcoded.min.js' %}"></script>
-<!-- select2 Js -->
-<script src="{% static 'assets/js/plugins/select2.full.min.js' %}"></script>
-<!-- datatables Js -->
-<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
-<script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
-<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
-<script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
-<!-- <script src="{% static 'assets/js/plugins/buttons.colVis.min.js' %}"></script>
-<script src="{% static 'assets/js/plugins/buttons.print.min.js' %}"></script>
-<script src="{% static 'assets/js/plugins/pdfmake.min.js' %}"></script>
-<script src="{% static 'assets/js/plugins/jszip.min.js' %}"></script>
-<script src="{% static 'assets/js/plugins/dataTables.buttons.min.js' %}"></script>
-<script src="{% static 'assets/js/plugins/buttons.html5.min.js' %}"></script>
-<script src="{% static 'assets/js/plugins/buttons.bootstrap4.min.js' %}"></script>
-<script src="{% static 'assets/js/pages/data-export-custom.js' %}"></script> -->
-<!-- Apex Chart
-<script src="{% static 'assets/js/plugins/apexcharts.min.js' %}"></script>
--->
 
-<script>
-	// Form start
-	$(".page-form select").select2();
-	// Form end
-	// DataTable start
-	$('.data-table').DataTable({
-		dom: 'Bfrtip',
-		// buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
-	});
-	// DataTable end
-</script>
+{% block js %}
+    <!-- Required JS -->
+    <script src="{% static 'assets/js/vendor-all.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/ripple.js' %}"></script>
+    <script src="{% static 'assets/js/pcoded.min.js' %}"></script>
+    <!-- Select2 JS -->
+    <script src="{% static 'assets/js/plugins/select2.full.min.js' %}"></script>
+    <!-- Datatables JS -->
+    <script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+    <script>
+        // Initialize Select2
+        $(".page-form select").select2();
+        // Initialize DataTable
+        $('.data-table').DataTable({
+            dom: 'Bfrtip',
+            // Uncomment the following line to enable buttons
+            // buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        });
+    </script>
 {% endblock js %}

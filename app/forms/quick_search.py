@@ -21,12 +21,12 @@ class QuickSearchForm(forms.Form):
     primary_attorney = forms.ModelChoiceField(models.Attorney.objects.all(), required=False)
     secondary_attorney = forms.ModelChoiceField(models.Attorney.objects.all(), required=False)
     type_of_filing = forms.ChoiceField(required=False, choices=data.common.BLANK_OPTIONS + [(i, i) for i in ["Trademark", "Design", "Patent"]])
-    _agents = forms.ModelChoiceField(
-        models.Contact.objects.filter(type__in=["Inventor", "Applicant", "Licensor", "Licensee", "Consultant", "Agent", "Paralegal", "Attorney"]),
+    _Associates = forms.ModelChoiceField(
+        models.Contact.objects.filter(type__in=["Inventor", "Applicant", "Licensor", "Licensee", "Consultant", "Associate", "Paralegal", "Attorney"]),
         required=False
     )
-    _agent_refs = forms.ModelChoiceField(
-        models.Contact.objects.filter(type__in=["Inventor", "Applicant", "Licensor", "Licensee", "Consultant", "Agent", "Paralegal", "Attorney"]),
+    _Associate_refs = forms.ModelChoiceField(
+        models.Contact.objects.filter(type__in=["Inventor", "Applicant", "Licensor", "Licensee", "Consultant", "Associate", "Paralegal", "Attorney"]),
         required=False
     )
     status__in = forms.MultipleChoiceField(required=False, label="Status", choices=data.common.BLANK_OPTIONS + [(i, i) for i in ["Open", "Pending", "Filed", "Allowed", "Granted(Live)", "Abandoned", "Granted(DEA)", "Converted", "Expired", "Published"]])
@@ -43,8 +43,8 @@ class QuickSearchForm(forms.Form):
                 Column("secondary_attorney", css_class="col-12 col-md-6"),
                 Column("type_of_filing", css_class="col-12 col-md-6"),
                 Column("status__in", css_class="col-12 col-md-6"),
-                Column("_agents", css_class="col-12 col-md-6"),
-                Column("_agent_refs", css_class="col-12 col-md-6"),
+                Column("_Associates", css_class="col-12 col-md-6"),
+                Column("_Associate_refs", css_class="col-12 col-md-6"),
                 Column("query", css_class="col-12")
             ),
             Row(
@@ -95,12 +95,12 @@ class HomeSearchForm(forms.Form):
     primary_attorney = forms.ModelChoiceField(models.Attorney.objects.all(), required=False)
     secondary_attorney = forms.ModelChoiceField(models.Attorney.objects.all(), required=False)
     type_of_filing = forms.ChoiceField(required=False, choices=[("","")] + [(i, i) for i in ["Trademark", "Design", "Patent"]])
-    _agents = forms.ModelChoiceField(
-        models.Contact.objects.filter(type__in=["Inventor", "Applicant", "Licensor", "Licensee", "Consultant", "Agent", "Paralegal", "Attorney"]),
+    _Associates = forms.ModelChoiceField(
+        models.Contact.objects.filter(type__in=["Inventor", "Applicant", "Licensor", "Licensee", "Consultant", "Associate", "Paralegal", "Attorney"]),
         required=False
     )
-    _agent_refs = forms.ModelChoiceField(
-        models.Contact.objects.filter(type__in=["Inventor", "Applicant", "Licensor", "Licensee", "Consultant", "Agent", "Paralegal", "Attorney"]),
+    _Associate_refs = forms.ModelChoiceField(
+        models.Contact.objects.filter(type__in=["Inventor", "Applicant", "Licensor", "Licensee", "Consultant", "Associate", "Paralegal", "Attorney"]),
         required=False
     )
     status__in = forms.MultipleChoiceField(required=False, label="Status", choices=[("","")] + [(i, i) for i in ["Open", "Pending", "Filed", "Allowed", "Granted(Live)", "Abandoned", "Granted(DEA)", "Converted", "Expired", "Published"]])
@@ -117,8 +117,8 @@ class HomeSearchForm(forms.Form):
                 Column("secondary_attorney", css_class="col-12 col-md-6"),
                 Column("type_of_filing", css_class="col-12 col-md-6"),
                 Column("status__in", css_class="col-12 col-md-6"),
-                Column("_agents", css_class="col-12 col-md-6"),
-                Column("_agent_refs", css_class="col-12 col-md-6"),
+                Column("_Associates", css_class="col-12 col-md-6"),
+                Column("_Associate_refs", css_class="col-12 col-md-6"),
                 #Column("query", css_class="col-12")
             ),
             Row(

@@ -111,6 +111,7 @@ Tools | Family {% endblock title %} {% block css %}
                       </button>
                     </div>
                     <div class="modal-body">
+
                       {% csrf_token %}
                               <!-- Add your country creation form here -->
                               {% crispy modal %}
@@ -463,7 +464,7 @@ Tools | Family {% endblock title %} {% block css %}
 </script>
 <script>
   var type_of_filing = "{{type_of_filing}}";
-  if (type_of_filing == "Trademark" ){
+  if (type_of_filing === "Trademark" ){
     var primary_attorney = "{{primary_attorney}}" ;
     var secondary_attorney = "{{primary_attorney}}" ;
     var primary_paralegal = "{{primary_paralegal}}" ;
@@ -484,7 +485,7 @@ Tools | Family {% endblock title %} {% block css %}
     try {$("form.family select#id_licensor option[value=" + licensor + "]").prop("selected",true).change(); } catch (e) {}
     try {$("form.family select#id_cost_centre_code option[value=" + cost_centre_code + "]").prop("selected",true).change(); } catch (e) {}
     try {$("form.family select#id_type_of_filing option[value=" + type_of_filing + "]").prop("selected",true).change(); } catch (e) {}
-  }else if (type_of_filing == "Patent" ){
+  }else if (type_of_filing === "Patent" ){
     var internal_title = "{{internal_title}}" ;
     var formal_title =  "{{formal_title}}" ;
     var internal_title = "{{internal_title}}" ;
