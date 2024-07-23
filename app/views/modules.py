@@ -37,24 +37,47 @@ def families_create_view(request: HttpRequest, form_class, modal_class):
     if request.method == "POST":
         form = form_class(request.POST)
         if form.is_valid():
-            family = form.save()
+            family = form.save(commit=False)
+            family.save()  # Save the family instance to generate family_no
+            family = Family.objects.get(id=family.id)  # Retrieve the saved family instance
+            family.case_no = family.family_no  # Set case_no as family_no
+            family.save()  # Save the instance again to update case_no
+
             messages.success(request, f"Item successfully created!")
+
             data = form.cleaned_data
             type_of_filing = data.get('type_of_filing')
+            countries_id = request.POST.get('PCT_Country')
+
+            # Prepare content for session storage
             content = {
                 "internal_title": data['internal_title'],
                 "formal_title": data['formal_title'],
-                "cost_centre_code": data['cost_centre_code'],
-                "primary_attorney": data['primary_attorney'],
-                "secondary_attorney": data['secondary_attorney'],
-                "primary_paralegal": data['primary_paralegal'],
-                "secondary_paralegal": data['secondary_paralegal'],
+                "cost_centre_code": str(data['cost_centre_code']) if data['cost_centre_code'] else None,
+                "primary_attorney": str(data['primary_attorney'].id) if data['primary_attorney'] else None,
+                "secondary_attorney": str(data['secondary_attorney'].id) if data['secondary_attorney'] else None,
+                "primary_paralegal": str(data['primary_paralegal'].id) if data['primary_paralegal'] else None,
+                "secondary_paralegal": str(data['secondary_paralegal'].id) if data['secondary_paralegal'] else None,
                 "licenced": data['licenced'],
                 "type_of_filing": type_of_filing,
-                'family': family.id
+                'family': family.id,
+                'case_no': family.case_no
             }
+
+            # Store the content in the session
             request.session[type_of_filing] = content
-            return HttpResponseRedirect(f"/app/modules/{type_of_filing.lower()}s/add/")
+
+            if countries_id:
+                country_ids = countries_id.split(',')
+                urls = []
+                for country_id in country_ids:
+                    url = f"/app/modules/{type_of_filing.lower()}s/add/?country={country_id}&data={family.case_no}&content={content}"
+                    urls.append(url)
+                return JsonResponse({'urls': urls})
+            else:
+                url = f"/app/modules/{type_of_filing.lower()}s/add/?data={family.case_no}&content={content}"
+                return JsonResponse({'urls': [url]})
+
         else:
             messages.error(request, f"Failed to create. Form is not valid!")
     else:
@@ -62,7 +85,6 @@ def families_create_view(request: HttpRequest, form_class, modal_class):
         modal = modal_class()
 
     return render(request, "app/modules/families/create.html", {"form": form, 'modal': modal})
-
 
 def families_create_patent_view(request: HttpRequest):
     return families_create_view(request, FamilyPatentForm, PatentPCTForm)

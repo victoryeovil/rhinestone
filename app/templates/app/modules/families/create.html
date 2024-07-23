@@ -498,19 +498,26 @@ Tools | Family {% endblock title %} {% block css %}
     console.log("linkLower", linkLower);
 
     if (linkUpper !== "") {
-      var linkHtml = `<button type="submit" href="/app/modules/families-${linkLower}s/add/" name="submit" value="${linkUpper}" id="id_btn_${linkLower}" class="btn btn-primary">Add ${linkUpper}</button>`;
+      var linkHtml = `<button type="button" id="id_btn_${linkLower}" class="btn btn-primary">Add ${linkUpper}</button>`;
       $("#add-filing-btn-container").html(linkHtml);
       $("#id_btn_" + linkLower).click(function () {
+        var selectedCountries = [];
+        $("input[name='pct_country']:checked").each(function () {
+          selectedCountries.push($(this).val());
+        });
+
+        var formData = $(".page-form.family").serialize() + "&PCT_Country=" + selectedCountries.join(",");
+
         $.ajax({
           type: "POST",
           url: `/app/modules/families-${linkLower}/add/`,  // Corrected URL
-          data: $(".page-form.family").serialize(),
-          success: function (data) {
-            var selectedCountries = [];
-            $("input[name='pct_country']:checked").each(function () {
-              selectedCountries.push($(this).val());
+          data: formData,
+          success: function (response) {
+            response.urls.forEach(function(url, index) {
+              setTimeout(function() {
+                window.open(url, '_blank');
+              }, index * 1000); // Delay each tab opening by 1 second
             });
-            window.location.href = `/app/modules/${linkLower}s/add/?PCT_Country=${selectedCountries.join(",")}`;
           },
           error: function (error) {
             console.error("Form submission error:", error);
@@ -522,6 +529,7 @@ Tools | Family {% endblock title %} {% block css %}
     }
   });
 </script>
+
 
 
 <script type="text/javascript">

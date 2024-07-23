@@ -197,10 +197,10 @@ class FamilyPatentForm(forms.ModelForm):
             Row(
                 Column(
                     Row(
-                        Column("internal_title", "formal_title", "status", "sub_status", "sub_filing",
+                        Column("internal_title", "formal_title", "status", "sub_filing",
                                "type_of_filing", "licenced", "licensor", css_class="col-md-4"),
                         Column("primary_attorney", "secondary_attorney", "primary_paralegal", "secondary_paralegal",
-                               "applicant", "inventor", "cost_centre", "cost_centre_code", "keywords",
+                               "applicant", "cost_centre", "cost_centre_code", "keywords",
                                css_class="col-md-4"),
                         #Column( css_class="col-md-4"),
                         #Column( css_class="col-md-4"),
@@ -261,10 +261,10 @@ class FamilyForm(forms.ModelForm):
             Row(
                 Column(
                     Row(
-                        Column("case_no", "internal_title", "formal_title", "status", "sub_status", "sub_filing",
+                        Column("case_no", "internal_title", "formal_title", "status", "sub_filing",
                                "type_of_filing", "licenced", "licensor", css_class="col-md-4"),
                         Column("primary_attorney", "secondary_attorney", "primary_paralegal", "secondary_paralegal",
-                               "applicant", "inventor", "cost_centre", "cost_centre_code", "keywords",
+                               "applicant", "cost_centre", "cost_centre_code", "keywords",
                                css_class="col-md-4"),
                         #Column( css_class="col-md-4"),
                         #Column( css_class="col-md-4"),
@@ -537,7 +537,8 @@ class PatentForms(forms.ModelForm):
                             css_class="col-md-6 col-sm-12"  # Modify col-md-6 to col-md-6 col-sm-12
                         ),
                         Column(
-                            "associate", "associate_ref", "associate_2", "associate_2_ref", "country", "PCT_Country", "licence",
+                            "associate", "associate_ref", "associate_2", "associate_2_ref", "country", "PCT_Country",
+                            "licence",
                             "next_annuity_due", "annuity_no", "taxs_paid_by", "patent_term_no_of_days",
                             "large_small_entity",
                             css_class="col-md-6 col-sm-12"  # Modify col-md-6 to col-md-6 col-sm-12

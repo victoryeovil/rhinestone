@@ -474,333 +474,164 @@
 	// DataTable end
 </script>
 <script>
-  var type_of_filing = "{{type_of_filing}}";
-  var internal_title = "{{internal_title}}" ;
-  var formal_title =  "{{formal_title}}" ;
-  var cost_centre_code = "{{cost_centre_code}}";
-  var primary_attorney = "{{primary_attorney}}";
-  var secondary_attorney = "{{secondary_attorney}}";
-  var primary_paralegal = "{{primary_paralegal}}";
-  var secondary_paralegal = "{{secondary_paralegal}}";
-  var licence = "{{licence}}";
-  var family = "{{family}}";
-  try {$("input#id_internal_title").val(internal_title); } catch (e) {}
-  try {$("input#id_formal_title").val(formal_title); } catch (e) {}
-  try {$("select#id_cost_centre_code option[value=" + cost_centre_code + "]").prop("selected",true).change(); } catch (e) {}
-  try {$("select#id_primary_attorney option[value=" + primary_attorney + "]").prop("selected",true).change(); } catch (e) {}
-  try {$("select#id_secondary_attorney option[value=" + secondary_attorney + "]").prop("selected",true).change(); } catch (e) {}
-  try {$("select#id_primary_paralegal option[value=" + primary_paralegal + "]").prop("selected",true).change(); } catch (e) {}
-  try {$("select#id_secondary_paralegal option[value=" + secondary_paralegal + "]").prop("selected",true).change(); } catch (e) {}
-  try {$("select#id_licence option[value=" + licence + "]").prop("selected",true).change(); } catch (e) {}
-  try {$("select#id_family option[value=" + family + "]").prop("selected",true).change(); } catch (e) {}
-  try {$("select#id_type_of_filing option[value=" + type_of_filing + "]").prop("selected",true).change(); } catch (e) {}
+  document.addEventListener("DOMContentLoaded", function() {
+    // Function to set the value of an input field
+    function setInputValue(form, fieldName, value) {
+      const inputField = form.querySelector(`input[name="${fieldName}"]`);
+      if (inputField) {
+        inputField.value = value || '';  // Use an empty string if the value is null or undefined
+      }
+    }
+
+    // Function to set the value of a select field
+    function setSelectValue(form, fieldName, value) {
+      const selectField = form.querySelector(`select[name="${fieldName}"]`);
+      if (selectField) {
+        selectField.value = value || '';  // Use an empty string if the value is null or undefined
+        selectField.dispatchEvent(new Event('change')); // Trigger change event
+      }
+    }
+
+    // Function to populate form fields with data from URL parameters
+    function populateFormFields(form, data, country) {
+      console.log(data);  // Print the data object to verify the contents
+      setInputValue(form, "case_no", data.case_no);
+      setInputValue(form, "internal_title", data.internal_title);
+      setInputValue(form, "formal_title", data.formal_title);
+      setSelectValue(form, "cost_centre_code", data.cost_centre_code);
+      setSelectValue(form, "primary_attorney", data.primary_attorney);
+      setSelectValue(form, "secondary_attorney", data.secondary_attorney);
+      setSelectValue(form, "primary_paralegal", data.primary_paralegal);
+      setSelectValue(form, "secondary_paralegal", data.secondary_paralegal);
+      setSelectValue(form, "licence", data.licenced);
+      setSelectValue(form, "type_of_filing", data.type_of_filing);
+      setSelectValue(form, "family", data.family);
+      setInputValue(form, "country", country);
+    }
+
+    // Extract URL parameters and parse content JSON
+    const urlParams = new URLSearchParams(window.location.search);
+    const content = urlParams.get("content");
+    console.log(content);  // Print the raw content string to verify
+
+    if (content) {
+      // Replace None with null for JSON compatibility
+      const jsonString = content.replace(/None/g, 'null').replace(/'/g, '"');
+      console.log(jsonString);  // Print the JSON string to verify
+      try {
+        const data = JSON.parse(jsonString);  // Convert to JSON object
+        console.log(data);  // Print the parsed data object to verify
+        const form = document.querySelector("form.page-form");
+        if (form) {
+          populateFormFields(form, data);
+        }
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+      }
+    }
+
+    // Populate PCT Country select options
+    const pctCountrySelect = document.getElementById("id_PCT_Country");
+    const pctCountryOptions = pctCountrySelect.options;
+    const pctCountryIds = urlParams.get("PCT_Country") || "";
+    const pctCountryIdArray = pctCountryIds.split(",").map(id => parseInt(id, 10));
+
+    for (let i = 0; i < pctCountryOptions.length; i++) {
+      const optionValue = parseInt(pctCountryOptions[i].value, 10);
+      if (pctCountryIdArray.includes(optionValue)) {
+        pctCountryOptions[i].selected = true;
+      }
+    }
+  });
+
+  function extractAndPopulateTitles() {
+    const internalTitle = document.getElementById("id_internal_title").value;
+    const formalTitle = document.getElementById("id_formal_title").value;
+    const tableRow = document.getElementById("title-table");
+
+    tableRow.innerHTML = `
+      <td>${formalTitle}</td>
+      <td>${internalTitle}</td>
+    `;
+  }
+
+  document.getElementById("pills-Title-tab").addEventListener("click", extractAndPopulateTitles);
 
   function differenceInMonths() {
-    //const monthDiff = date1.getMonth() - date2.getMonth();
-    //const yearDiff = date1.getYear() - date2.getYear();
-  
-    //return monthDiff + yearDiff * 12; 
     const date = new Date(document.getElementById('id_priority_provisional_date').value);
-    if (date.toLocaleDateString()!=='Invalid Date') {
-    var d12 = new Date(date);
-    console.log(d12.toLocaleDateString());
-    d12.setMonth(d12.getMonth() + 12);
-    console.log(d12.toLocaleDateString())  
+    if (date.toLocaleDateString() !== 'Invalid Date') {
+      const dates = [
+        new Date(date.setMonth(date.getMonth() + 12)),
+        new Date(date.setMonth(date.getMonth() + 9)),
+        new Date(date.setMonth(date.getMonth() + 10)),
+        new Date(date.setMonth(date.getMonth() + 11)),
+        new Date(date.setMonth(date.getMonth() + 16)),
+        new Date(date.setMonth(date.getMonth() + 24)),
+        new Date(date.setMonth(date.getMonth() + 54)),
+        new Date(date.setMonth(date.getMonth() + 30)),
+        new Date(date.setMonth(date.getMonth() + 18)),
+        new Date(date.setMonth(date.getMonth() + 19)),
+        new Date(date.setMonth(date.getMonth() + 22)),
+        new Date(date.setMonth(date.getMonth() + 28))
+      ];
 
-    var d3 = new Date(date);
-    console.log(d3.toLocaleDateString());
-    d3.setMonth(d3.getMonth() + 9);
-    console.log(d3.toLocaleDateString())  
+      const codesAll = ['FFREM1', 'FFREM2', 'FFREM3', 'FF', 'CER', 'NP', 'PUB', 'DEM', 'WOSA2', 'IPRP'];
+      const spelloutAll = [
+        'Foreign Filing Due in 1 month',
+        'Foreign Filing Due in 2 months',
+        'Foreign Filing Due in 3 months',
+        'Foreign Filing due',
+        'Certified Copy of Priority document due',
+        'National/Regional Phase Entry due',
+        'Check application has published',
+        'File Demand',
+        'Respond to WOSA',
+        'Check IPRP been issued'
+      ];
 
-    var d2 = new Date(date);
-    console.log(d2.toLocaleDateString());
-    d2.setMonth(d2.getMonth() + 10);
-    console.log(d2.toLocaleDateString())  
+      const table = document.getElementById("tablebody");
 
-    var d1 = new Date(date);
-    console.log(d1.toLocaleDateString());
-    d1.setMonth(d1.getMonth() + 11);
-    console.log(d1.toLocaleDateString())  
-
-    var d16 = new Date(date);
-    console.log(d16.toLocaleDateString());
-    d16.setMonth(d16.getMonth() + 16);
-    console.log(d16.toLocaleDateString())  
-
-    var d24 = new Date(date);
-    console.log(d24.toLocaleDateString());
-    d24.setMonth(d24.getMonth() + 24);
-    console.log(d24.toLocaleDateString())  
-
-    var d54 = new Date(date);
-    console.log(d54.toLocaleDateString());
-    d54.setMonth(d54.getMonth() + 54);
-    console.log(d54.toLocaleDateString())  
-
-
-    var d30 = new Date(date);
-    console.log(d30.toLocaleDateString());
-    d30.setMonth(d30.getMonth() + 30);
-    console.log(d30.toLocaleDateString())  
-
-    var d18 = new Date(date);
-    console.log(d18.toLocaleDateString());
-    d18.setMonth(d18.getMonth() + 18);
-    console.log(d18.toLocaleDateString())  
-
-    var d19 = new Date(date);
-    console.log(d19.toLocaleDateString());
-    d19.setMonth(d19.getMonth() + 19);
-    console.log(d19.toLocaleDateString())  
-
-    var d22 = new Date(date);
-    console.log(d22.toLocaleDateString());
-    d22.setMonth(d22.getMonth() + 22);
-    console.log(d22.toLocaleDateString())  
-
-    var d28 = new Date(date);
-    console.log(d28.toLocaleDateString());
-    d28.setMonth(d28.getMonth() + 28);
-    console.log(d28.toLocaleDateString())  
-
-
-
-    const dates_all=[d1,d2,d3,d12,d16,d30,d18,d19,d22,d28]
-    //const dates_all=[d1,d2,d3,d12]
-
-    const dates_gb=[d12,d16,d24,d54]
-    
-  
-   const codes_all=['FFREM1','FFREM2','FFREM3','FF','CER','NP','PUB','DEM','WOSA2','IPRP']
-   //const codes_all=['FFREM1','FFREM2','FFREM3','FF',]
-
-   const codes_gb=['AF1A','F7','F10','']
-   const spellout_all=['Foreign Filing Due in 1 month',
-                        'Foreign Filing Due in 2 months',
-                        'Foreign Filing Due in 3 months'
-                        ,'Foreign Filing due','Certified Copy of Priority document due',
-                        'National/Regional Phase Entry due',
-                        'Check application has published',
-                        'File Demand',
-                        'Respond to WOSA',
-                        'Check IPRP been issued'
-                        ]
-      
-const spellout_gb=['Pay Application Fee','File Form 7 - Inventor details','File Form 10 - Sub. Exam and Fee','Acceptance']
-   /* const dates_all=[d12]
-    const dates_gb=[d12,d16,d24,d54]
-
-    const codes_all=['FF']
-    const codes_gb=['AF1A','F7','F10','']
-    const spellout_all=['Foreign Filing due','Certified Copy of Priority document due',
-                        'National/Regional Phase Entry due',
-                        'Check application has published',
-                        'File Demand',
-                        'Respond to WOSA',
-                        'Check IPRP been issued']
-
-    const spellout_gb=['Pay Application Fee','File Form 7 - Inventor details','File Form 10 - Sub. Exam and Fee','Acceptance']
-*/
-    function actionTable() {
-    const country = document.getElementById('id_country').value;
-    console.log(country);
-    if (country==='GB'){
-        const table = document.getElementById("tablebody");
-
-        function populateTable() {
-        for (let i = 0; i <= codes_gb.length; i++) {
-            const row = document.createElement("tr");
-            const column1 = document.createElement("td");
-            column1.textContent =codes_gb[i];
-            row.appendChild(column1);
-            table.appendChild(row);
-
-            const column2 = document.createElement("td");
-            column2.textContent =spellout_gb[i];
-            row.appendChild(column2);
-            table.appendChild(row);
-            
-            const column3 = document.createElement("td");
-            column3.textContent =dates_gb[i].toLocaleDateString();
-            row.appendChild(column3);
-            table.appendChild(row);
-
-            const column4 = document.createElement("td");
-            const datePicker = document.createElement("input");
-            datePicker.type = "date";
-            column4.appendChild(datePicker);
-            row.appendChild(column4);
-
-            const column5 = document.createElement("td");
-            const datePicker2 = document.createElement("input");
-            datePicker2.type = "date";
-            column5.appendChild(datePicker2);
-            row.appendChild(column5);
-
-            const column6 = document.createElement("td");
-            const textInput1 = document.createElement("input");
-            textInput1.type = "text";
-            column6.appendChild(textInput1);
-            row.appendChild(column6);
-
-            const column7 = document.createElement("td");
-            const textInput2 = document.createElement("input");
-            textInput2.type = "text";
-            column7.appendChild(textInput2);
-            row.appendChild(column7);
-
-        }
-        }
-        const populate =populateTable();
-        console.log(populate);
-    }
-    else {
-          
-        const table = document.getElementById("tablebody");
-
-        //function populateTable() {
-
-        for (let i = 0; i <= codes_all.length; i++) {
-
-        //for (let i = 0; i <= 1; i++) {
-
-            const row = document.createElement("tr");
-            const column1 = document.createElement("td");
-            column1.textContent =codes_all[i];
-            row.appendChild(column1);
-            table.appendChild(row);
-
-            const column2 = document.createElement("td");
-            column2.textContent =spellout_all[i];
-            row.appendChild(column2);
-            table.appendChild(row);
-            
-            const column3 = document.createElement("td");
-            column3.textContent =dates_all[i].toLocaleDateString();
-            row.appendChild(column3);
-            table.appendChild(row);
-            
-
-            const column4 = document.createElement("td");
-            const datePicker = document.createElement("input");
-            datePicker.type = "date";
-            column4.appendChild(datePicker);
-            row.appendChild(column4);
-            table.appendChild(row);
-
-
-            const column5 = document.createElement("td");
-            const datePicker2 = document.createElement("input");
-            datePicker2.type = "date";
-            column5.appendChild(datePicker2);
-            row.appendChild(column5);
-            table.appendChild(row);
-
-
-            const column6 = document.createElement("td");
-            const textInput1 = document.createElement("input");
-            textInput1.type = "text";
-            column6.appendChild(textInput1);
-            row.appendChild(column6);
-            table.appendChild(row);
-
-
-            const column7 = document.createElement("td");
-            const textInput2 = document.createElement("input");
-            textInput2.type = "text";
-            column7.appendChild(textInput2);
-            row.appendChild(column7);
-            table.appendChild(row);
-
-       // }
-       // }
-       // document.getElementById("id_PCT_Country").addEventListener("change",actionTable);
-
-    //document.getElementById("action_code").innerHTML = 'FF';
-//document.getElementById("spellout_date").innerHTML = 'Foreign Filing due';
-
-    
-
+      for (let i = 0; i < codesAll.length; i++) {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${codesAll[i]}</td>
+          <td>${spelloutAll[i]}</td>
+          <td>${dates[i].toLocaleDateString()}</td>
+          <td><input type="date"></td>
+          <td><input type="date"></td>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+        `;
+        table.appendChild(row);
+      }
     }
   }
 
+  document.getElementById("id_priority_provisional_date").addEventListener("change", differenceInMonths);
 
-
-}
-
-    //document.getElementById("id_country").addEventListener("change", actionTable)
-
-    
-    const action =actionTable();
-    console.log(action);
-  }
-  }
-  // June 5, 2022
-  function pctTable(){
+  function pctTable() {
     const date = new Date(document.getElementById('id_PCT_application_Date').value);
-    var d28 = new Date(date);
-    console.log(d28.toLocaleDateString());
-    d28.setMonth(d28.getMonth() + 28);
-    console.log(d28.toLocaleDateString())
-
+    const d28 = new Date(date.setMonth(date.getMonth() + 28));
     const table = document.getElementById("tablebody");
+
     const row = document.createElement("tr");
-    const column1 = document.createElement("td");
-    column1.textContent ='ISR';
-    row.appendChild(column1);
-    table.appendChild(row);
-
-    const column2 = document.createElement("td");
-    column2.textContent ='Check ISR issued';
-    row.appendChild(column2);
-    table.appendChild(row);
-    
-    const column3 = document.createElement("td");
-    column3.textContent =d28.toLocaleDateString();
-    row.appendChild(column3);
-    table.appendChild(row);      
-    
-    const column4 = document.createElement("td");
-    const datePicker = document.createElement("input");
-    datePicker.type = "date";
-    column4.appendChild(datePicker);
-    row.appendChild(column4);
-    table.appendChild(row);
-
-    const column5 = document.createElement("td");
-    const datePicker2 = document.createElement("input");
-    datePicker2.type = "date";
-    column5.appendChild(datePicker2);
-    row.appendChild(column5);
-    table.appendChild(row);
-
-
-    const column6 = document.createElement("td");
-    const textInput1 = document.createElement("input");
-    textInput1.type = "text";
-    column6.appendChild(textInput1);
-    row.appendChild(column6);
-    table.appendChild(row);
-
-
-    const column7 = document.createElement("td");
-    const textInput2 = document.createElement("input");
-    textInput2.type = "text";
-    column7.appendChild(textInput2);
-    row.appendChild(column7);
+    row.innerHTML = `
+      <td>ISR</td>
+      <td>Check ISR issued</td>
+      <td>${d28.toLocaleDateString()}</td>
+      <td><input type="date"></td>
+      <td><input type="date"></td>
+      <td><input type="text"></td>
+      <td><input type="text"></td>
+    `;
     table.appendChild(row);
   }
 
-  document.getElementById("id_PCT_application_Date").addEventListener("change", pctTable)
-  document.getElementById("id_priority_provisional_date").addEventListener("change", differenceInMonths)
-  // March 17, 2021
- // const date2 = new Date('2021-03-17');
-  
-  const difference = differenceInMonths();
-  
-  console.log(difference); // 15
-
+  document.getElementById("id_PCT_application_Date").addEventListener("change", pctTable);
 </script>
+
+
+
 
 <script>
   function differenceInMonths() {
