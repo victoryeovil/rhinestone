@@ -13,6 +13,6 @@
 - Paralegal fields--done
 - Attorney fields--done
 - New model Other provider/Law firm Clients: --done
-- link special instructions to the contact
+- link special instructions to the contact ---
 - Family
-- Invention Disclosure button to create a family, move tabs up --done
+- Invention Disclosure button to create a family, move tabs up --done 
