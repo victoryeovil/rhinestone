@@ -181,7 +181,6 @@ class FamilyTrademarkForm(forms.ModelForm):
 
 
 class FamilyPatentForm(forms.ModelForm):
-    # type_of_filing=forms.ChoiceField(widget = forms.Select(), choices=[(i, i) for i in ["Trademark", "Design", "Patent"]],required = False)
     type_of_filing = forms.ChoiceField(widget=forms.Select(), choices=[("Patent", "Patent")], required=False)
 
     class Meta:
@@ -192,60 +191,40 @@ class FamilyPatentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.form_class = 'form-horizontal'
+        self.helper.form_class = 'form-horizontal small-form'
+        self.helper.label_class = 'small-label'
+        self.helper.field_class = 'small-input'
         self.helper.layout = Layout(
             Row(
                 Column(
                     Row(
                         Column("internal_title", "formal_title", "status", "sub_filing",
-                               "type_of_filing", "licenced", "licensor", css_class="col-md-4"),
-                        Column("primary_attorney", "secondary_attorney", "primary_paralegal", "secondary_paralegal",
-                               "applicant", "cost_centre", "cost_centre_code", "keywords",
-                               css_class="col-md-4"),
-                        #Column( css_class="col-md-4"),
-                        #Column( css_class="col-md-4"),
-
+                               "type_of_filing",  css_class="col-md-4 small-input"),
+                        Column("primary_attorney", "secondary_attorney", "primary_paralegal", "secondary_paralegal","licenced",
+                               
+                               css_class="col-md-4 small-input"),
+                        Column("applicant", "cost_centre", "cost_centre_code", "keywords" ,"licensor",
+                               css_class="col-md-4 small-input"),
                     ),
                     css_class="col-12"
-                ),
-                Column(
-
-                    css_class="col-md-4"
-                ),
-                Column(
-                    Row(
-                        Column(
-
-                            css_class="col-md-4"
-                        ),
-                        Column(
-                            Row(
-                                Column(
-                                    css_class="col-md-6"
-                                ),
-                            ),
-                            css_class="col-12"
-                        ),
-                        Column(
-
-                            css_class="col-md-6"
-                        ),
-                    ),
-                    css_class="col-md-8"
-                ),
-                # Column(
-                #     Reset("Reset", "Reset", css_class="btn btn-outline-secondary"),
-                #     Submit("submit", "Save", css_class="btn btn-primary"),
-                #     css_class="col-12 pt-3 text-center"
-                # )
-
+                )
             )
         )
-        # Column(
-        #     Reset("Reset", "Reset", css_class="btn btn-outline-secondary"),
-        #     Submit("submit", "Save", css_class="btn btn-primary"),
-        #     css_class="col-12 pt-3 text-center"
-        # )
+
+        # Apply custom styles to each field
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control form-control-sm'
+            field.widget.attrs['style'] = 'font-size: 8px; height: auto; padding: 2px 3px; margin-bottom: 2px;'
+
+        # Apply custom styles to labels
+        for field_name, field in self.fields.items():
+            self.fields[field_name].widget.attrs.update({'style': 'font-size: 10px; margin-bottom: 2px;'})
+
+        # Additional styling for form groups and buttons
+        self.helper.attrs = {
+            'class': 'small-form',
+            'style': 'margin-bottom: 3px;'
+        }
 
 
 class FamilyForm(forms.ModelForm):

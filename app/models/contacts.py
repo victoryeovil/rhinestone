@@ -19,6 +19,7 @@ class Contact(BaseModel):
     address_line_2 = models.CharField(max_length=128, blank=True, null=True)
     address_city = models.CharField(max_length=128, blank=True, null=True)
     address_state = models.CharField(max_length=128, blank=True, null=True)
+    customer_instructions = models.TextField(max_length=512, blank=True, null=True)
     type = models.CharField(max_length=16, choices=[(i, i) for i in
                                                     ["Inventor", "Applicant", "Licensor", "Licensee", "Consultant",
                                                      "Associate", "Paralegal", "Attorney", "OtherProvider"]])
@@ -60,7 +61,7 @@ class Inventor(Contact, ContactDetailsMixin):
     is_applicant = models.BooleanField(default=False)  # New field to indicate if Inventor is also an Applicant
 
     def __str__(self):
-        return self.inventor_no
+        return f"{self.inventor_no} - {self.name} {self.surname}" if self.inventor_no else "Unnamed Inventor"
 
 
 class Applicant(Contact, ContactDetailsMixin):
@@ -70,7 +71,7 @@ class Applicant(Contact, ContactDetailsMixin):
     is_inventor = models.BooleanField(default=False)  # New field to indicate if Applicant is also an Inventor
 
     def __str__(self):
-        return self.name if self.name else "Unnamed Applicant"
+        return f"{self.name} {self.surname}-  {self.applicant_no}" if self.name else "Unnamed Applicant"
 
 
 class Licensor(Contact, ContactDetailsMixin):
@@ -91,7 +92,7 @@ class Licensor(Contact, ContactDetailsMixin):
     employer_address_state = models.CharField(max_length=128, blank=True, null=True)
 
     def __str__(self):
-        return self.licensor_no if self.licensor_no else "Unnamed Licensor"
+        return f'{self.licensor_no} - {self.name} {self.surname}' if self.licensor_no else "Unnamed Licensor"
 
 
 class Licensee(Contact, ContactDetailsMixin):
@@ -99,14 +100,14 @@ class Licensee(Contact, ContactDetailsMixin):
     date_of_incorporation = models.DateField(blank=True, null=True)
 
     def __str__(self):
-        return self.licensee_no if self.licensee_no else "Unnamed Licensee"
+        return f"{self.licensee_no} - {self.name} " if self.licensee_no else "Unnamed Licensee"
 
 
 class Consultant(Contact, ContactDetailsMixin):
     consultant_no = models.CharField(max_length=128, blank=True, null=True, verbose_name="Consultant Number")
 
     def __str__(self):
-        return self.consultant_no if self.consultant_no else "Unnamed Consultant"
+        return f"{self.consultant_no} - {self.name} {self.surname}" if self.consultant_no else "Unnamed Consultant"
 
 
 class Associate(Contact, ContactDetailsMixin):
@@ -121,21 +122,21 @@ class Associate(Contact, ContactDetailsMixin):
     notes = models.TextField(max_length=512, blank=True, null=True)
 
     def __str__(self):
-        return self.Associate_no if self.Associate_no else "Unnamed Associate"
+        return f"{self.Associate_no} - {self.name}" if self.Associate_no else "Unnamed Associate"
 
 
 class Paralegal(Contact, ContactDetailsMixin):
     paralegal_no = models.CharField(max_length=128, blank=True, null=True, verbose_name="Paralegal Number")
 
     def __str__(self):
-        return self.paralegal_no if self.paralegal_no else "Unnamed Paralegal"
+        return f"{self.paralegal_no} - {self.name}" if self.paralegal_no else "Unnamed Paralegal"
 
 
 class Attorney(Contact, ContactDetailsMixin):
     attorney_no = models.CharField(max_length=128, blank=True, null=True, verbose_name="Attorney Number")
 
     def __str__(self):
-        return self.attorney_no if self.attorney_no else "Unnamed Attorney"
+        return f"{self.attorney_no} - {self.name}" if self.attorney_no else "Unnamed Attorney"
 
 
 class OtherProvider(Contact, ContactDetailsMixin):
@@ -150,7 +151,7 @@ class OtherProvider(Contact, ContactDetailsMixin):
     country_states = models.CharField(max_length=128, blank=True, null=True, verbose_name="County/State")
 
     def __str__(self):
-        return self.applicants.name if self.applicants and self.applicants.name else "Unnamed Provider"
+        return f"{self.MID} - {self.applicants.name}" if self.applicants and self.applicants.name else "Unnamed Provider"
 
 
 @receiver(post_save, sender=Contact)

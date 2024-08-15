@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, transaction
 
 from app.models.contacts import Applicant, Inventor
 
@@ -39,6 +39,13 @@ class ModuleBaseModel(BaseModel):
             _titles=" ".join([str(getattr(self, field_name)) for field_name in self._titles_fields]),
             _associates=" ".join([str(getattr(self, field_name)) for field_name in self._associates_fields]),
         )
+
+class FamilyNumberCounter(models.Model):
+    prefix = models.CharField(max_length=2, unique=True)  # e.g., 'TM', 'DE', 'PF'
+    last_number = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.prefix} - {self.last_number}"
 
 
 class Family(ModuleBaseModel):
@@ -90,16 +97,29 @@ class Family(ModuleBaseModel):
         return str(self.family_no)
 
     def save(self, *args, **kwargs):
-        super(Family, self).save(*args, **kwargs)
-        object = Family.objects.filter(id=self.id)
-        if self.type_of_filing == 'Trademark':
-            letters = 'TM'
-        elif self.type_of_filing == 'Design':
-            letters = 'DE'
-        else:
-            letters = 'PF'
-        object.update(
-            family_no=generate_id(7, letters, self.id))
+        with transaction.atomic():
+            # Determine the prefix based on the type_of_filing
+            if self.type_of_filing == 'Trademark':
+                prefix = 'TM'
+            elif self.type_of_filing == 'Design':
+                prefix = 'DE'
+            else:
+                prefix = 'PF'
+
+            # Get or create the counter for this prefix
+            counter, created = FamilyNumberCounter.objects.get_or_create(prefix=prefix)
+
+            # Increment the last number
+            counter.last_number += 1
+            counter.save()
+
+            # Format the new family number with leading zeros
+            new_family_no = f"{prefix}{str(counter.last_number).zfill(5)}"
+
+            # Update the family_no field with the new number
+            self.family_no = new_family_no
+
+            super(Family, self).save(*args, **kwargs)
 
 
 class Country(models.Model):
