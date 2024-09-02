@@ -10,7 +10,7 @@ from app.functions.generate_id import generate_id
 
 CHOICES = [(i, i) for i in
            ["Open", "Pending", "Filed", "Allowed", "Granted(Live)", "Abandoned", "Granted(DEA)", "Converted", "Expired",
-            "Published"]]
+            "Published", "Registered"]]
 
 
 class ModuleBaseModel(BaseModel):
@@ -62,7 +62,7 @@ class Family(ModuleBaseModel):
     country = models.CharField(max_length=128, blank=True, null=True, choices=data.countries.COUNTRIES_OPTIONS,
                                verbose_name="Country")
     status = models.CharField(max_length=128, blank=True, null=True, choices=[(i, i) for i in [
-        "Open", "Pending", "Filed", "Abandoned", "Sold", "Licensed", "On Hold", "Opposed"]], verbose_name="Status")
+        "Open", "Pending", "Filed", "Abandoned", "Sold", "Licensed", "On Hold", "Opposed", "Registered"]], verbose_name="Status")
     sub_status = models.CharField(max_length=128, blank=True, null=True, choices=[(i, i) for i in [
         "Open", "Pending", "Filed", "Abandoned", "Sold", "Licensed", "On Hold", "Opposed"]], verbose_name="Sub Status")
     type_of_filing = models.CharField(max_length=128, blank=True, null=True, choices=[
@@ -244,7 +244,7 @@ class Design(ModuleBaseModel):
                                       verbose_name="Type of Filing")
     status = models.CharField(max_length=128, blank=True, null=True, choices=[(i, i) for i in [
         "Open", "Pending", "Filed", "Allowed", "Granted(Live)", "Abandoned", "Granted(DEA)", "Converted", "Expired",
-        "Published"]], verbose_name="Status")
+        "Published", "Registered"]], verbose_name="Status")
     notes = models.CharField(max_length=300, null=True, verbose_name="Notes")
 
     sub_filing_type = models.CharField(max_length=128, blank=True, null=True,verbose_name="Sub Filing Type")
