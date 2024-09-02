@@ -330,9 +330,21 @@ class Trademark(ModuleBaseModel):
     case_no = models.CharField(max_length=128, blank=True, null=True, verbose_name="Case No")
     country = models.CharField(
         max_length=128, blank=True, null=True, choices=data.countries.COUNTRIES_OPTIONS, verbose_name="Country")
-    # trademark_name = models.CharField(max_length=128, blank=True, null=True)
+    
+    # New fields added
+    trademark_name = models.CharField(max_length=128, blank=True, null=True, verbose_name="Trademark Name")
+    type_of_trademark = models.CharField(max_length=128, blank=True, null=True, choices=[
+        ('Device marks', 'Device marks'),
+        ('Service marks', 'Service marks'),
+        ('Collective marks', 'Collective marks'),
+        ('Certification marks', 'Certification marks'),
+        ('Well-known marks', 'Well-known marks'),
+        ('Unconventional trademarks', 'Unconventional trademarks'),
+    ], verbose_name="Type of Trademark")
+
     picture_of_trademark = ImageField(
         upload_to="trademarks", blank=True, null=True, verbose_name="Picture of Trademark")
+    
     primary_attorney = models.ForeignKey("app.Attorney", on_delete=models.SET_NULL,
                                          related_name="trademark_primary_attorney_set", blank=True, null=True,
                                          verbose_name="Primary Attorney")
@@ -350,15 +362,16 @@ class Trademark(ModuleBaseModel):
     secondary_paralegal = models.ForeignKey("app.Paralegal", on_delete=models.SET_NULL,
                                             related_name="trademark_secondary_paralegal_set", blank=True, null=True,
                                             verbose_name="Secondary Paralegal")
+    
     trademark_priority_no = models.CharField(max_length=128, blank=True, null=True,
                                              verbose_name="Trademark Priority No")
     date = models.DateField(verbose_name="Tax Date", blank=True, null=True)
     trademark_application_no = models.CharField(max_length=128, blank=True, null=True,
                                                 verbose_name="Trademark Application No")
-    date = models.DateField("Application date", blank=True, null=True)
+    applicaation_date = models.DateField("Application date", blank=True, null=True)
     trademark_registration_no = models.CharField(max_length=128, blank=True, null=True,
                                                  verbose_name="Trademark Registration No")
-    date = models.DateField(blank=True, null=True, verbose_name="Registration Date")
+    registration_date = models.DateField(blank=True, null=True, verbose_name="Registration Date")
     next_tax_date = models.DateField(blank=True, null=True, verbose_name="Next Tax Date")
     taxes_paid_by = models.CharField(max_length=128, blank=True, null=True, verbose_name="Taxes Paid By")
     does_it_expire = models.CharField(max_length=4, blank=True, null=True, choices=[
@@ -367,6 +380,7 @@ class Trademark(ModuleBaseModel):
     expiry_date = models.DateField(blank=True, null=True, verbose_name="Expiry Date")
     type_of_filing = models.CharField(max_length=128, default="Design", blank=True, null=True,
                                       verbose_name="Type of Filing")
+    
 
     def __str__(self):
         return self.case_no

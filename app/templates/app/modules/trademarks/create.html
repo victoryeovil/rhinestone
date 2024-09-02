@@ -15,7 +15,6 @@
 <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
 {% endblock css %}
 	
-
 {% block content %}
 <!-- [ Main Content ] start -->
 <section class="pcoded-main-container">
@@ -44,9 +43,6 @@
                 <div class="card">
 					<div class="card-body">
                         <div class="row">
-                            <!-- <div class="col-12">
-                                                <button class="btn btn-primary float-right">Add Family</button>
-                                            </div> -->
                             <div class="col-12 mb-4">
                               <form
                                 class="page-form"
@@ -122,48 +118,7 @@
                                               <!-- Content for the Actions tab -->
                                               <p>Actions tab content goes here.</p>
                                           </div>
-                                          {% for design in designs %}
-                                            <div class="tab-pane fade" id="designs">
-                                              <!-- Content for the Designs tab -->
-                                              <table class="data-table" style="width: 100%;">
-                                                  <thead>
-                                                      <tr>
-                                                          <th>Case Ref/Docket No</th>
-                                                          <th>Internal Title</th>
-                                                          <th>Formal Title</th>
-                                                          <th>Status</th>
-                                                      </tr>
-                                                  </thead>
-                                                  <tbody>
-                                                      
-                                                          <tr>
-                                                              <td>{{ design.case_no }}</td>
-                                                              <td>{{ design.internal_title }}</td>
-                                                              <td>{{ design.formal_title }}</td>
-                                                              <td>{{ design.status }}</td>
-                                                          </tr>
-                                                      
-                                                  </tbody>
-                                              </table>
-                                          </div>
-                                         
-                                          <div class="tab-pane fade" id="applicants">
-                                              <p>{{i.no_of_views}}</p>
-                                              
-                                          </div>
-                                          <div class="tab-pane fade" id="figures">
-                                              <!-- Content for the Figures tab -->
-                                              <p>Figures tab content goes here.</p>
-                                          </div>
-                                          <div class="tab-pane fade" id="notes">
-                                              <!-- Content for the Notes tab -->
-                                              <p>Notes tab content goes here.</p>
-                                          </div>
-                                          <div class="tab-pane fade" id="annuities">
-                                              <!-- Content for the Annuities tab -->
-                                              <p>{{i.next_annuity_no}}</p>
-                                          </div>
-                                          {% endfor %}
+                                          <!-- Add more tab contents if needed -->
                                       </div>
                                   </div>
                               </div>
@@ -192,8 +147,6 @@
 <!-- datatables Js -->
 <script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
-<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
-<script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
 <!-- <script src="{% static 'assets/js/plugins/buttons.colVis.min.js' %}"></script>
 <script src="{% static 'assets/js/plugins/buttons.print.min.js' %}"></script>
 <script src="{% static 'assets/js/plugins/pdfmake.min.js' %}"></script>
@@ -202,9 +155,6 @@
 <script src="{% static 'assets/js/plugins/buttons.html5.min.js' %}"></script>
 <script src="{% static 'assets/js/plugins/buttons.bootstrap4.min.js' %}"></script>
 <script src="{% static 'assets/js/pages/data-export-custom.js' %}"></script> -->
-<!-- Apex Chart
-<script src="{% static 'assets/js/plugins/apexcharts.min.js' %}"></script>
--->
 
 <script>
 	// Form start

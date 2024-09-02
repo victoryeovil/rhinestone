@@ -22,7 +22,7 @@ class Contact(BaseModel):
     customer_instructions = models.TextField(max_length=512, blank=True, null=True)
     type = models.CharField(max_length=16, choices=[(i, i) for i in
                                                     ["Inventor", "Applicant", "Licensor", "Licensee", "Consultant",
-                                                     "Associate", "Paralegal", "Attorney", "OtherProvider"]])
+                                                     "Associate", "Paralegal", "Attorney", "OtherProvider", "CostCenter"]])
 
     def __str__(self):
         return f"{self.name} #{self.id}"
@@ -152,6 +152,13 @@ class OtherProvider(Contact, ContactDetailsMixin):
 
     def __str__(self):
         return f"{self.MID} - {self.applicants.name}" if self.applicants and self.applicants.name else "Unnamed Provider"
+    
+class CostCenter(Contact, ContactDetailsMixin):
+    code = models.CharField(max_length=16)
+    cost_center_no =  models.CharField(max_length=128, blank=True, null=True, verbose_name="Cost Center Number")
+
+    def __str__(self):
+        return f"{self.name} - {self.code}"
 
 
 @receiver(post_save, sender=Contact)
@@ -221,4 +228,10 @@ def update_paralegal_number(sender, instance, **kwargs):
 def update_attorney_number(sender, instance, **kwargs):
     if not instance.attorney_no:
         instance.attorney_no = generate_id(6, instance.surname[:4], instance.id)
+        instance.save()
+
+@receiver(post_save, sender=CostCenter)
+def update_cost_center_no(sender, instance, **kwargs):
+    if not instance.cost_center_no:
+        instance.cost_center_no = generate_id(6, instance.name[:4], instance.id)
         instance.save()

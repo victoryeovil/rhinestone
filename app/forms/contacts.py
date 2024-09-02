@@ -348,3 +348,30 @@ class OtherProviderForm(forms.ModelForm):
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control form-control-sm'
             field.widget.attrs['style'] = 'font-size: 11px; height: auto; padding: 2px 3px; margin-bottom: 2px;'
+
+
+class CostCenterForm(forms.ModelForm):
+    class Meta:
+        model = CostCenter
+        exclude = ['type']  # Exclude the 'type' field from the form
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'form-horizontal small-form'
+        self.helper.label_class = 'small-label'
+        self.helper.field_class = 'small-input'
+        self.helper.layout = Layout(
+            Row(
+                Column("name", "code", css_class="col-6 small-input"),
+                Column(
+                    Reset("Reset", "Reset", css_class="btn btn-outline-secondary"),
+                    Submit("submit", "Save", css_class="btn btn-primary"),
+                    css_class="col-12 pt-3 text-center"
+                )
+            )
+        )
+
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control form-control-sm'
+            field.widget.attrs['style'] = 'font-size: 14px; height: auto; padding: 2px 5px; margin-bottom: 2px;'

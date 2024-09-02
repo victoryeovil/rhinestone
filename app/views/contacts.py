@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.utils.datastructures import MultiValueDict
 import logging
 
+from app.forms.contacts import CostCenterForm
 from app.models import (
     Contact,
     Inventor,
@@ -29,6 +30,7 @@ from app.forms import (
     DeleteForm, OtherProviderForm,
 
 )
+from app.models.contacts import CostCenter
 
 tabs = [
     {"title": "Contact(s)", "tab": "contacts", "label": "Contact"},
@@ -41,6 +43,7 @@ tabs = [
     {"title": "Paralegal(s)", "tab": "paralegals", "label": "Paralegal"},
     {"title": "Attorney(s)", "tab": "attorneys", "label": "Attorney"},
     {"title": "Other Provider(s)", "tab": "other_provider", "label": "Other Provider"},
+    {"title": "Cost Center","tab":"costcenter", "label":"Cost Center"}
 ]
 
 
@@ -720,3 +723,66 @@ def create_other_provider(request: HttpRequest):
 
     return HttpResponseRedirect("/app/address-book/other_provider")
 
+
+
+def costcenter_create_view(request: HttpRequest):
+    if request.method == 'POST':
+        form = CostCenterForm(data=request.POST)
+        if form.is_valid():
+            attorney = form.save(commit=False)
+            attorney.surname = attorney.name  # Assuming contact_person is meant to be used as the name
+            attorney.type = 'CostCenter'  # Set the value of 'type' here
+            attorney.save()
+            messages.success(request, "Item successfully created!")
+            return HttpResponseRedirect("/app/address-book/costcenter")
+        else:
+            logger.error(f"Form errors: {form.errors.as_json()}")
+            messages.error(request, "Failed to create. Form is not valid!")
+    else:
+        form = OtherProviderForm(initial=MultiValueDict(request.GET).dict())
+
+    return HttpResponseRedirect("/app/address-book/costcenter")
+
+
+def costcenter_view(request):
+    context = {
+        "tabs": tabs,
+        "active": "costcenter",
+        "items": CostCenter.objects.all(),
+        "form": CostCenterForm
+    }
+    return render(request, "app/address-book/costcenter/create.html", context)
+
+
+def costcenter_delete_view(request: HttpRequest, pk):
+    item = Attorney.objects.get(id=pk)
+    form = DeleteForm(module_name="coscenter")
+    if request.POST:
+        form = DeleteForm(data=request.POST, module_name="costcenter")
+        if form.is_valid():
+            item.delete()
+            messages.success(request, f"Item successfully deleted!")
+            return HttpResponseRedirect("/app/address-book/costcenter")
+        else:
+            messages.error(request, f"Failed to create. Form is not valid!")
+    return render(request, "app/address-book/costcenter/delete.html", {"item": item, "form": form})
+
+
+def costcenter_update_view(request: HttpRequest, pk):
+    item = CostCenter.objects.get(id=pk)
+    form = CostCenterForm(instance=item)
+    if request.POST:
+        form = AttorneyForm(data=request.POST, instance=item)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"Item successfully updated!")
+            return HttpResponseRedirect("/app/address-book/costcenter")
+        else:
+            messages.error(request, f"Failed to update. Form is not valid!")
+    context = {
+        "tabs": tabs,
+        "item": item,
+        "form": form,
+        "active": "attorneys",
+    }
+    return render(request, "app/address-book/costcenter/update.html", context)

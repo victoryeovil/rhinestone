@@ -353,42 +353,59 @@ class TrademarkForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        # Set date fields with a date picker
+        date_fields = ["applicaation_date", "registration_date", "next_tax_date", "expiry_date"]
+        for field_name in date_fields:
+            self.fields[field_name].widget = forms.TextInput(attrs={'type': 'date'})
+
+        # Custom widget for picture_of_trademark to handle drag-and-drop
+        self.fields['picture_of_trademark'].widget = forms.ClearableFileInput(attrs={
+            'class': 'custom-file-input',
+            'data-toggle': 'custom-file-input',
+            'drag-and-drop': 'true',
+            'placeholder': 'Drag and drop or click here to upload your image (max 2 MiB)',
+        })
+
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
+        self.helper.label_class = 'col-sm-4'
+        self.helper.field_class = 'col-sm-8'
         self.helper.layout = Layout(
             Row(
                 Column(
                     Row(
-                        Column("family", "country", "picture_of_trademark", "trademark_priority_no",
-                               "trademark_application_no", "trademark_registration_no",
-                               css_class="col-md-12"
-                               ),
+                        Column(
+                            "family", "country", "trademark_name", "type_of_trademark", "trademark_priority_no",
+                            "trademark_application_no", "trademark_registration_no",
+                            css_class="col-md-12"
+                        ),
                     ),
-                    css_class="col-md-4"
+                    css_class="col-md-6"
                 ),
                 Column(
                     Row(
                         Column(
                             "primary_attorney", "secondary_attorney", "primary_paralegal", "secondary_paralegal",
-                            "date", "date",
-                            css_class="col-md-6"
+                            "applicaation_date", "registration_date",
+                            css_class="col-md-6 col-sm-12"
                         ),
                         Column(
-                            "associate", "associate_ref", "next_tax_date", "taxes_paid_by", "does_it_expire", "date",
-                            css_class="col-md-6"
+                            "associate", "associate_ref", "next_tax_date", "taxes_paid_by", "does_it_expire",
+                            "expiry_date",
+                            css_class="col-md-6 col-sm-12"
                         ),
                     ),
                     css_class="col-md-6"
                 ),
-
-            ),
-
-            # Column(
-            #     Reset("Reset", "Reset", css_class="btn btn-outline-secondary"),
-            #     Submit("submit", "Save", css_class="btn btn-primary"),
-            #     css_class="col-12 pt-3 text-center"
-            # )
-
+                Column(
+                    Field(
+                        "picture_of_trademark",
+                        css_class="col-md-12"
+                    ),
+                    css_class="col-md-12"
+                )
+            )
         )
 
 
