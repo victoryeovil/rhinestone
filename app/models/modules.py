@@ -67,8 +67,7 @@ class Family(ModuleBaseModel):
         "Open", "Pending", "Filed", "Abandoned", "Sold", "Licensed", "On Hold", "Opposed"]], verbose_name="Sub Status")
     type_of_filing = models.CharField(max_length=128, blank=True, null=True, choices=[
         (i, i) for i in ["Trademark", "Design", "Patent"]], verbose_name="Type of Filing")
-    sub_filing = models.CharField(max_length=128, blank=True, null=True, choices=[
-        (str(i), str(i)) for i in range(1, 5)], verbose_name="Sub Filing")
+    sub_filing = models.CharField(max_length=128, blank=True, null=True, verbose_name="Sub Filing")
     primary_attorney = models.ForeignKey("app.Attorney", on_delete=models.SET_NULL,
                                          related_name="family_primary_attorney_set", blank=True, null=True,
                                          verbose_name="Primary Attorney")
@@ -147,8 +146,7 @@ class Patent(ModuleBaseModel):
                                       verbose_name="Type of Filing")
     # status = models.CharField(max_length=128, blank=True, null=True,default=CHOICES[1][1], choices=CHOICES, verbose_name="Status" )
     status = models.CharField(max_length=128, blank=True, null=True, verbose_name="Status", default=CHOICES[0][0])
-    sub_filing_type = models.CharField(max_length=128, blank=True, null=True, choices=[
-        (i, i) for i in ["Registered", "Un-Registered"]], verbose_name="Sub-Filing Type")
+    sub_filing_type = models.CharField(max_length=128, blank=True, null=True, verbose_name="Sub-Filing Type")
     sub_status = models.CharField(max_length=128, blank=True, null=True, choices=[(
         i, i) for i in ["Licensed In", "Licensed Out", "Opposition For", "Opposition Against"]],
                                   verbose_name="Sub-Status")
@@ -249,8 +247,7 @@ class Design(ModuleBaseModel):
         "Published"]], verbose_name="Status")
     notes = models.CharField(max_length=300, null=True, verbose_name="Notes")
 
-    sub_filing_type = models.CharField(max_length=128, blank=True, null=True, choices=[
-        (i, i) for i in ["Registered", "Un-Registered"]], verbose_name="Sub Filing Type")
+    sub_filing_type = models.CharField(max_length=128, blank=True, null=True,verbose_name="Sub Filing Type")
     sub_status = models.CharField(max_length=128, blank=True, null=True, choices=[(
         i, i) for i in ["Licensed In", "Licensed Out", "Opposition For", "Opposition Against"]],
                                   verbose_name="Sub Status")
