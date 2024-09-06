@@ -14,7 +14,7 @@ from app.models import (
     Family, Patent, Trademark, Design, BaseModel,
     User, Contact, InventionDisclosure, Invoice
 )
-from app.models.contacts import Applicant, Associate
+from app.models.contacts import Applicant, Associate, Attorney, Inventor, Paralegal
 
 
 class QuickSearchForm(forms.Form):
@@ -138,14 +138,14 @@ class QuickSearchForm(forms.Form):
 #             )
 #         )
 
-
 class HomeSearchForm(forms.Form):
     # Name Section
-    associate = forms.ModelChoiceField(queryset=Associate.objects.all(), required=False, label="Agent")
+    associate = forms.ModelChoiceField(queryset=Associate.objects.all(), required=False, label="Agent/Associates")
     instructor = forms.ModelChoiceField(queryset=Contact.objects.filter(type__in=["Associate", "Client"]), required=False, label="Instructor")
     owner = forms.ModelChoiceField(queryset=Applicant.objects.all(), required=False, label="Owner")
     name = forms.ModelChoiceField(queryset=Contact.objects.all(), required=False, label="Name")
     name_type = forms.ChoiceField(choices=[
+        ('', '---'),  # Empty value for Name Type
         ('Inventor', 'Inventor'),
         ('Applicant', 'Applicant'),
         ('Licensor', 'Licensor'),
@@ -157,32 +157,55 @@ class HomeSearchForm(forms.Form):
         ('OtherProvider', 'OtherProvider')
     ], required=False, label="Name Type")
 
-    # Reference Section
+    # Primary and Secondary Attorney fields
+    primary_attorney = forms.ModelChoiceField(queryset=Attorney.objects.all(), required=False, label="Primary Attorney")
+    secondary_attorney = forms.ModelChoiceField(queryset=Attorney.objects.all(), required=False, label="Secondary Attorney")
+
+    # New fields for Names Section
+    primary_paralegal = forms.ModelChoiceField(queryset=Paralegal.objects.all(), required=False, label="Primary Paralegal")
+    secondary_paralegal = forms.ModelChoiceField(queryset=Paralegal.objects.all(), required=False, label="Secondary Paralegal")
+    inventor = forms.ModelChoiceField(queryset=Inventor.objects.all(), required=False, label="Inventor")
+
+    # References Section
     case_reference = forms.ModelChoiceField(queryset=Family.objects.all(), required=False, label="Case Reference")
-    official_number = forms.CharField(required=False, label="Official Number")
-    instructor_reference = forms.ModelChoiceField(queryset=Family.objects.values_list('licensor', flat=True).distinct(), required=False, label="Instructor Reference")
     family = forms.ModelChoiceField(queryset=Family.objects.all(), required=False, label="Family")
-    Associates = forms.ModelChoiceField(queryset=Contact.objects.filter(type__in=[
-        "Inventor", "Applicant", "Licensor", "Licensee", "Consultant", "Associate", "Paralegal", "Attorney"
-    ]), required=False)
-    Associate_refs = forms.ModelChoiceField(queryset=Contact.objects.filter(type__in=[
-        "Inventor", "Applicant", "Licensor", "Licensee", "Consultant", "Associate", "Paralegal", "Attorney"
-    ]), required=False)
-    primary_attorney = forms.ModelChoiceField(queryset=models.Attorney.objects.all(), required=False)
-    secondary_attorney = forms.ModelChoiceField(queryset=models.Attorney.objects.all(), required=False)
-    type_of_filing = forms.ChoiceField(required=False, choices=[("", "")] + [(i, i) for i in ["Trademark", "Design", "Patent"]])
+    official_number = forms.CharField(required=False, label="Official Number")
+    cost_centre = forms.CharField(required=False, label="Cost Center")
+    instructor_reference = forms.ModelChoiceField(queryset=Family.objects.values_list('licensor', flat=True).distinct(), required=False, label="Instructor Reference")
+
+    # Added Associate Refs
+    Associate_refs = forms.ModelChoiceField(queryset=Associate.objects.all(), required=False, label="Associate Refs")
+
+    # All Numbers under References
+    priority_provisional_application_no = forms.CharField(required=False, label="Priority/Provisional Application No")
+    pct_application_no = forms.CharField(required=False, label="PCT Application No")
+    application_no = forms.CharField(required=False, label="Application No")  # Consolidated field for national, design, and priority application numbers
+    publication_no = forms.CharField(required=False, label="Publication No")
+    grant_number = forms.CharField(required=False, label="Grant Number")
+    registration_no = forms.CharField(required=False, label="Registration No")
+
+    # Type of Filing Field
+    type_of_filing = forms.ChoiceField(choices=[("", "---"), ("Trademark", "Trademark"), ("Design", "Design"), ("Patent", "Patent")], required=False, label="Type of Filing")
 
     # Case Details Section
     case_office = forms.CharField(required=False, label="Case Office")
-    case_type = forms.ChoiceField(choices=[(i, i) for i in CASE_TYPE], required=False, label="Case Type")
-    country = forms.ChoiceField(choices=data.countries.COUNTRIES_OPTIONS, required=False, label="Country")
+    
+    # Add an empty option to ensure '---' is selected by default
+    case_type = forms.ChoiceField(choices=[('', '---')] + [(i, i) for i in CASE_TYPE], required=False, label="Case Type")
+    
+    # Add an empty option to the country field
+    country = forms.ChoiceField(choices=[('', '---')] + list(data.countries.COUNTRIES_OPTIONS), required=False, label="Country")
+    
     property_type = forms.CharField(required=False, label="Property Type")
     case_category = forms.CharField(required=False, label="Case Category")
     sub_type = forms.CharField(required=False, label="Sub Type")
     basis = forms.CharField(required=False, label="Basis")
     case_class = forms.CharField(required=False, label="Class")
+    
+    # New Classes Field
+    classes = forms.IntegerField(required=False, label="Classes")
 
-    # Status Section (Checkboxes)
+    # Status Section (Checkboxes with additional options)
     status__in = forms.MultipleChoiceField(
         required=False,
         label="Status",
@@ -198,10 +221,15 @@ class HomeSearchForm(forms.Form):
             ("Granted(DEA)", "Granted(DEA)"),
             ("Converted", "Converted"),
             ("Expired", "Expired"),
-            ("Published", "Published")
+            ("Published", "Published"),
+            ("Renewal overdue", "Renewal overdue"),
+            ("Renewal not paid", "Renewal not paid"),
+            ("Renewal expired", "Renewal expired")
         ],
-        widget=forms.CheckboxSelectMultiple
+        widget=forms.CheckboxSelectMultiple,
+        help_text="Select multiple statuses. Choices are displayed in 5 columns."
     )
+
     case_status = forms.CharField(required=False, label="Case Status")
     renewal_status = forms.CharField(required=False, label="Renewal Status")
 
@@ -223,19 +251,31 @@ class HomeSearchForm(forms.Form):
                     Field('owner', css_class="form-control"),
                     Field('name', css_class="form-control"),
                     Field('name_type', css_class="form-control"),
+                    Field('primary_attorney', css_class="form-control"),  # Primary Attorney
+                    Field('secondary_attorney', css_class="form-control"),  # Secondary Attorney
+                    Field('primary_paralegal', css_class="form-control"),
+                    Field('secondary_paralegal', css_class="form-control"),
+                    Field('inventor', css_class="form-control"),
                     css_class="card-body"
                 ),
                 css_class="card mb-3"
             ),
-            # Reference Section
+            # References Section
             Div(
                 Div(
                     Field('case_reference', css_class="form-control"),
-                    Field('official_number', css_class="form-control"),
-                    Field('instructor_reference', css_class="form-control"),
                     Field('family', css_class="form-control"),
-                    Field('Associates', css_class="form-control"),
-                    Field('Associate_refs', css_class="form-control"),
+                    Field('cost_centre',css_class="form-control"),
+                    Field('official_number', css_class="form-control"),
+                    Field('instructor_reference', css_class="form-control"),  # Added Instructor Reference
+                    Field('Associate_refs', css_class="form-control"),  # Added Associate Refs
+                    Field('priority_provisional_application_no', css_class="form-control"),
+                    Field('pct_application_no', css_class="form-control"),
+                    Field('application_no', css_class="form-control"),  # Consolidated application number field
+                    Field('publication_no', css_class="form-control"),
+                    Field('grant_number', css_class="form-control"),
+                    Field('registration_no', css_class="form-control"),
+                    Field('type_of_filing', css_class="form-control"),  # Added Type of Filing
                     css_class="card-body"
                 ),
                 css_class="card mb-3"
@@ -251,6 +291,7 @@ class HomeSearchForm(forms.Form):
                     Field('sub_type', css_class="form-control"),
                     Field('basis', css_class="form-control"),
                     Field('case_class', css_class="form-control"),
+                    Field('classes', css_class="form-control"),
                     css_class="card-body"
                 ),
                 css_class="card mb-3"
@@ -289,26 +330,3 @@ class HomeSearchForm(forms.Form):
                 )
             )
         )
-
-    def search(self):
-        query = Family.objects.all()
-
-        # Apply filters based on the form fields
-        if self.cleaned_data['case_reference']:
-            query = query.filter(family_no=self.cleaned_data['case_reference'])
-        if self.cleaned_data['official_number']:
-            query = query.filter(
-                models.Q(family_no__icontains=self.cleaned_data['official_number']) |
-                models.Q(case_no__icontains=self.cleaned_data['official_number']) |
-                models.Q(internal_title__icontains=self.cleaned_data['official_number']) |
-                models.Q(formal_title__icontains=self.cleaned_data['official_number'])
-            )
-        if self.cleaned_data['instructor_reference']:
-            query = query.filter(licensor=self.cleaned_data['instructor_reference'])
-        if self.cleaned_data['family']:
-            query = query.filter(id=self.cleaned_data['family'].id)
-
-        # Add other filters similarly based on the fields
-        # ...
-
-        return query

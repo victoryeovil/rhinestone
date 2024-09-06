@@ -146,6 +146,7 @@ class Patent(ModuleBaseModel):
                                       verbose_name="Type of Filing")
     # status = models.CharField(max_length=128, blank=True, null=True,default=CHOICES[1][1], choices=CHOICES, verbose_name="Status" )
     status = models.CharField(max_length=128, blank=True, null=True, verbose_name="Status", default=CHOICES[0][0])
+    filing_type = models.CharField(max_length=128, blank=True, null=True, verbose_name="Filing type", default="Patent")
     sub_filing_type = models.CharField(max_length=128, blank=True, null=True, verbose_name="Sub-Filing Type")
     sub_status = models.CharField(max_length=128, blank=True, null=True, choices=[(
         i, i) for i in ["Licensed In", "Licensed Out", "Opposition For", "Opposition Against"]],
@@ -246,7 +247,7 @@ class Design(ModuleBaseModel):
         "Open", "Pending", "Filed", "Allowed", "Granted(Live)", "Abandoned", "Granted(DEA)", "Converted", "Expired",
         "Published", "Registered"]], verbose_name="Status")
     notes = models.CharField(max_length=300, null=True, verbose_name="Notes")
-
+    filing_type = models.CharField(max_length=128, blank=True, null=True, verbose_name="Filing type", default="Patent")
     sub_filing_type = models.CharField(max_length=128, blank=True, null=True,verbose_name="Sub Filing Type")
     sub_status = models.CharField(max_length=128, blank=True, null=True, choices=[(
         i, i) for i in ["Licensed In", "Licensed Out", "Opposition For", "Opposition Against"]],
@@ -377,6 +378,12 @@ class Trademark(ModuleBaseModel):
     expiry_date = models.DateField(blank=True, null=True, verbose_name="Expiry Date")
     type_of_filing = models.CharField(max_length=128, default="Design", blank=True, null=True,
                                       verbose_name="Type of Filing")
+    classes = models.IntegerField(
+        choices=[(i, str(i)) for i in range(1, 46)], 
+        blank=True, 
+        null=True,
+        verbose_name="Classes"
+    )
     
 
     def __str__(self):

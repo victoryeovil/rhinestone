@@ -303,7 +303,7 @@ class DesignForm(forms.ModelForm):
                     ),
                     Row(
                         Column(
-                            "formal_title", "status", "sub_filing_type", "sub_status", "internal_title", 'design_file',
+                            "formal_title", "status","filing_type", "sub_filing_type", "sub_status", "internal_title", 'design_file',
                             "country", "design_priority_no", "design_application_no",
                             css_class="col-md-12"
                         ),
@@ -359,12 +359,9 @@ class TrademarkForm(forms.ModelForm):
         for field_name in date_fields:
             self.fields[field_name].widget = forms.TextInput(attrs={'type': 'date'})
 
-        # Custom widget for picture_of_trademark to handle drag-and-drop
+        # Custom widget for picture_of_trademark (hidden in form)
         self.fields['picture_of_trademark'].widget = forms.ClearableFileInput(attrs={
-            'class': 'custom-file-input',
-            'data-toggle': 'custom-file-input',
-            'drag-and-drop': 'true',
-            'placeholder': 'Drag and drop or click here to upload your image (max 2 MiB)',
+            'class': 'custom-file-input d-none',  # Hide the field in the form
         })
 
         self.helper = FormHelper()
@@ -391,22 +388,43 @@ class TrademarkForm(forms.ModelForm):
                             css_class="col-md-6 col-sm-12"
                         ),
                         Column(
-                            "associate", "associate_ref", "next_tax_date", "taxes_paid_by", "does_it_expire",
-                            "expiry_date",
+                            "associate", "associate_ref", "next_tax_date", "taxes_paid_by", 
+                            "expiry_date","classes","type_of_filing",
                             css_class="col-md-6 col-sm-12"
                         ),
                     ),
                     css_class="col-md-6"
                 ),
+                # Hidden image field in form
                 Column(
                     Field(
                         "picture_of_trademark",
-                        css_class="col-md-12"
+                        css_class="col-md-12 d-none"
                     ),
                     css_class="col-md-12"
                 )
             )
         )
+
+    def display_image(self):
+        """ Display image if it exists. """
+        if self.instance and self.instance.picture_of_trademark:
+            return self.instance.picture_of_trademark.url
+        return None
+
+    def clean(self):
+        """ Debugging validation errors """
+        cleaned_data = super().clean()
+
+        # Example of debugging for missing required fields
+        for field, value in cleaned_data.items():
+            if not value and self.fields[field].required:
+                print(f"Missing required field: {field}")
+
+        # Add other validation checks if needed
+
+        return cleaned_data
+
 
 
 class PatentForm(forms.ModelForm):
@@ -441,7 +459,7 @@ class PatentForm(forms.ModelForm):
                 Column(
                     Row(
                         Column(
-                            "case_no", "internal_title", "formal_title", "case_type", "status", "sub_status",
+                            "case_no", "internal_title", "formal_title", "case_type", "status", "sub_status","filing_type",
                             "sub_filing_type", "cost_centre", "cost_centre_code", "priority_provisional_application_no",
                             "PCT_application_no", "application_no", "publication_no", "grant_number",
                             css_class="col-md-12"
@@ -516,7 +534,7 @@ class PatentForms(forms.ModelForm):
                 Column(
                     Row(
                         Column(
-                            "family", "formal_title", "case_type", "inventor", "status", "sub_filing_type",
+                            "family", "formal_title", "case_type", "inventor", "status", "sub_filing_type","filing_type",
                             "sub_status", "cost_centre", "priority_provisional_application_no", "PCT_application_no",
                             "application_no", "publication_no", "grant_number", "cost_centre_code",
                             css_class="col-md-12"

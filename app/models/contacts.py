@@ -134,6 +134,7 @@ class Paralegal(Contact, ContactDetailsMixin):
 
 class Attorney(Contact, ContactDetailsMixin):
     attorney_no = models.CharField(max_length=128, blank=True, null=True, verbose_name="Attorney Number")
+    case_office = models.CharField(max_length=128,  blank=True, null=True, verbose_name="Case Office")
 
     def __str__(self):
         return f"{self.attorney_no} - {self.name}" if self.attorney_no else "Unnamed Attorney"
