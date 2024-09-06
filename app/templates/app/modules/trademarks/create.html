@@ -14,7 +14,6 @@
 <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
 <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
 {% endblock css %}
-	
 
 {% block content %}
 <!-- [ Main Content ] start -->
@@ -44,52 +43,27 @@
                 <div class="card">
 					<div class="card-body">
                         <div class="row">
-                            <!-- <div class="col-12">
-                                                <button class="btn btn-primary float-right">Add Family</button>
-                                            </div> -->
                             <div class="col-12 mb-4">
-                              <form
-                                class="page-form"
-                                action="/app/modules/trademarks/add/"
-                                method="post"
-                              >
+                              <form class="page-form" action="/app/modules/trademarks/add/" method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
-                                <div class="form-row">
-                                  <div class="col-12 mb-4 text-center">
-                                    <button class="btn btn-sm btn-outline-primary">
-                                      Audit Trail
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary">
-                                      <i class="feather icon-copy"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary">
-                                      Customer Special Instructions
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary">
-                                      <i class="feather icon-arrow-left"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary">
-                                      <i class="feather icon-arrow-right"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary">
-                                      <i class="feather icon-printer"></i>
-                                    </button>
-                                    <button
-                                      type="reset"
-                                      class="btn btn-sm btn-outline-primary"
-                                    >
-                                      <i class="feather icon-delete"></i>&nbsp;Delete
-                                    </button>
-                                    <button
-                                      type="submit"
-                                      class="btn btn-sm btn-outline-primary"
-                                    >
-                                      <i class="feather icon-save"></i>&nbsp;Save
-                                    </button>
-                                  </div>
-                                  <div id="id_add_new" class="col-12 mb-4 text-center"></div>
-                                </div>
                                 {% crispy form %}
+                                
+                                <div class="col-md-12 mb-3">
+                                  <label for="id_picture_of_trademark">Picture of Trademark</label>
+                                  <input type="file" id="id_picture_of_trademark" name="picture_of_trademark" class="custom-file-input" onchange="previewImage(event)">
+                                  
+                                  <!-- Image preview section -->
+                                  <div class="image-preview mt-3">
+                                      <img id="image-preview" src="" alt="Image Preview" class="img-fluid" style="max-width: 300px; display: none;">
+                                  </div>
+                                </div>
+
+                                <div class="col-12 mb-4 text-center">
+                                    <button class="btn btn-sm btn-outline-primary">Audit Trail</button>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="feather icon-save"></i>&nbsp;Save
+                                    </button>
+                                </div>
                               </form>
                             </div>
                             <div class="card-body" >
@@ -122,48 +96,7 @@
                                               <!-- Content for the Actions tab -->
                                               <p>Actions tab content goes here.</p>
                                           </div>
-                                          {% for design in designs %}
-                                            <div class="tab-pane fade" id="designs">
-                                              <!-- Content for the Designs tab -->
-                                              <table class="data-table" style="width: 100%;">
-                                                  <thead>
-                                                      <tr>
-                                                          <th>Case Ref/Docket No</th>
-                                                          <th>Internal Title</th>
-                                                          <th>Formal Title</th>
-                                                          <th>Status</th>
-                                                      </tr>
-                                                  </thead>
-                                                  <tbody>
-                                                      
-                                                          <tr>
-                                                              <td>{{ design.case_no }}</td>
-                                                              <td>{{ design.internal_title }}</td>
-                                                              <td>{{ design.formal_title }}</td>
-                                                              <td>{{ design.status }}</td>
-                                                          </tr>
-                                                      
-                                                  </tbody>
-                                              </table>
-                                          </div>
-                                         
-                                          <div class="tab-pane fade" id="applicants">
-                                              <p>{{i.no_of_views}}</p>
-                                              
-                                          </div>
-                                          <div class="tab-pane fade" id="figures">
-                                              <!-- Content for the Figures tab -->
-                                              <p>Figures tab content goes here.</p>
-                                          </div>
-                                          <div class="tab-pane fade" id="notes">
-                                              <!-- Content for the Notes tab -->
-                                              <p>Notes tab content goes here.</p>
-                                          </div>
-                                          <div class="tab-pane fade" id="annuities">
-                                              <!-- Content for the Annuities tab -->
-                                              <p>{{i.next_annuity_no}}</p>
-                                          </div>
-                                          {% endfor %}
+                                          <!-- Add more tab contents if needed -->
                                       </div>
                                   </div>
                               </div>
@@ -181,8 +114,26 @@
 <!-- [ Main Content ] end -->
 
 {% endblock content %}
+
 {% block js %}
-<!-- Required Js -->
+<script>
+    function previewImage(event) {
+        const input = event.target;
+        const preview = document.getElementById('image-preview');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            
+            reader.readAsDataURL(input.files[0]); // Convert file to base64 string
+        }
+    }
+</script>
+
 <script src="{% static 'assets/js/vendor-all.min.js' %}"></script>
 <script src="{% static 'assets/js/plugins/bootstrap.min.js' %}"></script>
 <script src="{% static 'assets/js/ripple.js' %}"></script>
@@ -192,8 +143,6 @@
 <!-- datatables Js -->
 <script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
-<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
-<script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
 <!-- <script src="{% static 'assets/js/plugins/buttons.colVis.min.js' %}"></script>
 <script src="{% static 'assets/js/plugins/buttons.print.min.js' %}"></script>
 <script src="{% static 'assets/js/plugins/pdfmake.min.js' %}"></script>
@@ -201,10 +150,7 @@
 <script src="{% static 'assets/js/plugins/dataTables.buttons.min.js' %}"></script>
 <script src="{% static 'assets/js/plugins/buttons.html5.min.js' %}"></script>
 <script src="{% static 'assets/js/plugins/buttons.bootstrap4.min.js' %}"></script>
-<script src="{% static 'assets/js/pages/data-export-custom.js' %}"></script> -->
-<!-- Apex Chart
-<script src="{% static 'assets/js/plugins/apexcharts.min.js' %}"></script>
--->
+<script src="{% static 'assets/js/pages/data-export-custom.js' %}"></script>-->
 
 <script>
 	// Form start
@@ -217,6 +163,7 @@
 	});
 	// DataTable end
 </script>
+
 <script>
   var type_of_filing = "{{type_of_filing}}";
   var primary_attorney = "{{primary_attorney}}" ;

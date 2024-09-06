@@ -3,9 +3,10 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDict
 from django.shortcuts import render
-from django.db.models import Q
+from django.db.models import Q, ForeignKey
 from itertools import chain
 from difflib import SequenceMatcher
+from django.core.exceptions import FieldDoesNotExist
 from app.models import (
     Family, Patent, Trademark, Design, BaseModel,
     User, Contact, InventionDisclosure, Invoice
@@ -79,47 +80,115 @@ def home_search_view(request):
 
     return render(request, 'app/home.html', {'form': form, 'result': results})
 
+
+
 def home_view(request):
-    form = HomeSearchForm(request.GET or None)
+    form = HomeSearchForm(request.POST or None)
     results = []
 
     if form.is_valid():
-        title = form.cleaned_data.get('title')
-        primary_attorney = form.cleaned_data.get('primary_attorney')
-        secondary_attorney = form.cleaned_data.get('secondary_attorney')
+        # Extract form data
+        form_data = {
+            'title': form.cleaned_data.get('title'),
+            'primary_attorney': form.cleaned_data.get('primary_attorney'),
+            'secondary_attorney': form.cleaned_data.get('secondary_attorney'),
+            'associate': form.cleaned_data.get('associate'),
+            'instructor': form.cleaned_data.get('instructor'),
+            'owner': form.cleaned_data.get('owner'),
+            'name': form.cleaned_data.get('name'),
+            'primary_paralegal': form.cleaned_data.get('primary_paralegal'),
+            'secondary_paralegal': form.cleaned_data.get('secondary_paralegal'),
+            'inventor': form.cleaned_data.get('inventor'),
+            'case_reference': form.cleaned_data.get('case_reference'),
+            'family': form.cleaned_data.get('family'),
+            'official_number': form.cleaned_data.get('official_number'),
+            'instructor_reference': form.cleaned_data.get('instructor_reference'),
+            'associate_refs': form.cleaned_data.get('Associate_refs'),
+            'priority_provisional_application_no': form.cleaned_data.get('priority_provisional_application_no'),
+            'pct_application_no': form.cleaned_data.get('pct_application_no'),
+            'application_no': form.cleaned_data.get('application_no'),
+            'publication_no': form.cleaned_data.get('publication_no'),
+            'grant_number': form.cleaned_data.get('grant_number'),
+            'registration_no': form.cleaned_data.get('registration_no'),
+            'case_office': form.cleaned_data.get('case_office'),
+            'case_type': form.cleaned_data.get('case_type'),
+            'country': form.cleaned_data.get('country'),
+            'property_type': form.cleaned_data.get('property_type'),
+            'case_category': form.cleaned_data.get('case_category'),
+            'sub_type': form.cleaned_data.get('sub_type'),
+            'basis': form.cleaned_data.get('basis'),
+            'case_class': form.cleaned_data.get('case_class'),
+            'classes': form.cleaned_data.get('classes'),
+            'status': form.cleaned_data.get('status__in'),
+            'case_status': form.cleaned_data.get('case_status'),
+            'renewal_status': form.cleaned_data.get('renewal_status'),
+            'keyword': form.cleaned_data.get('keyword'),
+            'type_of_mark': form.cleaned_data.get('type_of_mark'),
+        }
+
+        # Helper function to get all fields from the model
+        def get_model_fields(model):
+            return [field.name for field in model._meta.get_fields()]
+
+        # Helper function to build filters for a specific model based on matching fields
+        def apply_filters(queryset, model):
+            model_filters = Q()
+            model_fields = get_model_fields(model)
+            matching_fields = []
+
+           
+            for field, value in form_data.items():
+                if value and field in model_fields:
+                    matching_fields.append(field)
+                    # print(f"Field '{field}' found in {model.__name__}, applying filter.")
+
+            for field in matching_fields:
+                value = form_data[field]
+                try:
+                    model_field = model._meta.get_field(field)
+
+                    if isinstance(model_field, ForeignKey):
+                       
+                        related_field_name = f'{field}__id'
+                        model_filters &= Q(**{related_field_name: value.id})
+                        print(f"ForeignKey filter applied: {related_field_name} with value {value.id}")
+                    else:
+                        model_filters &= Q(**{f'{field}__icontains': value})
+                        # print(f"Filter applied for field: {field} with value: {value}")
+
+                except FieldDoesNotExist:
+                    print(f"Field '{field}' does not exist in {model.__name__}, skipping.")
+
+            return queryset.filter(model_filters)
+
+        # Debugging: Print out the type of filing
         type_of_filing = form.cleaned_data.get('type_of_filing')
-        status = form.cleaned_data.get('status')
-        Associates = form.cleaned_data.get('Associates')
-        Associate_refs = form.cleaned_data.get('Associate_refs')
+        print(f"Checking the type of filing: {type_of_filing}")
 
-        # Perform the database query using the provided search parameters
-        queryset = Family.objects.none()
-        if title:
-            queryset |= Family.objects.filter(titles__icontains=title)
-        if primary_attorney:
-            queryset |= Family.objects.filter(primary_attorney__icontains=primary_attorney)
-        if secondary_attorney:
-            queryset |= Family.objects.filter(secondary_attorney__icontains=secondary_attorney)
-        if type_of_filing:
-            queryset |= Family.objects.filter(type_of_filing__icontains=type_of_filing)
-        if status:
-            queryset |= Family.objects.filter(status__icontains=status)
-        if Associates:
-            queryset |= Family.objects.filter(_Associates__icontains=Associates)
-        if Associate_refs:
-            queryset |= Family.objects.filter(_Associate_refs__icontains=Associate_refs)
+        # Apply filters for each model, dynamically checking field existence
+        if type_of_filing == "Design":
+            results = list(apply_filters(Design.objects.all(), Design))
+        elif type_of_filing == "Patent":
+            results = list(apply_filters(Patent.objects.all(), Patent))
+        elif type_of_filing == "Trademark":
+            results = list(apply_filters(Trademark.objects.all(), Trademark))
+        else:
+            # If no specific type_of_filing is selected, search in all models
+            results = list(chain(
+                apply_filters(Design.objects.all(), Design),
+                apply_filters(Patent.objects.all(), Patent),
+                apply_filters(Trademark.objects.all(), Trademark)
+            ))
 
-        results = list(queryset)
-
+        # Debugging: Print the number of results found
         if not results:
-                form.add_error(None, "Search not found")
-
-        
+            form.add_error(None, "No records found based on your search criteria.")
+            print("No records found based on the search criteria.")
+        else:
+            print(f'Found {len(results)} result(s).')
 
     context = {'form': form, 'results': results}
-    print(context)
     return render(request, 'app/home_search_view.html', context)
-
 
 
 @login_required( login_url="/login/")

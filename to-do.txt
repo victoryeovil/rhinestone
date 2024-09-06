@@ -13,6 +13,29 @@
 - Paralegal fields--done
 - Attorney fields--done
 - New model Other provider/Law firm Clients: --done
-- link special instructions to the contact
+- link special instructions to the contact ---
 - Family
-- Invention Disclosure button to create a family, move tabs up --done
+- Invention Disclosure button to create a family, move tabs up --done 
+
+Total 50 hours
+
+Small boxes on every screen-- done
+Make the height of the font the same as the fo the size--done
+
+
+Pie chat or map for the dashboard (to be looked at when we are working on Dashboard)
+
+Country !annuity year!
+
+Select Patent And design family on Invention Disclosure. -- done
+
+Make the fields return the id and the name thus for all the drop-downs Attorney, Applicant etc. --- done
+
+Sort out designs and Trademark to save with their numbering system standalone -- done
+
+Add Customer special Instruction field in other provide and or applicant-- done
+
+make the tabs get selected items from the above form.
+
+Get countries from Dileen.
+

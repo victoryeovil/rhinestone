@@ -85,6 +85,10 @@ urlpatterns = [
     path("address-book/attorneys/detail/<int:pk>/", contacts.attorneys_detail_view),
     path("address-book/attorneys/edit/<int:pk>/", contacts.attorneys_update_view),
     path("address-book/attorneys/delete/<int:pk>/", contacts.attorneys_delete_view),
+
+    #contacts.costcenter
+    path("address-book/costcenter/add/", contacts.costcenter_create_view),
+    path("address-book/costcenter/", contacts.costcenter_view),
     # Billing
     # billing.invoices_view),
     path("billing/invoices/", dashboard.coming_soon_view),

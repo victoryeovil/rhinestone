@@ -17,8 +17,26 @@
 {% block style %}
     {{ block.super }}
     <style>
-        .page-form .fieldset  {
+        .page-form .fieldset {
             border: 1px groove #ced4da !important;
+        }
+        .collapse-toggle {
+            cursor: pointer;
+        }
+
+        /* Custom CSS for the status checkboxes grid layout */
+        .status-checkbox {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); /* 5 columns */
+            grid-gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* Make sure the label and input fit correctly in the grid cells */
+        .status-checkbox label {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
         }
     </style>
 {% endblock style %}
@@ -44,6 +62,14 @@
                 </div>
             </div>
             <!-- [ breadcrumb ] end -->
+
+            <!-- Display form errors -->
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            
             <!-- [ Main Content ] start -->
             <div class="row">
                 <div class="col-12">
@@ -54,14 +80,205 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12 mb-4">
-                                    <form class="page-form" action="/app/" method="post" novalidate>
+                                    <!-- Form with collapsible sections -->
+                                    <form class="page-form" action="/app/" method="POST" novalidate>
                                         {% csrf_token %}
-                                        {% crispy form %}
+
+                                        <!-- Names Section -->
+                                        <div class="card mb-3">
+                                            <div class="card-header collapse-toggle" onclick="toggleSection('collapseNames', this)">
+                                                <span class="me-2">+</span> Names
+                                            </div>
+                                            <div id="collapseNames" class="collapse">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.associate|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.instructor|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.owner|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.name|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.primary_attorney|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.secondary_attorney|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.primary_paralegal|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.secondary_paralegal|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.inventor|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.name_type|as_crispy_field }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Reference Section -->
+                                        <div class="card mb-3">
+                                            <div class="card-header collapse-toggle" onclick="toggleSection('collapseReference', this)">
+                                                <span class="me-2">+</span> Reference
+                                            </div>
+                                            <div id="collapseReference" class="collapse">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.case_reference|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.cost_centre|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.instructor_reference|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.family|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.Associate_refs|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.priority_provisional_application_no|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.pct_application_no|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.application_no|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.publication_no|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.grant_number|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.registration_no|as_crispy_field }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Case Details Section -->
+                                        <div class="card mb-3">
+                                            <div class="card-header collapse-toggle" onclick="toggleSection('collapseCaseDetails', this)">
+                                                <span class="me-2">+</span> Case Details
+                                            </div>
+                                            <div id="collapseCaseDetails" class="collapse">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.case_office|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.case_type|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.country|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.property_type|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.case_category|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.sub_type|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.basis|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.type_of_filing|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.classes|as_crispy_field }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Status Section -->
+                                        <div class="card mb-3">
+                                            <div class="card-header collapse-toggle" onclick="toggleSection('collapseStatus', this)">
+                                                <span class="me-2">+</span> Status
+                                            </div>
+                                            <div id="collapseStatus" class="collapse">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="status-checkbox">
+                                                                {{ form.status__in|as_crispy_field }}
+                                                            </div>
+                                                            <div class="col-12 col-md-6">
+                                                                {{ form.case_status|as_crispy_field }}
+                                                            </div>
+                                                            <div class="col-12 col-md-6">
+                                                                {{ form.renewal_status|as_crispy_field }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Text Section -->
+                                        <div class="card mb-3">
+                                            <div class="card-header collapse-toggle" onclick="toggleSection('collapseText', this)">
+                                                <span class="me-2">+</span> Text
+                                            </div>
+                                            <div id="collapseText" class="collapse">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.title|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.keyword|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.text_type|as_crispy_field }}
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.type_of_mark|as_crispy_field }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Buttons -->
+                                        <div class="row">
+                                            <div class="col-12 text-center pt-3">
+                                                <a class="btn btn-secondary mx-3" href="{{ request.path }}">
+                                                    <i class="feather icon-minus"></i>&nbsp;Clear
+                                                </a>
+                                                <button class="btn btn-primary mx-3" type="submit">
+                                                    <i class="feather icon-search"></i>&nbsp;Search
+                                                </button>
+                                            </div>
+                                        </div>
                                     </form>
                                 </div>
+
                                 <div class="container">
                                     <h1 class="mt-4">Results</h1>
-                                    {% if form.is_bound and result %}
+                                    {% if results %}
                                         <div class="container">
                                             <table id="search-results-table" class="table table-striped">
                                                 <thead>
@@ -74,13 +291,15 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>{{ result.id }}</td>
-                                                        <td>{{ result.titles }}</td>
-                                                        <td>{{ result.Associate }}</td>
-                                                        <td>{{ result.Associate_ref }}</td>
-                                                        <td>{{ result.type_of_filing }}</td>
-                                                    </tr>
+                                                    {% for result in results %}
+                                                        <tr>
+                                                            <td>{{ result.case_no }}</td>
+                                                            <td>{{ result.internal_title }}</td>
+                                                            <td>{{ result.associate }}</td>
+                                                            <td>{{ result.associate_ref }}</td>
+                                                            <td>{{ result.type_of_filing }}</td>
+                                                        </tr>
+                                                    {% endfor %}
                                                 </tbody>
                                             </table>
                                         </div>
@@ -108,20 +327,36 @@
     <script src="{% static 'assets/js/plugins/select2.full.min.js' %}"></script>
     <script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+
     <script>
         if ("POST" === "{{request.method}}") {
             document.querySelector("table#search-results-table").scrollIntoView();
         }
-    </script>
-    <script>
-        // Form start
-        $(".page-form select").select2();
-        // Form end
-        // DataTable start
-        $('.data-table').DataTable({
-            dom: 'Bfrtip',
-            // buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+
+        // Function to toggle sections
+        function toggleSection(sectionId, toggleElement) {
+            const section = document.getElementById(sectionId);
+            const icon = toggleElement.querySelector('span');
+
+            if (section.classList.contains('show')) {
+                section.classList.remove('show');
+                icon.innerText = '+';
+            } else {
+                section.classList.add('show');
+                icon.innerText = '-';
+            }
+        }
+
+        // JS to ensure the checkboxes are properly aligned into columns
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkboxes = document.querySelectorAll('.status-checkbox input[type="checkbox"]');
+            const container = document.querySelector('.status-checkbox');
+
+            if (container && checkboxes.length) {
+                const columns = 5; // Number of columns
+                const rows = Math.ceil(checkboxes.length / columns);
+                container.style.gridTemplateRows = `repeat(${rows}, auto)`;
+            }
         });
-        // DataTable end
     </script>
 {% endblock js %}

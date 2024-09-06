@@ -181,7 +181,6 @@ class FamilyTrademarkForm(forms.ModelForm):
 
 
 class FamilyPatentForm(forms.ModelForm):
-    # type_of_filing=forms.ChoiceField(widget = forms.Select(), choices=[(i, i) for i in ["Trademark", "Design", "Patent"]],required = False)
     type_of_filing = forms.ChoiceField(widget=forms.Select(), choices=[("Patent", "Patent")], required=False)
 
     class Meta:
@@ -192,60 +191,40 @@ class FamilyPatentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.form_class = 'form-horizontal'
+        self.helper.form_class = 'form-horizontal small-form'
+        self.helper.label_class = 'small-label'
+        self.helper.field_class = 'small-input'
         self.helper.layout = Layout(
             Row(
                 Column(
                     Row(
                         Column("internal_title", "formal_title", "status", "sub_filing",
-                               "type_of_filing", "licenced", "licensor", css_class="col-md-4"),
-                        Column("primary_attorney", "secondary_attorney", "primary_paralegal", "secondary_paralegal",
-                               "applicant", "cost_centre", "cost_centre_code", "keywords",
-                               css_class="col-md-4"),
-                        #Column( css_class="col-md-4"),
-                        #Column( css_class="col-md-4"),
-
+                               "type_of_filing",  css_class="col-md-4 small-input"),
+                        Column("primary_attorney", "secondary_attorney", "primary_paralegal", "secondary_paralegal","licenced",
+                               
+                               css_class="col-md-4 small-input"),
+                        Column("applicant", "cost_centre", "cost_centre_code", "keywords" ,"licensor",
+                               css_class="col-md-4 small-input"),
                     ),
                     css_class="col-12"
-                ),
-                Column(
-
-                    css_class="col-md-4"
-                ),
-                Column(
-                    Row(
-                        Column(
-
-                            css_class="col-md-4"
-                        ),
-                        Column(
-                            Row(
-                                Column(
-                                    css_class="col-md-6"
-                                ),
-                            ),
-                            css_class="col-12"
-                        ),
-                        Column(
-
-                            css_class="col-md-6"
-                        ),
-                    ),
-                    css_class="col-md-8"
-                ),
-                # Column(
-                #     Reset("Reset", "Reset", css_class="btn btn-outline-secondary"),
-                #     Submit("submit", "Save", css_class="btn btn-primary"),
-                #     css_class="col-12 pt-3 text-center"
-                # )
-
+                )
             )
         )
-        # Column(
-        #     Reset("Reset", "Reset", css_class="btn btn-outline-secondary"),
-        #     Submit("submit", "Save", css_class="btn btn-primary"),
-        #     css_class="col-12 pt-3 text-center"
-        # )
+
+        # Apply custom styles to each field
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control form-control-sm'
+            field.widget.attrs['style'] = 'font-size: 8px; height: auto; padding: 2px 3px; margin-bottom: 2px;'
+
+        # Apply custom styles to labels
+        for field_name, field in self.fields.items():
+            self.fields[field_name].widget.attrs.update({'style': 'font-size: 10px; margin-bottom: 2px;'})
+
+        # Additional styling for form groups and buttons
+        self.helper.attrs = {
+            'class': 'small-form',
+            'style': 'margin-bottom: 3px;'
+        }
 
 
 class FamilyForm(forms.ModelForm):
@@ -324,7 +303,7 @@ class DesignForm(forms.ModelForm):
                     ),
                     Row(
                         Column(
-                            "formal_title", "status", "sub_filing_type", "sub_status", "internal_title", 'design_file',
+                            "formal_title", "status","filing_type", "sub_filing_type", "sub_status", "internal_title", 'design_file',
                             "country", "design_priority_no", "design_application_no",
                             css_class="col-md-12"
                         ),
@@ -374,43 +353,78 @@ class TrademarkForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        # Set date fields with a date picker
+        date_fields = ["applicaation_date", "registration_date", "next_tax_date", "expiry_date"]
+        for field_name in date_fields:
+            self.fields[field_name].widget = forms.TextInput(attrs={'type': 'date'})
+
+        # Custom widget for picture_of_trademark (hidden in form)
+        self.fields['picture_of_trademark'].widget = forms.ClearableFileInput(attrs={
+            'class': 'custom-file-input d-none',  # Hide the field in the form
+        })
+
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
+        self.helper.label_class = 'col-sm-4'
+        self.helper.field_class = 'col-sm-8'
         self.helper.layout = Layout(
             Row(
                 Column(
                     Row(
-                        Column("family", "country", "picture_of_trademark", "trademark_priority_no",
-                               "trademark_application_no", "trademark_registration_no",
-                               css_class="col-md-12"
-                               ),
+                        Column(
+                            "family", "country", "trademark_name", "type_of_trademark", "trademark_priority_no",
+                            "trademark_application_no", "trademark_registration_no",
+                            css_class="col-md-12"
+                        ),
                     ),
-                    css_class="col-md-4"
+                    css_class="col-md-6"
                 ),
                 Column(
                     Row(
                         Column(
                             "primary_attorney", "secondary_attorney", "primary_paralegal", "secondary_paralegal",
-                            "date", "date",
-                            css_class="col-md-6"
+                            "applicaation_date", "registration_date",
+                            css_class="col-md-6 col-sm-12"
                         ),
                         Column(
-                            "associate", "associate_ref", "next_tax_date", "taxes_paid_by", "does_it_expire", "date",
-                            css_class="col-md-6"
+                            "associate", "associate_ref", "next_tax_date", "taxes_paid_by", 
+                            "expiry_date","classes","type_of_filing",
+                            css_class="col-md-6 col-sm-12"
                         ),
                     ),
                     css_class="col-md-6"
                 ),
-
-            ),
-
-            # Column(
-            #     Reset("Reset", "Reset", css_class="btn btn-outline-secondary"),
-            #     Submit("submit", "Save", css_class="btn btn-primary"),
-            #     css_class="col-12 pt-3 text-center"
-            # )
-
+                # Hidden image field in form
+                Column(
+                    Field(
+                        "picture_of_trademark",
+                        css_class="col-md-12 d-none"
+                    ),
+                    css_class="col-md-12"
+                )
+            )
         )
+
+    def display_image(self):
+        """ Display image if it exists. """
+        if self.instance and self.instance.picture_of_trademark:
+            return self.instance.picture_of_trademark.url
+        return None
+
+    def clean(self):
+        """ Debugging validation errors """
+        cleaned_data = super().clean()
+
+        # Example of debugging for missing required fields
+        for field, value in cleaned_data.items():
+            if not value and self.fields[field].required:
+                print(f"Missing required field: {field}")
+
+        # Add other validation checks if needed
+
+        return cleaned_data
+
 
 
 class PatentForm(forms.ModelForm):
@@ -445,7 +459,7 @@ class PatentForm(forms.ModelForm):
                 Column(
                     Row(
                         Column(
-                            "case_no", "internal_title", "formal_title", "case_type", "status", "sub_status",
+                            "case_no", "internal_title", "formal_title", "case_type", "status", "sub_status","filing_type",
                             "sub_filing_type", "cost_centre", "cost_centre_code", "priority_provisional_application_no",
                             "PCT_application_no", "application_no", "publication_no", "grant_number",
                             css_class="col-md-12"
@@ -520,7 +534,7 @@ class PatentForms(forms.ModelForm):
                 Column(
                     Row(
                         Column(
-                            "family", "formal_title", "case_type", "inventor", "status", "sub_filing_type",
+                            "family", "formal_title", "case_type", "inventor", "status", "sub_filing_type","filing_type",
                             "sub_status", "cost_centre", "priority_provisional_application_no", "PCT_application_no",
                             "application_no", "publication_no", "grant_number", "cost_centre_code",
                             css_class="col-md-12"

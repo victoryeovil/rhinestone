@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, transaction
 
 from app.models.contacts import Applicant, Inventor
 
@@ -10,7 +10,7 @@ from app.functions.generate_id import generate_id
 
 CHOICES = [(i, i) for i in
            ["Open", "Pending", "Filed", "Allowed", "Granted(Live)", "Abandoned", "Granted(DEA)", "Converted", "Expired",
-            "Published"]]
+            "Published", "Registered"]]
 
 
 class ModuleBaseModel(BaseModel):
@@ -40,6 +40,13 @@ class ModuleBaseModel(BaseModel):
             _associates=" ".join([str(getattr(self, field_name)) for field_name in self._associates_fields]),
         )
 
+class FamilyNumberCounter(models.Model):
+    prefix = models.CharField(max_length=2, unique=True)  # e.g., 'TM', 'DE', 'PF'
+    last_number = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.prefix} - {self.last_number}"
+
 
 class Family(ModuleBaseModel):
     _official_numbers_fields = ["family_no"]
@@ -55,13 +62,12 @@ class Family(ModuleBaseModel):
     country = models.CharField(max_length=128, blank=True, null=True, choices=data.countries.COUNTRIES_OPTIONS,
                                verbose_name="Country")
     status = models.CharField(max_length=128, blank=True, null=True, choices=[(i, i) for i in [
-        "Open", "Pending", "Filed", "Abandoned", "Sold", "Licensed", "On Hold", "Opposed"]], verbose_name="Status")
+        "Open", "Pending", "Filed", "Abandoned", "Sold", "Licensed", "On Hold", "Opposed", "Registered"]], verbose_name="Status")
     sub_status = models.CharField(max_length=128, blank=True, null=True, choices=[(i, i) for i in [
         "Open", "Pending", "Filed", "Abandoned", "Sold", "Licensed", "On Hold", "Opposed"]], verbose_name="Sub Status")
     type_of_filing = models.CharField(max_length=128, blank=True, null=True, choices=[
         (i, i) for i in ["Trademark", "Design", "Patent"]], verbose_name="Type of Filing")
-    sub_filing = models.CharField(max_length=128, blank=True, null=True, choices=[
-        (str(i), str(i)) for i in range(1, 5)], verbose_name="Sub Filing")
+    sub_filing = models.CharField(max_length=128, blank=True, null=True, verbose_name="Sub Filing")
     primary_attorney = models.ForeignKey("app.Attorney", on_delete=models.SET_NULL,
                                          related_name="family_primary_attorney_set", blank=True, null=True,
                                          verbose_name="Primary Attorney")
@@ -90,16 +96,29 @@ class Family(ModuleBaseModel):
         return str(self.family_no)
 
     def save(self, *args, **kwargs):
-        super(Family, self).save(*args, **kwargs)
-        object = Family.objects.filter(id=self.id)
-        if self.type_of_filing == 'Trademark':
-            letters = 'TM'
-        elif self.type_of_filing == 'Design':
-            letters = 'DE'
-        else:
-            letters = 'PF'
-        object.update(
-            family_no=generate_id(7, letters, self.id))
+        with transaction.atomic():
+            # Determine the prefix based on the type_of_filing
+            if self.type_of_filing == 'Trademark':
+                prefix = 'TM'
+            elif self.type_of_filing == 'Design':
+                prefix = 'DE'
+            else:
+                prefix = 'PF'
+
+            # Get or create the counter for this prefix
+            counter, created = FamilyNumberCounter.objects.get_or_create(prefix=prefix)
+
+            # Increment the last number
+            counter.last_number += 1
+            counter.save()
+
+            # Format the new family number with leading zeros
+            new_family_no = f"{prefix}{str(counter.last_number).zfill(5)}"
+
+            # Update the family_no field with the new number
+            self.family_no = new_family_no
+
+            super(Family, self).save(*args, **kwargs)
 
 
 class Country(models.Model):
@@ -127,8 +146,8 @@ class Patent(ModuleBaseModel):
                                       verbose_name="Type of Filing")
     # status = models.CharField(max_length=128, blank=True, null=True,default=CHOICES[1][1], choices=CHOICES, verbose_name="Status" )
     status = models.CharField(max_length=128, blank=True, null=True, verbose_name="Status", default=CHOICES[0][0])
-    sub_filing_type = models.CharField(max_length=128, blank=True, null=True, choices=[
-        (i, i) for i in ["Registered", "Un-Registered"]], verbose_name="Sub-Filing Type")
+    filing_type = models.CharField(max_length=128, blank=True, null=True, verbose_name="Filing type", default="Patent")
+    sub_filing_type = models.CharField(max_length=128, blank=True, null=True, verbose_name="Sub-Filing Type")
     sub_status = models.CharField(max_length=128, blank=True, null=True, choices=[(
         i, i) for i in ["Licensed In", "Licensed Out", "Opposition For", "Opposition Against"]],
                                   verbose_name="Sub-Status")
@@ -226,11 +245,10 @@ class Design(ModuleBaseModel):
                                       verbose_name="Type of Filing")
     status = models.CharField(max_length=128, blank=True, null=True, choices=[(i, i) for i in [
         "Open", "Pending", "Filed", "Allowed", "Granted(Live)", "Abandoned", "Granted(DEA)", "Converted", "Expired",
-        "Published"]], verbose_name="Status")
+        "Published", "Registered"]], verbose_name="Status")
     notes = models.CharField(max_length=300, null=True, verbose_name="Notes")
-
-    sub_filing_type = models.CharField(max_length=128, blank=True, null=True, choices=[
-        (i, i) for i in ["Registered", "Un-Registered"]], verbose_name="Sub Filing Type")
+    filing_type = models.CharField(max_length=128, blank=True, null=True, verbose_name="Filing type", default="Patent")
+    sub_filing_type = models.CharField(max_length=128, blank=True, null=True,verbose_name="Sub Filing Type")
     sub_status = models.CharField(max_length=128, blank=True, null=True, choices=[(
         i, i) for i in ["Licensed In", "Licensed Out", "Opposition For", "Opposition Against"]],
                                   verbose_name="Sub Status")
@@ -310,9 +328,21 @@ class Trademark(ModuleBaseModel):
     case_no = models.CharField(max_length=128, blank=True, null=True, verbose_name="Case No")
     country = models.CharField(
         max_length=128, blank=True, null=True, choices=data.countries.COUNTRIES_OPTIONS, verbose_name="Country")
-    # trademark_name = models.CharField(max_length=128, blank=True, null=True)
+    
+    # New fields added
+    trademark_name = models.CharField(max_length=128, blank=True, null=True, verbose_name="Trademark Name")
+    type_of_trademark = models.CharField(max_length=128, blank=True, null=True, choices=[
+        ('Device marks', 'Device marks'),
+        ('Service marks', 'Service marks'),
+        ('Collective marks', 'Collective marks'),
+        ('Certification marks', 'Certification marks'),
+        ('Well-known marks', 'Well-known marks'),
+        ('Unconventional trademarks', 'Unconventional trademarks'),
+    ], verbose_name="Type of Trademark")
+
     picture_of_trademark = ImageField(
         upload_to="trademarks", blank=True, null=True, verbose_name="Picture of Trademark")
+    
     primary_attorney = models.ForeignKey("app.Attorney", on_delete=models.SET_NULL,
                                          related_name="trademark_primary_attorney_set", blank=True, null=True,
                                          verbose_name="Primary Attorney")
@@ -330,15 +360,16 @@ class Trademark(ModuleBaseModel):
     secondary_paralegal = models.ForeignKey("app.Paralegal", on_delete=models.SET_NULL,
                                             related_name="trademark_secondary_paralegal_set", blank=True, null=True,
                                             verbose_name="Secondary Paralegal")
+    
     trademark_priority_no = models.CharField(max_length=128, blank=True, null=True,
                                              verbose_name="Trademark Priority No")
     date = models.DateField(verbose_name="Tax Date", blank=True, null=True)
     trademark_application_no = models.CharField(max_length=128, blank=True, null=True,
                                                 verbose_name="Trademark Application No")
-    date = models.DateField("Application date", blank=True, null=True)
+    applicaation_date = models.DateField("Application date", blank=True, null=True)
     trademark_registration_no = models.CharField(max_length=128, blank=True, null=True,
                                                  verbose_name="Trademark Registration No")
-    date = models.DateField(blank=True, null=True, verbose_name="Registration Date")
+    registration_date = models.DateField(blank=True, null=True, verbose_name="Registration Date")
     next_tax_date = models.DateField(blank=True, null=True, verbose_name="Next Tax Date")
     taxes_paid_by = models.CharField(max_length=128, blank=True, null=True, verbose_name="Taxes Paid By")
     does_it_expire = models.CharField(max_length=4, blank=True, null=True, choices=[
@@ -347,6 +378,13 @@ class Trademark(ModuleBaseModel):
     expiry_date = models.DateField(blank=True, null=True, verbose_name="Expiry Date")
     type_of_filing = models.CharField(max_length=128, default="Design", blank=True, null=True,
                                       verbose_name="Type of Filing")
+    classes = models.IntegerField(
+        choices=[(i, str(i)) for i in range(1, 46)], 
+        blank=True, 
+        null=True,
+        verbose_name="Classes"
+    )
+    
 
     def __str__(self):
         return self.case_no
