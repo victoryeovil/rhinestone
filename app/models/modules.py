@@ -246,7 +246,7 @@ class Design(ModuleBaseModel):
     status = models.CharField(max_length=128, blank=True, null=True, choices=[(i, i) for i in [
         "Open", "Pending", "Filed", "Allowed", "Granted(Live)", "Abandoned", "Granted(DEA)", "Converted", "Expired",
         "Published", "Registered"]], verbose_name="Status")
-    notes = models.CharField(max_length=300, null=True, verbose_name="Notes")
+    notes = models.CharField(max_length=300,blank=True, null=True, verbose_name="Notes")
     filing_type = models.CharField(max_length=128, blank=True, null=True, verbose_name="Filing type", default="Patent")
     sub_filing_type = models.CharField(max_length=128, blank=True, null=True,verbose_name="Sub Filing Type")
     sub_status = models.CharField(max_length=128, blank=True, null=True, choices=[(
@@ -374,7 +374,7 @@ class Trademark(ModuleBaseModel):
     taxes_paid_by = models.CharField(max_length=128, blank=True, null=True, verbose_name="Taxes Paid By")
     does_it_expire = models.CharField(max_length=4, blank=True, null=True, choices=[
         (i, i) for i in ["Yes", "No"]], verbose_name="Does It Expire")
-    notes = models.CharField(max_length=300, null=True, verbose_name="Notes")
+    notes = models.CharField(max_length=300,blank=True, null=True, verbose_name="Notes")
     expiry_date = models.DateField(blank=True, null=True, verbose_name="Expiry Date")
     type_of_filing = models.CharField(max_length=128, default="Design", blank=True, null=True,
                                       verbose_name="Type of Filing")
