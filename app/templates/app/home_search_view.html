@@ -190,18 +190,18 @@
                                                         <div class="col-12 col-md-6">
                                                             {{ form.country|as_crispy_field }}
                                                         </div>
-                                                        <div class="col-12 col-md-6">
+                                                        {% comment %}<div class="col-12 col-md-6">
                                                             {{ form.property_type|as_crispy_field }}
                                                         </div>
                                                         <div class="col-12 col-md-6">
                                                             {{ form.case_category|as_crispy_field }}
-                                                        </div>
+                                                        </div>{% endcomment %}
                                                         <div class="col-12 col-md-6">
                                                             {{ form.sub_type|as_crispy_field }}
-                                                        </div>
+                                                        </div>{% comment %}
                                                         <div class="col-12 col-md-6">
                                                             {{ form.basis|as_crispy_field }}
-                                                        </div>
+                                                        </div>{% endcomment %}
                                                         <div class="col-12 col-md-6">
                                                             {{ form.type_of_filing|as_crispy_field }}
                                                         </div>
