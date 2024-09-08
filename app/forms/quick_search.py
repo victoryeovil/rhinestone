@@ -14,7 +14,7 @@ from app.models import (
     Family, Patent, Trademark, Design, BaseModel,
     User, Contact, InventionDisclosure, Invoice
 )
-from app.models.contacts import Applicant, Associate, Attorney, Inventor, Paralegal
+from app.models.contacts import Applicant, Associate, Attorney, CostCenter, Inventor, Paralegal
 
 
 class QuickSearchForm(forms.Form):
@@ -170,7 +170,7 @@ class HomeSearchForm(forms.Form):
     case_reference = forms.ModelChoiceField(queryset=Family.objects.all(), required=False, label="Case Reference")
     family = forms.ModelChoiceField(queryset=Family.objects.all(), required=False, label="Family")
     official_number = forms.CharField(required=False, label="Official Number")
-    cost_centre = forms.CharField(required=False, label="Cost Center")
+    cost_centre = forms.ModelChoiceField(queryset=CostCenter.objects.all(), required=False, label="Cost Center")
     instructor_reference = forms.ModelChoiceField(queryset=Family.objects.values_list('licensor', flat=True).distinct(), required=False, label="Instructor Reference")
 
     # Added Associate Refs
@@ -185,20 +185,21 @@ class HomeSearchForm(forms.Form):
     registration_no = forms.CharField(required=False, label="Registration No")
 
     # Type of Filing Field
-    type_of_filing = forms.ChoiceField(choices=[("", "---"), ("Trademark", "Trademark"), ("Design", "Design"), ("Patent", "Patent")], required=False, label="Type of Filing")
+    type_of_filing = forms.ChoiceField(choices=[("", "---"), ("Trademark", "Trademark"), ("Design", "Design"), ("Patent", "Patent"), ("Copyright", "Copyright")], required=False, label="Property Type")
 
     # Case Details Section
     case_office = forms.CharField(required=False, label="Case Office")
     
     # Add an empty option to ensure '---' is selected by default
-    case_type = forms.ChoiceField(choices=[('', '---')] + [(i, i) for i in CASE_TYPE], required=False, label="Case Type")
+    case_type = forms.ChoiceField(choices=[('', '---')] + [(i, i) for i in CASE_TYPE], required=False, label="Filing Type")
     
     # Add an empty option to the country field
     country = forms.ChoiceField(choices=[('', '---')] + list(data.countries.COUNTRIES_OPTIONS), required=False, label="Country")
     
     property_type = forms.CharField(required=False, label="Property Type")
-    case_category = forms.CharField(required=False, label="Case Category")
-    sub_type = forms.CharField(required=False, label="Sub Type")
+    #case_category = forms.CharField(required=False, label="Case Category")
+    sub_type = forms.ChoiceField(choices=[('',"---"), ('PCT National Phase','PCT National Phase'),('Divisional', 'Divisional'), ('Non Provisional', 'Non Provisional'),
+                                          ('Continuation', 'Continuation'), ('EP National', 'EP National'), ('EP-PECT National', 'EP-PECT National')],required=False, label="Sub Filing Type")
     basis = forms.CharField(required=False, label="Basis")
     case_class = forms.CharField(required=False, label="Class")
     
