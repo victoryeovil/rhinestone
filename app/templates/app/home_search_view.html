@@ -127,6 +127,7 @@
                                             </div>
                                         </div>
 
+                                        
                                         <!-- Reference Section -->
                                         <div class="card mb-3">
                                             <div class="card-header collapse-toggle" onclick="toggleSection('collapseReference', this)">
@@ -144,12 +145,29 @@
                                                         <div class="col-12 col-md-6">
                                                             {{ form.instructor_reference|as_crispy_field }}
                                                         </div>
-                                                        <div class="col-12 col-md-6">
+                                                        <!-- <div class="col-12 col-md-6">
                                                             {{ form.family|as_crispy_field }}
-                                                        </div>
+                                                        </div> -->
                                                         <div class="col-12 col-md-6">
                                                             {{ form.Associate_refs|as_crispy_field }}
                                                         </div>
+                                                        
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Reference Section -->
+
+
+                                        <!-- New Official Numbers Section -->
+                                        <div class="card mb-3">
+                                            <div class="card-header collapse-toggle" onclick="toggleSection('collapseOfficialNumbers', this)">
+                                                <span class="me-2">+</span> Official Numbers
+                                            </div>
+                                            <div id="collapseOfficialNumbers" class="collapse">
+                                                <div class="card-body">
+                                                    <div class="row">
                                                         <div class="col-12 col-md-6">
                                                             {{ form.priority_provisional_application_no|as_crispy_field }}
                                                         </div>
@@ -172,6 +190,7 @@
                                                 </div>
                                             </div>
                                         </div>
+
 
                                         <!-- Case Details Section -->
                                         <div class="card mb-3">
@@ -254,7 +273,9 @@
                                                         <div class="col-12 col-md-6">
                                                             {{ form.text_type|as_crispy_field }}
                                                         </div>
-                                                        
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.type_of_mark|as_crispy_field }}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

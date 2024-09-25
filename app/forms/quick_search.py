@@ -214,34 +214,36 @@ class HomeSearchForm(forms.Form):
             ("Pending", "Pending"),
             ("Registered", "Registered"),
             ("Dead", "Dead"),
-            ("Open", "Open"),
-            ("Filed", "Filed"),
-            ("Allowed", "Allowed"),
-            ("Granted(Live)", "Granted(Live)"),
-            ("Abandoned", "Abandoned"),
-            ("Granted(DEAD)", "Granted(DEAD)"),
-            ("Converted", "Converted"),
-            ("Expired", "Expired"),
-            ("Published", "Published"),
-            ("Renewal overdue", "Renewal overdue"),
-            ("Renewal not paid", "Renewal not paid"),
-            ("Renewal expired", "Renewal expired"),
-            ("Examination", "Examination")
+            
         ],
         widget=forms.CheckboxSelectMultiple,
-        help_text="Select multiple statuses. Choices are displayed in 5 columns."
+        
     )
     
 
-    case_status = forms.CharField(required=False, label="Case Status")
-    renewal_status = forms.ChoiceField(choices=[('',"---"), ('Pending','Pending'),('Payment in Process', 'Payment in Process'), (' Renewals', 'Renewals'),
-                                          ('Renewals Handled Elsewhere', 'Renewals Handled Elsewhere')],required=False, label="Renewal Status")
+    case_status = forms.ChoiceField(choices=[
+        ('', '---'),  # Empty value for Name Type
+        ('Inventor', 'Inventor'),
+        ('Applicant', 'Applicant'),
+        ('Licensor', 'Licensor'),
+        ('Licensee', 'Licensee'),
+        ('Consultant', 'Consultant'),
+        ('Associate', 'Associate'),
+        ('Paralegal', 'Paralegal'),
+        ('Attorney', 'Attorney'),
+        ('OtherProvider', 'OtherProvider')
+    ], required=False, label="Case Status")
+    renewal_status = forms.ChoiceField(choices=[('',"---"), ('Pending','Pending'),('Payment in Process', 'Payment in Process'), (' Renewal Overdue', 'Renewal Overdue'),
+                                          ('Renewals Handled Elsewhere', 'Renewals Handled Elsewhere'),('Renewal Reminder Sent', 'Renewal Reminder Sent'),('No further Renewals To Be Paid','No further Renewals To Be Paid'),('Renewal Enforce','Renewal Enforce'),
+                                          ],required=False, label="Renewal Status")
 
     # Text Section
-    title = forms.CharField(required=False, label="Title")
-    keyword = forms.CharField(required=False, label="Keywords")
+    title = forms.CharField(required=False, label="Title / Mark")
+    keyword = forms.CharField(required=False, label="Keyword(s)")
     text_type = forms.CharField(required=False, label="Text Type")
-    type_of_mark = forms.CharField(required=False, label="Type of Mark")
+    type_of_mark = forms.ChoiceField(choices=[('',"---"), ('Word Mark', 'Word Mark'), ('Sound Mark', 'Sound Mark'), ('Color Mark', 'Color Mark'),('Device Mark','Device Mark'),
+                                              ("Collective Marks", "Collective Marks"),('Service Marks', 'Service Marks'),('Certification Marks', 'Certification Marks'),
+                                              ('Well-Known Marks', 'Well-Known Marks'), ('Unconventional trademarks','Unconventional trademarks' )],required=False, label="Type of Mark")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
