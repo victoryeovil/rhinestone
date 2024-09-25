@@ -219,20 +219,23 @@ class HomeSearchForm(forms.Form):
             ("Allowed", "Allowed"),
             ("Granted(Live)", "Granted(Live)"),
             ("Abandoned", "Abandoned"),
-            ("Granted(DEA)", "Granted(DEA)"),
+            ("Granted(DEAD)", "Granted(DEAD)"),
             ("Converted", "Converted"),
             ("Expired", "Expired"),
             ("Published", "Published"),
             ("Renewal overdue", "Renewal overdue"),
             ("Renewal not paid", "Renewal not paid"),
-            ("Renewal expired", "Renewal expired")
+            ("Renewal expired", "Renewal expired"),
+            ("Examination", "Examination")
         ],
         widget=forms.CheckboxSelectMultiple,
         help_text="Select multiple statuses. Choices are displayed in 5 columns."
     )
+    
 
     case_status = forms.CharField(required=False, label="Case Status")
-    renewal_status = forms.CharField(required=False, label="Renewal Status")
+    renewal_status = forms.ChoiceField(choices=[('',"---"), ('Pending','Pending'),('Payment in Process', 'Payment in Process'), (' Renewals', 'Renewals'),
+                                          ('Renewals Handled Elsewhere', 'Renewals Handled Elsewhere')],required=False, label="Renewal Status")
 
     # Text Section
     title = forms.CharField(required=False, label="Title")
