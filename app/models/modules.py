@@ -374,7 +374,7 @@ class Trademark(ModuleBaseModel):
     taxes_paid_by = models.CharField(max_length=128, blank=True, null=True, verbose_name="Taxes Paid By")
     does_it_expire = models.CharField(max_length=4, blank=True, null=True, choices=[
         (i, i) for i in ["Yes", "No"]], verbose_name="Does It Expire")
-    notes = models.CharField(max_length=300, null=True, verbose_name="Notes")
+    notes = models.CharField(max_length=300,blank=True, null=True, verbose_name="Notes")
     expiry_date = models.DateField(blank=True, null=True, verbose_name="Expiry Date")
     type_of_filing = models.CharField(max_length=128, default="Design", blank=True, null=True,
                                       verbose_name="Type of Filing")
