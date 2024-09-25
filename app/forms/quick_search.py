@@ -223,15 +223,21 @@ class HomeSearchForm(forms.Form):
 
     case_status = forms.ChoiceField(choices=[
         ('', '---'),  # Empty value for Name Type
-        ('Inventor', 'Inventor'),
-        ('Applicant', 'Applicant'),
-        ('Licensor', 'Licensor'),
-        ('Licensee', 'Licensee'),
-        ('Consultant', 'Consultant'),
-        ('Associate', 'Associate'),
-        ('Paralegal', 'Paralegal'),
-        ('Attorney', 'Attorney'),
-        ('OtherProvider', 'OtherProvider')
+        ("Pending", "Pending"),
+            ("Registered", "Registered"),
+            ("Dead", "Dead"),
+            ("Open", "Open"),
+            ("Filed", "Filed"),
+            ("Allowed", "Allowed"),
+            ("Granted(Live)", "Granted(Live)"),
+            ("Abandoned", "Abandoned"),
+            ("Granted(DEA)", "Granted(DEA)"),
+            ("Converted", "Converted"),
+            ("Expired", "Expired"),
+            ("Published", "Published"),
+            ("Renewal overdue", "Renewal overdue"),
+            ("Renewal not paid", "Renewal not paid"),
+            ("Renewal expired", "Renewal expired")
     ], required=False, label="Case Status")
     renewal_status = forms.ChoiceField(choices=[('',"---"), ('Pending','Pending'),('Payment in Process', 'Payment in Process'), (' Renewal Overdue', 'Renewal Overdue'),
                                           ('Renewals Handled Elsewhere', 'Renewals Handled Elsewhere'),('Renewal Reminder Sent', 'Renewal Reminder Sent'),('No further Renewals To Be Paid','No further Renewals To Be Paid'),('Renewal Enforce','Renewal Enforce'),
