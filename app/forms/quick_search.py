@@ -31,7 +31,7 @@ class QuickSearchForm(forms.Form):
         models.Contact.objects.filter(type__in=["Inventor", "Applicant", "Licensor", "Licensee", "Consultant", "Associate", "Paralegal", "Attorney"]),
         required=False
     )
-    status__in = forms.MultipleChoiceField(required=False, label="Status", choices=data.common.BLANK_OPTIONS + [(i, i) for i in ["Open", "Pending", "Filed", "Allowed", "Granted(Live)", "Abandoned", "Granted(DEA)", "Converted", "Expired", "Published"]])
+    status__in = forms.MultipleChoiceField(required=False, label="Status", choices=data.common.BLANK_OPTIONS + [(i, i) for i in ["Open", "Pending", "Filed", "Allowed", "Granted(Live)", "Abandoned", "Granted(DEAD)", "Converted", "Expired", "Published"]])
     query = forms.CharField(required=False, label="Search Query")
 
     def __init__(self, *args, **kwargs):
@@ -239,8 +239,8 @@ class HomeSearchForm(forms.Form):
 
     # Text Section
     title = forms.CharField(required=False, label="Title")
-    keyword = forms.CharField(required=False, label="Keyword")
-    text_type = forms.ChoiceField(choices=[("Any", "Any")], required=False, label="Text Type")
+    keyword = forms.CharField(required=False, label="Keywords")
+    text_type = forms.CharField(required=False, label="Text Type")
     type_of_mark = forms.CharField(required=False, label="Type of Mark")
 
     def __init__(self, *args, **kwargs):
