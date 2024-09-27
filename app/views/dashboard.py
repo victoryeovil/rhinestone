@@ -225,3 +225,6 @@ def page_not_found_view(request, exception=None):
         "code": 404,
         "msg": "The requested view was not found!"
     })
+
+def new_dash(request):
+    return render(request, 'app/landing_page.html')

@@ -14,6 +14,7 @@ urlpatterns = [
     # ADMIN VIEWS
     path("", dashboard.home_view),
     path("dashboard/", dashboard.dashboard_view),
+    path('landing/', dashboard.new_dash),
     # Files
     path("file/upload/", files.upload_file),  # file.upload),
     # ADDRESS BOOK

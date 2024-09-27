@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dileen Van Beek - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header Style */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #2a3f54;
+            padding: 10px 20px;
+            color: white;
+        }
+
+        .header .project-name {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .header .profile {
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-icon {
+            background-color: #FF5733; /* Updated background color */
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+        }
+
+        .profile-info {
+            color: white;
+            line-height: 1.2;
+        }
+
+        .profile-info small {
+            display: block;
+            font-size: 0.85em;
+        }
+
+        .logout-btn {
+            background-color: #d9534f;
+            padding: 8px 12px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 250px;
+            background-color: #34495E;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding-top: 70px;
+        }
+
+        .sidebar a {
+            padding: 15px;
+            display: block;
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #2a3f54;
+        }
+
+        .sidebar .active {
+            background-color: #1ABC9C;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            color: #34495E;
+            margin-bottom: 20px;
+        }
+
+        /* User Info Section */
+        .user-details {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-details h3 {
+            margin-bottom: 10px;
+        }
+
+        .user-details .info {
+            margin-bottom: 15px;
+        }
+
+        .info span {
+            font-weight: bold;
+        }
+
+        /* Search Dropdown */
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar {
+            background-color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px;
+            width: 200px;
+            margin-right: 10px;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border: 2px solid #1ABC9C;
+        }
+
+        .search-dropdown {
+            position: absolute;
+            top: 38px;
+            left: 0;
+            background-color: white;
+            border: 1px solid #ccc;
+            width: 100%;
+            display: none;
+            z-index: 10;
+            border-radius: 4px;
+            color: black; /* Adjust text color for visibility */
+        }
+
+        .search-dropdown.active {
+            display: block;
+        }
+
+        .search-dropdown ul {
+            list-style-type: none;
+            padding: 10px;
+            margin: 0;
+        }
+
+        .search-dropdown li {
+            padding: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: black; /* Make dropdown text visible */
+        }
+
+        .search-dropdown li:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Dropdown Icon */
+        .search-icon {
+            cursor: pointer;
+            color: white;
+        }
+
+        /* Modules Dropdown */
+        .modules-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .modules-dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            color: black;
+        }
+
+        .modules-dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .modules-dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .modules-dropdown:hover .modules-dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <div class="header">
+        <div class="project-name">Rhinestone</div>
+        <div class="profile">
+            <div class="profile-icon">VB</div> <!-- Updated profile icon -->
+            <div class="profile-info">
+                <strong>Dileen Van Beek</strong>
+                <small>Dehns</small>
+            </div>
+        </div>
+
+        <!-- Search Field with Dropdown -->
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="Search by Record ID, Project Name, etc...">
+            <i class="fas fa-search search-icon" onclick="toggleSearchDropdown()"></i>
+            <div class="search-dropdown" id="searchDropdown">
+                <ul>
+                    <li>Document All Text (Any Words)</li>
+                    <li>Document All Text (Exact Phrase)</li>
+                    <li>Document All Text (Boolean)</li>
+                    <li>Project Name</li>
+                    <li>Any Number</li>
+                    <li>All - Mark Name</li>
+                    <li>Conflict - Conflict Reference</li>
+                </ul>
+            </div>
+        </div>
+
+        <button class="logout-btn">Sign Out</button>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <a href="#" class="active"><i class="fas fa-home"></i> Home</a>
+        <a href="#"><i class="fas fa-chart-line"></i> Dashboard</a>
+        <a href="#"><i class="fas fa-address-book"></i> Address Book</a>
+        <a href="#"><i class="fas fa-lightbulb"></i> Invention Disclosure</a>
+        
+        <!-- Modules Dropdown -->
+        <div class="modules-dropdown">
+            <a href="#"><i class="fas fa-folder"></i> Modules</a>
+            <div class="modules-dropdown-content">
+                <a href="#">Family</a>
+                <a href="#">Patent Country</a>
+                <a href="#">Design Country</a>
+                <a href="#">Trademark Country</a>
+            </div>
+        </div>
+
+        <a href="#"><i class="fas fa-file-invoice"></i> Billing</a>
+        <a href="#"><i class="fas fa-cog"></i> Settings</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="user-details">
+            <h3>Welcome Mrs. Dileen Van Beek</h3>
+            <div class="info">
+                <p><span>Login ID:</span> dvbeek</p>
+                <p><span>Email Address:</span> dvanbeek@dehns.com</p>
+                <p><span>Phone Number:</span> +44 20 7632 7209</p>
+            </div>
+            <button class="logout-btn">Change Password</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to toggle the search dropdown
+        function toggleSearchDropdown() {
+            const dropdown = document.getElementById('searchDropdown');
+            dropdown.classList.toggle('active');
+        }
+    </script>
+
+</body>
+</html>

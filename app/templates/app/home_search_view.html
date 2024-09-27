@@ -38,6 +38,16 @@
             align-items: center;
             justify-content: flex-start;
         }
+        .horizontal-checkboxes {
+    display: flex;
+    flex-wrap: wrap;  /* Allow wrapping if there are too many checkboxes */
+    gap: 20px;        /* Add space between the checkboxes */
+}
+
+.horizontal-checkboxes li {
+    list-style: none;  /* Remove bullet points */
+}
+
     </style>
 {% endblock style %}
 
@@ -145,19 +155,13 @@
                                                         <div class="col-12 col-md-6">
                                                             {{ form.instructor_reference|as_crispy_field }}
                                                         </div>
-                                                        <!-- <div class="col-12 col-md-6">
-                                                            {{ form.family|as_crispy_field }}
-                                                        </div> -->
                                                         <div class="col-12 col-md-6">
                                                             {{ form.Associate_refs|as_crispy_field }}
                                                         </div>
-                                                        
-                                                        
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- Reference Section -->
 
 
                                         <!-- New Official Numbers Section -->
@@ -186,6 +190,10 @@
                                                         <div class="col-12 col-md-6">
                                                             {{ form.registration_no|as_crispy_field }}
                                                         </div>
+                                                        <!-- Fixed extra div issue -->
+                                                        <div class="col-12 col-md-6">
+                                                            {{ form.das_code|as_crispy_field }}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -209,18 +217,9 @@
                                                         <div class="col-12 col-md-6">
                                                             {{ form.country|as_crispy_field }}
                                                         </div>
-                                                        {% comment %}<div class="col-12 col-md-6">
-                                                            {{ form.property_type|as_crispy_field }}
-                                                        </div>
-                                                        <div class="col-12 col-md-6">
-                                                            {{ form.case_category|as_crispy_field }}
-                                                        </div>{% endcomment %}
                                                         <div class="col-12 col-md-6">
                                                             {{ form.sub_type|as_crispy_field }}
-                                                        </div>{% comment %}
-                                                        <div class="col-12 col-md-6">
-                                                            {{ form.basis|as_crispy_field }}
-                                                        </div>{% endcomment %}
+                                                        </div>
                                                         <div class="col-12 col-md-6">
                                                             {{ form.type_of_filing|as_crispy_field }}
                                                         </div>

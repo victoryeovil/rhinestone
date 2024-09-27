@@ -197,9 +197,10 @@ class HomeSearchForm(forms.Form):
     country = forms.ChoiceField(choices=[('', '---')] + list(data.countries.COUNTRIES_OPTIONS), required=False, label="Country")
     
     property_type = forms.CharField(required=False, label="Property Type")
+    das_code = forms.CharField(required=False, label="DAS Code")
     #case_category = forms.CharField(required=False, label="Case Category")
     sub_type = forms.ChoiceField(choices=[('',"---"), ('PCT National Phase','PCT National Phase'),('Divisional', 'Divisional'), ('Non Provisional', 'Non Provisional'),
-                                          ('Continuation', 'Continuation'), ('EP National', 'EP National'), ('EP-PECT National', 'EP-PECT National')],required=False, label="Sub Filing Type")
+                                          ('US Continuation', 'US Continuation'), ('EP National', 'EP National'),('EP Regional', 'EP Regional'), ('EP-PCT National', 'EP-PCT National'),("US Continuation in Part", "US Continuation in Part")],required=False, label="Sub Filing Type")
     basis = forms.CharField(required=False, label="Basis")
     case_class = forms.CharField(required=False, label="Class")
     
@@ -207,7 +208,7 @@ class HomeSearchForm(forms.Form):
     classes = forms.IntegerField(required=False, label="Classes")
 
     # Status Section (Checkboxes with additional options)
-    status__in = forms.MultipleChoiceField(
+    status__in = forms.ChoiceField(
         required=False,
         label="Status",
         choices=[
@@ -216,14 +217,16 @@ class HomeSearchForm(forms.Form):
             ("Dead", "Dead"),
             
         ],
-        widget=forms.CheckboxSelectMultiple,
+        widget=forms.CheckboxSelectMultiple(
+            attrs={'class': 'horizontal-checkboxes'}  # Apply custom class for styling
+        )
         
     )
     
 
-    case_status = forms.ChoiceField(choices=[
-        ('', '---'),  # Empty value for Name Type
-        ("Pending", "Pending"),
+    case_status = forms.ChoiceField(
+        choices=[
+            ("Pending", "Pending"),
             ("Registered", "Registered"),
             ("Dead", "Dead"),
             ("Open", "Open"),
@@ -231,16 +234,26 @@ class HomeSearchForm(forms.Form):
             ("Allowed", "Allowed"),
             ("Granted(Live)", "Granted(Live)"),
             ("Abandoned", "Abandoned"),
-            ("Granted(DEA)", "Granted(DEA)"),
+            ("Granted(DEAD)", "Granted(DEAD)"),
             ("Converted", "Converted"),
             ("Expired", "Expired"),
             ("Published", "Published"),
-            ("Renewal overdue", "Renewal overdue"),
-            ("Renewal not paid", "Renewal not paid"),
-            ("Renewal expired", "Renewal expired")
-    ], required=False, label="Case Status")
-    renewal_status = forms.ChoiceField(choices=[('',"---"), ('Pending','Pending'),('Payment in Process', 'Payment in Process'), (' Renewal Overdue', 'Renewal Overdue'),
-                                          ('Renewals Handled Elsewhere', 'Renewals Handled Elsewhere'),('Renewal Reminder Sent', 'Renewal Reminder Sent'),('No further Renewals To Be Paid','No further Renewals To Be Paid'),('Renewal Enforce','Renewal Enforce'),
+            
+        ],
+        required=False,
+        label="Case Status",
+        
+    )
+
+    renewal_status = forms.ChoiceField(choices=[('',"---"), ('Pending','Pending'),
+                                                ('Payment in Process', 'Payment in Process'),
+                                                (' Renewal Overdue', 'Renewal Overdue'),
+                                                ('Renewals Handled Elsewhere', 'Renewals Handled Elsewhere'),
+                                                ('Renewal Reminder Sent', 'Renewal Reminder Sent'),
+                                                ('No further Renewals To Be Paid','No further Renewals To Be Paid'),
+                                                ('Renewal In force','Renewal In force'),                                          
+                                                ("Renewal not paid", "Renewal not paid"),
+                                                ("Renewal expired", "Renewal expired")
                                           ],required=False, label="Renewal Status")
 
     # Text Section
