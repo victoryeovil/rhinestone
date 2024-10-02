@@ -47,6 +47,7 @@
                 </tbody>
             </table>
         </div>
+        <p id="no-records" style="display: none;">No records found.</p>
     </div>
 </div>
 
@@ -75,8 +76,10 @@ document.getElementById('search-button').addEventListener('click', function() {
 
     if (hasResults) {
         document.getElementById('result-table').style.display = 'block';
+        document.getElementById('no-records').style.display = 'none';
     } else {
         document.getElementById('result-table').style.display = 'none';
+        document.getElementById('no-records').style.display = 'block';
     }
 });
 </script>

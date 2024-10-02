@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dileen Van Beek - Dashboard</title>
+    <title>{{ request.user.first_name }} {{ request.user.last_name }} - Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         /* General Styles */
@@ -35,7 +35,7 @@
         }
 
         .profile-icon {
-            background-color: #FF5733; /* Updated background color */
+            background-color: #FF5733;
             color: white;
             border-radius: 50%;
             width: 40px;
@@ -124,11 +124,11 @@
             font-weight: bold;
         }
 
-        /* Search Dropdown */
+        /* Search Section */
         .search-container {
-            position: relative;
             display: flex;
             align-items: center;
+            margin-left: auto;
         }
 
         .search-bar {
@@ -146,46 +146,18 @@
         }
 
         .search-dropdown {
-            position: absolute;
-            top: 38px;
-            left: 0;
-            background-color: white;
-            border: 1px solid #ccc;
-            width: 100%;
-            display: none;
-            z-index: 10;
-            border-radius: 4px;
-            color: black; /* Adjust text color for visibility */
-        }
-
-        .search-dropdown.active {
-            display: block;
-        }
-
-        .search-dropdown ul {
-            list-style-type: none;
-            padding: 10px;
-            margin: 0;
-        }
-
-        .search-dropdown li {
             padding: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            color: black; /* Make dropdown text visible */
+            border-radius: 5px;
+            border: none;
+            margin-right: 10px;
         }
 
-        .search-dropdown li:hover {
-            background-color: #f1f1f1;
-        }
-
-        /* Dropdown Icon */
         .search-icon {
             cursor: pointer;
             color: white;
         }
 
-        /* Modules Dropdown */
+        /* Dropdown Icon */
         .modules-dropdown {
             position: relative;
             display: inline-block;
@@ -223,70 +195,74 @@
     <div class="header">
         <div class="project-name">Rhinestone</div>
         <div class="profile">
-            <div class="profile-icon">VB</div> <!-- Updated profile icon -->
+            <div class="profile-icon">{{ request.user.username }} </div> <!-- Updated profile icon -->
             <div class="profile-info">
-                <strong>Dileen Van Beek</strong>
-                <small>Dehns</small>
+                <strong>{{ request.user.first_name }} {{ request.user.last_name }}</strong>
+                <small>{{ request.user.company }}</small>
             </div>
         </div>
 
-        <!-- Search Field with Dropdown -->
-        <div class="search-container">
-            <input type="text" class="search-bar" placeholder="Search by Record ID, Project Name, etc...">
-            <i class="fas fa-search search-icon" onclick="toggleSearchDropdown()"></i>
-            <div class="search-dropdown" id="searchDropdown">
-                <ul>
-                    <li>Document All Text (Any Words)</li>
-                    <li>Document All Text (Exact Phrase)</li>
-                    <li>Document All Text (Boolean)</li>
-                    <li>Project Name</li>
-                    <li>Any Number</li>
-                    <li>All - Mark Name</li>
-                    <li>Conflict - Conflict Reference</li>
-                </ul>
+        <!-- Search Section -->
+        <form id="searchForm" method="GET" action="{% url 'search_view' %}">
+            <div class="search-container">
+                <input type="text" class="search-bar" name="query" placeholder="Search by Record ID, Project Name, etc..." required>
+                <select name="category" class="search-dropdown">
+                    <option value="text">Text</option>
+                    <option value="contacts">Contacts</option>
+                    <option value="official_numbers">Official Numbers</option>
+                    <option value="modules">Modules</option>
+                </select>
+                <i class="fas fa-search search-icon" onclick="document.getElementById('searchForm').submit()"></i>
             </div>
-        </div>
+        </form>
 
-        <button class="logout-btn">Sign Out</button>
+        <button class="logout-btn" onclick="window.location.href='{% url 'logout' %}'">Sign Out</button>
     </div>
 
     <!-- Sidebar Navigation -->
     <div class="sidebar">
-        <a href="#" class="active"><i class="fas fa-home"></i> Home</a>
-        <a href="#"><i class="fas fa-chart-line"></i> Dashboard</a>
-        <a href="#"><i class="fas fa-address-book"></i> Address Book</a>
-        <a href="#"><i class="fas fa-lightbulb"></i> Invention Disclosure</a>
-        
+        <a href="/app/" class="active"><i class="fas fa-home"></i> Home</a>
+        <a href="/app/landing/"><i class="fas fa-search"></i> Quick Search</a>
+        <a href="/app/dashboard/"><i class="fas fa-chart-line"></i> Dashboard</a>
+        <a href="/app/address-book/contacts/"><i class="fas fa-address-book"></i> Address Book</a>
+        <a href="/app/inventions/disclosures/"><i class="fas fa-lightbulb"></i> Invention Disclosure</a>
+
         <!-- Modules Dropdown -->
         <div class="modules-dropdown">
             <a href="#"><i class="fas fa-folder"></i> Modules</a>
             <div class="modules-dropdown-content">
-                <a href="#">Family</a>
-                <a href="#">Patent Country</a>
-                <a href="#">Design Country</a>
-                <a href="#">Trademark Country</a>
+                <a href="/app/modules/families/list/">Family</a>
+                <a href="/app/modules/patents/list/">Patent Country</a>
+                <a href="/app/modules/designs/list/">Design Country</a>
+                <a href="/app/modules/trademarks/list/">Trademark Country</a>
             </div>
         </div>
 
-        <a href="#"><i class="fas fa-file-invoice"></i> Billing</a>
-        <a href="#"><i class="fas fa-cog"></i> Settings</a>
+        <a href="/app/billing/invoices/"><i class="fas fa-file-invoice"></i> Billing</a>
+        <a href="/app/settings/"><i class="fas fa-cog"></i> Settings</a>
+        <a href="/app/reports/"><i class="fas fa-chart-pie"></i> Reports</a>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
         <div class="user-details">
-            <h3>Welcome Mrs. Dileen Van Beek</h3>
+            <h3>Welcome {{ request.user.first_name }} {{ request.user.last_name }}</h3>
             <div class="info">
-                <p><span>Login ID:</span> dvbeek</p>
-                <p><span>Email Address:</span> dvanbeek@dehns.com</p>
-                <p><span>Phone Number:</span> +44 20 7632 7209</p>
+                <p><span>Login ID:</span> {{ request.user.username }}</p>
+                <p><span>Email Address:</span> {{ request.user.email }}</p>
+                <p><span>Phone Number:</span> {{ request.user.phone }}</p>
             </div>
             <button class="logout-btn">Change Password</button>
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer style="background-color: #2a3f54; color: white; padding: 10px 0; text-align: center; position: fixed; width: 100%; bottom: 0;">
+        <p>&copy; 2021 Rhinestone. All rights reserved.</p>
+    </footer>
+
     <script>
-        // Function to toggle the search dropdown
+        // Function to handle the search dropdown
         function toggleSearchDropdown() {
             const dropdown = document.getElementById('searchDropdown');
             dropdown.classList.toggle('active');

@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Search Results
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Search Results</h2>
+    
+    {% if results %}
+        <ul>
+            {% for result in results %}
+                <li>
+                    {% if result.__class__.__name__ == "Family" %}
+                        <strong>Family:</strong> {{ result.family_no }} - {{ result.internal_title }}
+                        <a href="{{ result.get_absolute_url }}">View Family</a>
+                    {% elif result.__class__.__name__ == "Patent" %}
+                        <strong>Patent:</strong> {{ result.case_no }} - {{ result.internal_title }}
+                        <a href="{{ result.get_absolute_url }}">View Patent</a>
+                    {% elif result.__class__.__name__ == "Design" %}
+                        <strong>Design:</strong> {{ result.case_no }} - {{ result.internal_title }}
+                        <a href="{{ result.get_absolute_url }}">View Design</a>
+                    {% elif result.__class__.__name__ == "Trademark" %}
+                        <strong>Trademark:</strong> {{ result.case_no }} - {{ result.internal_title }}
+                        <a href="{{ result.get_absolute_url }}">View Trademark</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No results found for your search query.</p>
+    {% endif %}
+</div>
+{% endblock %}

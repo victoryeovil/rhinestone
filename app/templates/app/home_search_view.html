@@ -8,10 +8,8 @@
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'assets/css/plugins/dataTables.bootstrap4.min.css' %}">
-    <!-- vendor css -->
-    <link rel="stylesheet" href="{% static 'assets/css/plugins/select2.min.css' %}">
+    <!-- Custom page styles -->
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
 {% endblock css %}
 
 {% block style %}
@@ -28,8 +26,8 @@
         .status-checkbox {
             display: grid;
             grid-template-columns: repeat(5, 1fr); /* 5 columns */
-            grid-gap: 10px;
-            margin-bottom: 15px;
+            grid-gap: 1px;
+            margin-bottom: 5px;
         }
 
         /* Make sure the label and input fit correctly in the grid cells */
@@ -38,25 +36,36 @@
             align-items: center;
             justify-content: flex-start;
         }
+
         .horizontal-checkboxes {
-    display: flex;
-    flex-wrap: wrap;  /* Allow wrapping if there are too many checkboxes */
-    gap: 20px;        /* Add space between the checkboxes */
-}
+            display: flex;
+            flex-wrap: wrap;  /* Allow wrapping if there are too many checkboxes */
+            gap: 10px;        /* Add space between the checkboxes */
+        }
 
-.horizontal-checkboxes li {
-    list-style: none;  /* Remove bullet points */
-}
+        .horizontal-checkboxes li {
+            list-style: none;  /* Remove bullet points */
+        }
 
+        /* Style the 'Clear' and 'Search' buttons to align with the new layout */
+        .btn-secondary {
+            background-color: #d9534f;
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: #0275d8;
+            color: white;
+        }
     </style>
 {% endblock style %}
 
 {% block content %}
     <!-- [ Main Content ] start -->
-    <div class="pcoded-main-container">
+    
         <div class="pcoded-content">
             <!-- [ breadcrumb ] start -->
-            <div class="page-header">
+            <!-- <div class="page-header">
                 <div class="page-block">
                     <div class="row align-items-center">
                         <div class="col-md-12">
@@ -70,7 +79,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <!-- [ breadcrumb ] end -->
 
             <!-- Display form errors -->
@@ -137,7 +146,6 @@
                                             </div>
                                         </div>
 
-                                        
                                         <!-- Reference Section -->
                                         <div class="card mb-3">
                                             <div class="card-header collapse-toggle" onclick="toggleSection('collapseReference', this)">
@@ -163,8 +171,7 @@
                                             </div>
                                         </div>
 
-
-                                        <!-- New Official Numbers Section -->
+                                        <!-- Official Numbers Section -->
                                         <div class="card mb-3">
                                             <div class="card-header collapse-toggle" onclick="toggleSection('collapseOfficialNumbers', this)">
                                                 <span class="me-2">+</span> Official Numbers
@@ -190,7 +197,6 @@
                                                         <div class="col-12 col-md-6">
                                                             {{ form.registration_no|as_crispy_field }}
                                                         </div>
-                                                        <!-- Fixed extra div issue -->
                                                         <div class="col-12 col-md-6">
                                                             {{ form.das_code|as_crispy_field }}
                                                         </div>
@@ -198,7 +204,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
 
                                         <!-- Case Details Section -->
                                         <div class="card mb-3">
@@ -332,7 +337,7 @@
             </div>
             <!-- [ Main Content ] end -->
         </div>
-    </div>
+    
     <!-- [ End Main Content ] start -->
 {% endblock content %}
 

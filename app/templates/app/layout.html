@@ -4,322 +4,291 @@
 
 <head>
     <title>
-        
         {% block title %}
             Rhinestone Inventions Disclosure Tools | Admin
         {% endblock title %}
-            
     </title>
     <!-- Meta -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    
     {% block meta %}
         <meta name="description" content="" />
         <meta name="keywords" content="">
     {% endblock meta %}
-    <meta name="author" content="Victor Marisa " />
+    <meta name="author" content="Victor Marisa" />
     <!-- Favicon icon -->
     <link rel="icon" href="{% static 'app/img/five.jpg' %}" type="image/x-icon">
-    
     {% block pnotify %}
-    {% include 'app/components/messages-notifications.html' %} 
+    {% include 'app/components/messages-notifications.html' %}
     {% endblock pnotify %}
-    
     {% block css %}
-        <!-- vendor css -->
         <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
         <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     {% endblock css %}
-    
-    {% block style %}
-        
-    {% endblock style %}
-        
+
     <style>
-        textarea.textarea.form-control {
-            height: 43px;
+        /* Sidebar Style */
+        .sidebar {
+            width: 230px;
+            background-color: #34495E;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 50px;
+            padding-top: 10px;
+            transition: left 0.3s ease; /* Transition for collapse */
+        }
+
+        .sidebar a {
+            padding: 10px 15px;
+            display: block;
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #2a3f54;
+        }
+
+        .sidebar .active {
+            background-color: #1ABC9C;
+        }
+
+        /* Header Style */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #2a3f54;
+            padding: 8px 20px;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        /* Orange circle with user initials */
+        .profile-icon {
+            background-color: #FF5733;
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        /* Project name and profile info */
+        .profile-info {
+            color: white;
+            line-height: 1.2;
+        }
+
+        .profile-wrapper {
+            display: flex;
+            align-items: center;
+            margin-left: 0;
+        }
+
+        .project-name {
+            margin-left: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        /* Logout button */
+        .logout-btn {
+            background-color: #d9534f;
+            padding: 8px 16px;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background-color: #c9302c;
+        }
+
+        /* Dropdown Modules */
+        .modules-dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            color: black;
+        }
+
+        .modules-dropdown:hover .modules-dropdown-content {
+            display: block;
+        }
+
+        .modules-dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .modules-dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* General Page Layout */
+        body {
+            background-color: #f4f6f9;
+        }
+
+        .main-content {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            margin-left: 230px;
+            margin-top: -70px;
+            min-height: 10vh;
+        }
+
+        /* Media Query for Mobile View */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 0;
+                left: -230px; /* Collapse the sidebar */
+                transition: all 0.3s ease;
+            }
+
+            .sidebar.open {
+                width: 230px;
+                left: 0; /* Expand the sidebar when open */
+            }
+
+            .main-content {
+                margin-left: 0; /* Reset margin for mobile */
+            }
+
+            /* Hamburger menu */
+            .menu-toggle {
+                display: block;
+                color: white;
+                font-size: 20px;
+                cursor: pointer;
+                margin-right: 20px;
+            }
+        }
+
+        .menu-toggle {
+            display: none; /* Hidden by default */
         }
     </style>
 </head>
 
 <body>
-    
-    {% block body %}
-    <!-- [ Pre-loader ] start -->
-    <div class="loader-bg">
-        <div class="loader-track">
-            <div class="loader-fill"></div>
+
+{% block body %}
+    <!-- Header Section -->
+    <div class="header">
+        <!-- Hamburger icon for toggling sidebar -->
+        <div class="menu-toggle" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
         </div>
+        <div class="profile-wrapper">
+            <!-- Orange circle with initials -->
+            <div class="profile-icon">{{ request.user.username }}</div>
+            <div class="project-name">Rhinestone</div>
+        </div>
+
+        <button class="logout-btn" onclick="window.location.href='{% url 'logout' %}'">Sign Out</button>
     </div>
-    <!-- [ Pre-loader ] End -->
-    
-    {% block navbar %}
-        <!-- [ navigation menu ] start -->
-        <nav class="pcoded-navbar theme-horizontal menu-light brand-blue">
-            <div class="navbar-wrapper container">
-                <div class="navbar-content sidenav-horizontal" id="layout-sidenav">
-                    <ul class="nav pcoded-inner-navbar sidenav-inner">
-                        <li class="nav-item pcoded-menu-caption">
-                            <label>Navigation</label>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/app/" class="nav-link ">
-                                <span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Home</span>
-                            </a>
-                        </li>
-                        <li class="nav-item"></li>
-                            <a href="/app/landing/" class="nav-link ">
-                                <span class="pcoded-micon"><i class="feather icon-bar-chart-2"></i></span><span class="pcoded-mtext">Landing</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/app/dashboard/" class="nav-link ">
-                                <span class="pcoded-micon"><i class="feather icon-bar-chart-2"></i></span><span class="pcoded-mtext">Dashboard</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/app/address-book/contacts/" class="nav-link ">
-                                <span class="pcoded-micon"><i class="feather icon-book"></i></span><span class="pcoded-mtext">Address Book</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/app/inventions/disclosures/" class="nav-link ">
-                                <span class="pcoded-micon"><i class="feather icon-tablet"></i></span><span class="pcoded-mtext">Invention Disclosure</span>
-                            </a>
-                        </li>
-                        <li class="nav-item pcoded-hasmenu">
-                            <a href="#!" class="nav-link ">
-                                <span class="pcoded-micon"><i class="feather icon-grid"></i></span><span class="pcoded-mtext">Modules</span>
-                            </a>
-                            <ul class="pcoded-submenu">
-                                <li><a href="/app/modules/families/list/">Family</a></li>
-                                <li><a href="/app/modules/patents/list/">Patent Country</a></li>
-                                <li><a href="/app/modules/designs/list/">Design Country</a></li>
-                                <li><a href="/app/modules/trademarks/list/">Trademark Country</a></li>
-                            </ul>
-                        </li>
 
-                        <li class="nav-item">
-                            <a href="/app/billing/invoices/" class="nav-link ">
-                                <span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Billing</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/app/settings/" class="nav-link ">
-                                <span class="pcoded-micon"><i class="feather icon-settings"></i></span><span class="pcoded-mtext">Setings</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/app/reports/" class="nav-link ">
-                                <span class="pcoded-micon"><i class="feather icon-bar-chart"></i></span><span class="pcoded-mtext">Report</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <!-- [ navigation menu ] end -->
-    {% endblock navbar %}
-        
-    
-    {% block header %}
-        <!-- [ Header ] start -->
-        <header class="navbar pcoded-header navbar-expand-lg navbar-light header-blue py-1">
-            <style>
-                header {
-                    background: url(http://44.203.86.50/assets/images/other/navbar-3.jpg) center center no-repeat !important;
-                    background-size: cover !important;
-                }
-            </style>
-            <div class="container">
-                <div class="m-header">
-                    <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
-                    <a href="#!" class="b-brand">
-                        Hi {{request.user}} &nbsp;🤚
-                        <!-- ========   change your logo hear   ============ -->
-                        <img src="assets/images/logo.png" alt="" class="logo">
-                        
-                    </a>
-                    <a href="/logout/" class="btn btn-sm btn-outline-light rounded-circle ml-3"><i class="feather icon-corner-down-right"></i></a>
-                    <!-- <a href="#!" class="mob-toggler">
-                        <i class="feather icon-more-vertical"></i>
-                    </a> -->
-                </div>
-                <!-- <div class="collapse navbar-collapse">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a href="#!" class="pop-search"><i class="feather icon-search"></i></a>
-                            <div class="search-bar">
-                                <input type="text" class="form-control border-0 shadow-none" placeholder="Search hear">
-                                <button type="button" class="close" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav ml-auto">
-                        <li>
-                            <div class="dropdown">
-                                <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="icon feather icon-bell"></i></a>
-                                <div class="dropdown-menu dropdown-menu-right notification">
-                                    <div class="noti-head">
-                                        <h6 class="d-inline-block m-b-0">Notifications</h6>
-                                        <div class="float-right">
-                                            <a href="#!" class="m-r-10">mark as read</a>
-                                            <a href="#!">clear all</a>
-                                        </div>
-                                    </div>
-                                    <ul class="noti-body">
-                                        <li class="n-title">
-                                            <p class="m-b-0">NEW</p>
-                                        </li>
-                                        <li class="notification">
-                                            <div class="media">
-                                                <img class="img-radius" src="assets/images/user/avatar-1.jpg" alt="Generic placeholder image">
-                                                <div class="media-body">
-                                                    <p><strong>John Doe</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>5 min</span></p>
-                                                    <p>New ticket Added</p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="n-title">
-                                            <p class="m-b-0">EARLIER</p>
-                                        </li>
-                                        <li class="notification">
-                                            <div class="media">
-                                                <img class="img-radius" src="assets/images/user/avatar-2.jpg" alt="Generic placeholder image">
-                                                <div class="media-body">
-                                                    <p><strong>Joseph William</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>10 min</span></p>
-                                                    <p>Prchace New Theme and make payment</p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="notification">
-                                            <div class="media">
-                                                <img class="img-radius" src="assets/images/user/avatar-1.jpg" alt="Generic placeholder image">
-                                                <div class="media-body">
-                                                    <p><strong>Sara Soudein</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>12 min</span></p>
-                                                    <p>currently login</p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="notification">
-                                            <div class="media">
-                                                <img class="img-radius" src="assets/images/user/avatar-2.jpg" alt="Generic placeholder image">
-                                                <div class="media-body">
-                                                    <p><strong>Joseph William</strong><span class="n-time text-muted"><i class="icon feather icon-clock m-r-10"></i>30 min</span></p>
-                                                    <p>Prchace New Theme and make payment</p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <div class="noti-footer">
-                                        <a href="#!">show all</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="dropdown drp-user">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="feather icon-user"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right profile-notification">
-                                    <div class="pro-head">
-                                        <img src="assets/images/user/avatar-1.jpg" class="img-radius" alt="User-Profile-Image">
-                                        <span>John Doe</span>
-                                        <a href="auth-signin.html" class="dud-logout" title="Logout">
-                                            <i class="feather icon-log-out"></i>
-                                        </a>
-                                    </div>
-                                    <ul class="pro-body">
-                                        <li><a href="user-profile.html" class="dropdown-item"><i class="feather icon-user"></i> Profile</a></li>
-                                        <li><a href="email_inbox.html" class="dropdown-item"><i class="feather icon-mail"></i> My Messages</a></li>
-                                        <li><a href="auth-signin.html" class="dropdown-item"><i class="feather icon-lock"></i> Lock Screen</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div> -->
-            </div>
-        </header>
-        <!-- [ Header ] end -->
-    {% endblock header %}
-        
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
 
-    {% block content %}
-        <!-- [ Main Content ] start -->
-        <div class="pcoded-main-container">
-            <div class="pcoded-wrapper container">
-                <div class="pcoded-content">
-                    <div class="pcoded-inner-content">
-                        <div class="main-body">
-                            <div class="page-wrapper">
-                                {% block page_wrapper %}
-                                    
-                                {% endblock page_wrapper %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <a href="/app/" class="active"><i class="fas fa-home"></i> Home</a>
+        <a href="/app/landing/"><i class="fas fa-search"></i> Quick Search</a>
+        <a href="/app/dashboard/"><i class="fas fa-chart-line"></i> Dashboard</a>
+        <a href="/app/address-book/contacts/"><i class="fas fa-address-book"></i> Address Book</a>
+        <a href="/app/inventions/disclosures/"><i class="fas fa-lightbulb"></i> Invention Disclosure</a>
+
+        <!-- Modules Dropdown -->
+        <div class="modules-dropdown">
+            <a href="#"><i class="fas fa-folder"></i> Modules</a>
+            <div class="modules-dropdown-content">
+                <a href="/app/modules/families/list/">Family</a>
+                <a href="/app/modules/patents/list/">Patent Country</a>
+                <a href="/app/modules/designs/list/">Design Country</a>
+                <a href="/app/modules/trademarks/list/">Trademark Country</a>
             </div>
         </div>
-        <!-- [ Main Content ] end -->
-    {% endblock content %}
-    {% endblock body %}
-    
-    {% block js %}
-        <!-- Required Js -->
-        <script src="{% static 'assets/js/vendor-all.min.js' %}"></script>
-        <script src="{% static 'assets/js/plugins/bootstrap.min.js' %}"></script>
-        <script src="{% static 'assets/js/plugins/jquery-2.2.3.min.js' %}"></script>
-        <script src="{% static 'assets/js/ripple.js' %}"></script>
-        <script src="{% static 'assets/js/pcoded.min.js' %}"></script>
-    {% endblock js %}
-    <!-- Nav -->
-    <script src="{% static 'assets/js/horizontal-menu.js' %}"></script>
+
+        <a href="/app/billing/invoices/"><i class="fas fa-file-invoice"></i> Billing</a>
+        <a href="/app/settings/"><i class="fas fa-cog"></i> Settings</a>
+        <a href="/app/reports/"><i class="fas fa-chart-pie"></i> Reports</a>
+        <a href="#"><i class="fas fa-swords"></i> Audit Trail</a>
+        <a href="#"><i class="fas fa-envelope"></i> Customer Special Instructions</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        {% block content %}
+        {% endblock content %}
+         <!-- Footer -->
+    <footer id="footer" style="background-color: #2a3f54; color: white; padding: 10px 0; text-align: center; width: 100%; display: none;">
+        <p>&copy; 2021 Rhinestone. All rights reserved.</p>
+    </footer>
+    </div>
+
+   
+
+{% endblock body %}
+
+{% block js %}
+    <script src="{% static 'assets/js/vendor-all.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery-2.2.3.min.js' %}"></script>
+    <script src="{% static 'assets/js/ripple.js' %}"></script>
+    <script src="{% static 'assets/js/pcoded.min.js' %}"></script>
+
+    <!-- JavaScript for toggling sidebar -->
     <script>
-        (function() {
-            if ($('#layout-sidenav').hasClass('sidenav-horizontal') || window.layoutHelpers.isSmallScreen()) {
-                return;
+        function toggleSidebar() {
+            var sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Function to check if the user has scrolled to the bottom
+        function showFooterOnScroll() {
+            var footer = document.getElementById('footer');
+            
+            // Get document height, viewport height and scroll position
+            var scrollPosition = window.scrollY + window.innerHeight;
+            var documentHeight = document.body.offsetHeight;
+
+            // Debugging messages
+            console.log("Scroll event fired");
+            console.log("scrollPosition:", scrollPosition, "documentHeight:", documentHeight);
+
+            // If the user scrolls to the bottom of the page
+            if (scrollPosition >= documentHeight) {
+                console.log("User has reached the bottom");  // Debugging message
+                footer.style.display = 'block';  // Show footer
+            } else {
+                footer.style.display = 'none';   // Hide footer when not at bottom
             }
-            try {
-                window.layoutHelpers._getSetting("Rtl")
-                window.layoutHelpers.setCollapsed(
-                    localStorage.getItem('layoutCollapsed') === 'true',
-                    false
-                );
-            } catch (e) {}
-        })();
-        $(function() {
-            $('#layout-sidenav').each(function() {
-                new SideNav(this, {
-                    orientation: $(this).hasClass('sidenav-horizontal') ? 'horizontal' : 'vertical'
-                });
-            });
-            $('body').on('click', '.layout-sidenav-toggle', function(e) {
-                e.preventDefault();
-                window.layoutHelpers.toggleCollapsed();
-                if (!window.layoutHelpers.isSmallScreen()) {
-                    try {
-                        localStorage.setItem('layoutCollapsed', String(window.layoutHelpers.isCollapsed()));
-                    } catch (e) {}
-                }
-            });
-        });
-  /*      $(document).ready(function() {
-            $("#pcoded").pcodedmenu({
-                themelayout: 'horizontal',
-                MenuTrigger: 'hover',
-                SubMenuTrigger: 'hover',
-            });
-            $("input.dateinput").attr("type", "date")
-        });*/
+        }
+
+        // Add event listener for scroll event
+        window.addEventListener('scroll', showFooterOnScroll);
     </script>
-        
+{% endblock js %}
 </body>
 
 </html>

@@ -161,6 +161,12 @@ class CostCenter(Contact, ContactDetailsMixin):
     def __str__(self):
         return f"{self.name} - {self.code}"
 
+    def get_code_display(self):
+        return self.code
+
+    def get_cost_center_no_display(self):
+        return self.cost_center_no
+
 
 @receiver(post_save, sender=Contact)
 def update_contact_mid(sender, instance, **kwargs):

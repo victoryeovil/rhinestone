@@ -228,3 +228,35 @@ def page_not_found_view(request, exception=None):
 
 def new_dash(request):
     return render(request, 'app/landing_page.html')
+
+
+def search_view(request):
+    query = request.GET.get('query')
+    category = request.GET.get('category')
+    results = []
+
+    if query:
+        if category == 'text':
+            family_results = Family.objects.filter(internal_title__icontains=query)
+            patent_results = Patent.objects.filter(internal_title__icontains=query)
+            design_results = Design.objects.filter(internal_title__icontains=query)
+            trademark_results = Trademark.objects.filter(internal_title__icontains=query)
+        elif category == 'contacts':
+            family_results = Family.objects.filter(applicant__name__icontains=query)
+            patent_results = Patent.objects.filter(inventor__name__icontains=query)
+            design_results = Design.objects.filter(licensor__name__icontains=query)
+            trademark_results = Trademark.objects.filter(associate__name__icontains=query)
+        elif category == 'official_numbers':
+            family_results = Family.objects.filter(family_no__icontains=query)
+            patent_results = Patent.objects.filter(case_no__icontains=query)
+            design_results = Design.objects.filter(case_no__icontains=query)
+            trademark_results = Trademark.objects.filter(case_no__icontains=query)
+        elif category == 'modules':
+            patent_results = Patent.objects.filter(case_no__icontains=query)
+            design_results = Design.objects.filter(case_no__icontains=query)
+            trademark_results = Trademark.objects.filter(case_no__icontains=query)
+
+        # Collect results from all models
+        results = list(family_results) + list(patent_results) + list(design_results) + list(trademark_results)
+
+    return render(request, 'app/search_results.html', {'results': results})

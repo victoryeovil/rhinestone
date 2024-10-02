@@ -12,9 +12,10 @@ from app.views.contacts_crud import contact_detail_view, contact_edit_view, cont
 
 urlpatterns = [
     # ADMIN VIEWS
-    path("", dashboard.home_view),
+    path("landing/", dashboard.home_view, name="dashboard"),
     path("dashboard/", dashboard.dashboard_view),
-    path('landing/', dashboard.new_dash),
+    path('', dashboard.new_dash, name="landing"),
+    path('search_view', dashboard.search_view, name="search_view"),
     # Files
     path("file/upload/", files.upload_file),  # file.upload),
     # ADDRESS BOOK
@@ -94,7 +95,7 @@ urlpatterns = [
     # billing.invoices_view),
     path("billing/invoices/", dashboard.coming_soon_view),
     # INVENTIONS
-    path("inventions/disclosures/", inventions.invention_disclosures_view),
+    path("inventions/disclosures/", inventions.invention_disclosures_view, name="inventions"),
     path("inventions/disclosures/file-upload/",
          files.upload_file),  # file.upload),
     # MODULES
