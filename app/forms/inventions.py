@@ -36,25 +36,27 @@ class InventionDisclosureForm(forms.ModelForm):
         self.helper.layout = Layout(
             Row(
                 Column(
-                    "Reference ID",  # Auto-generated ID, can be read-only or hidden in the form
+                    "id_ref_number",  # Auto-generated ID, can be read-only or hidden in the form
+                    "date_file_opened",
                     "title",
                     "status",
                     "keyword",
                     "date_of_invention",
                     "agreement",
-                    "approved_for_filing",
+                    "approval_or_rejection_date",
+
                     "joint_venture",
-                    "invention_description",
+
                     css_class="col-lg-4 small-input"
                 ),
                 Column(
                     "attorney_1",
                     "primary_paralegal",
                     "cost_centre",
-                    "proposed_inventors",
-                    "approval_or_rejection_date",
+                    "approved_for_filing",
+
                     "approved_by",
-                    "date_file_opened",
+                    "proposed_inventors",
 
                     css_class="col-lg-4 small-input"
                 ),
@@ -72,7 +74,7 @@ class InventionDisclosureForm(forms.ModelForm):
             ),
             Row(
                 Column(
-                     "files", "general_notes",
+                     "invention_description", "general_notes",
                     css_class="col-12"  # This makes the field span across the entire width
                 )
             ),

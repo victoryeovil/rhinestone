@@ -10,16 +10,16 @@
 {% block css %}
     <!-- Vendor CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
-<link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
-<link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
     <!-- Bootstrap CSS from CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 {% endblock css %}
 
 {% block content %}
     <!-- Main Content Start -->
-    
+
         <div class="pcoded-content">
             <!-- Breadcrumb Start -->
             <div class="page-header">
@@ -58,15 +58,13 @@
                         <div class="card-body">
                             <div class="row mb-3">
                                 <div class="col-12 d-flex justify-content-end">
-{#                                    <button class="btn btn-sm btn-outline-primary">Audit Trail</button>#}
-{#                                    <button class="btn btn-sm btn-outline-primary">Customer Special Instructions</button>#}
                                     <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-left"></i></button>
                                     <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-right"></i></button>
                                     <button class="btn btn-sm btn-outline-primary"><i class="feather icon-printer"></i></button>
                                     <button class="btn btn-sm btn-outline-primary"><i class="feather icon-delete"></i></button>
                                 </div>
                             </div>
-                            
+
                             <div class="row">
                                 <div class="col-12 mb-4">
                                     <form class="page-form" action="/app/inventions/disclosures/" method="post">
@@ -92,15 +90,16 @@
                                     <a class="nav-link text-uppercase" id="documents-tab" data-toggle="tab" href="#documents" role="tab" aria-controls="documents" aria-selected="false">Documents</a>
                                 </li>
                             </ul>
-                            
+
                             <div class="tab-content" id="invention-disclosure-tabs-content">
+                                <!-- Actions Tab with exact layout -->
                                 <div class="tab-pane fade show active" id="actions" role="tabpanel" aria-labelledby="actions-tab">
                                     <div class="mb-0">
                                         <div class="table-responsive">
                                             <table class="table table-bordered table-striped mb-0 data-table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">ACTION CODE</th>
+                                                        <th>ACTION CODE</th>
                                                         <th>ACTION SPELLOUT</th>
                                                         <th>DUE DATE</th>
                                                         <th>TAKEN DATE</th>
@@ -110,149 +109,95 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {% for i in items %}
-                                                    <tr>
-                                                        <td>{{ i.col_1 }}</td>
-                                                        <td>{{ i.col_2 }}</td>
-                                                        <td>{{ i.col_3 }}</td>
-                                                        <td>{{ i.col_4 }}</td>
-                                                        <td>{{ i.col_5 }}</td>
-                                                        <td>{{ i.col_6 }}</td>
-                                                        <td>{{ i.col_7 }}</td>
-                                                        <td class="table-action">
-                                                            <a href="#!" class="btn btn-icon btn-outline-primary"><i class="feather icon-eye"></i></a>
-                                                            <a href="#!" class="btn btn-icon btn-outline-success"><i class="feather icon-edit"></i></a>
-                                                            <a href="#!" class="btn btn-icon btn-outline-danger"><i class="feather icon-trash-2"></i></a>
-                                                        </td>
-                                                    </tr>
-                                                    {% endfor %}
+                                                    <!-- Action rows will be populated here -->
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- Prior Art/Cited Docs Tab - Document Upload Under Table -->
                                 <div class="tab-pane fade" id="prior-art-cited-docs" role="tabpanel" aria-labelledby="prior-art-cited-docs-tab">
                                     <div class="mb-0">
                                         <div class="table-responsive">
                                             <table class="table table-bordered table-striped mb-0 data-table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">Col 1</th>
-                                                        <th>Col 2</th>
-                                                        <th>Col 3</th>
-                                                        <th>Col 4</th>
+                                                        <th>DOCUMENT TYPE</th>
+                                                        <th>DOCUMENT NAME</th>
+                                                        <th>DATE UPLOADED</th>
+                                                        <th>UPLOADED BY</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {% for i in items %}
-                                                    <tr>
-                                                        <td>{{ i.col_1 }}</td>
-                                                        <td>{{ i.col_2 }}</td>
-                                                        <td>{{ i.col_3 }}</td>
-                                                        <td>{{ i.col_4 }}</td>
-                                                        <td class="table-action">
-                                                            <a href="#!" class="btn btn-icon btn-outline-primary"><i class="feather icon-eye"></i></a>
-                                                            <a href="#!" class="btn btn-icon btn-outline-success"><i class="feather icon-edit"></i></a>
-                                                            <a href="#!" class="btn btn-icon btn-outline-danger"><i class="feather icon-trash-2"></i></a>
-                                                        </td>
-                                                    </tr>
-                                                    {% endfor %}
+                                                    <!-- Document rows will be populated here -->
                                                 </tbody>
                                             </table>
                                         </div>
+                                        <div class="file-upload mt-3">
+                                            <input type="file" id="upload-docs" multiple>
+                                            <label for="upload-docs">Drop files here or click to upload</label>
+                                        </div>
                                     </div>
                                 </div>
+
+                                <!-- Related Case Links Tab -->
                                 <div class="tab-pane fade" id="related-case" role="tabpanel" aria-labelledby="related-case-tab">
                                     <div class="mb-0">
                                         <div class="table-responsive">
                                             <table class="table table-bordered table-striped mb-0 data-table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">Col 1</th>
-                                                        <th>Col 2</th>
-                                                        <th>Col 3</th>
-                                                        <th>Col 4</th>
+                                                        <th>REFERENCE NUMBER</th>
+                                                        <th>COUNTRY</th>
+                                                        <th>APPLICATION NUMBER</th>
+                                                        <th>APPLICATION DATE</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {% for i in items %}
-                                                    <tr>
-                                                        <td>{{ i.col_1 }}</td>
-                                                        <td>{{ i.col_2 }}</td>
-                                                        <td>{{ i.col_3 }}</td>
-                                                        <td>{{ i.col_4 }}</td>
-                                                        <td class="table-action">
-                                                            <a href="#!" class="btn btn-icon btn-outline-primary"><i class="feather icon-eye"></i></a>
-                                                            <a href="#!" class="btn btn-icon btn-outline-success"><i class="feather icon-edit"></i></a>
-                                                            <a href="#!" class="btn btn-icon btn-outline-danger"><i class="feather icon-trash-2"></i></a>
-                                                        </td>
-                                                    </tr>
-                                                    {% endfor %}
+                                                    <!-- Related case rows will be populated here -->
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- Inventor Compensation Tab -->
                                 <div class="tab-pane fade" id="inventor-compensation" role="tabpanel" aria-labelledby="inventor-compensation-tab">
-                                    <div class="mb-0">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered table-striped mb-0 data-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">Col 1</th>
-                                                        <th>Col 2</th>
-                                                        <th>Col 3</th>
-                                                        <th>Col 4</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {% for i in items %}
-                                                    <tr>
-                                                        <td>{{ i.col_1 }}</td>
-                                                        <td>{{ i.col_2 }}</td>
-                                                        <td>{{ i.col_3 }}</td>
-                                                        <td>{{ i.col_4 }}</td>
-                                                        <td class="table-action">
-                                                            <a href="#!" class="btn btn-icon btn-outline-primary"><i class="feather icon-eye"></i></a>
-                                                            <a href="#!" class="btn btn-icon btn-outline-success"><i class="feather icon-edit"></i></a>
-                                                            <a href="#!" class="btn btn-icon btn-outline-danger"><i class="feather icon-trash-2"></i></a>
-                                                        </td>
-                                                    </tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped mb-0 data-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>INVENTOR NAME</th>
+                                                    <th>PERCENTAGE CONTRIBUTED</th>
+                                                    <th>COMPENSATION CALCULATION</th>
+                                                    <th>COMPENSATION PAID</th>
+                                                    <th>DATE COMPENSATION PAID</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Inventor compensation rows will be populated here -->
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
+
+                                <!-- Documents Tab -->
                                 <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
-                                    <div class="mb-0">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered table-striped mb-0 data-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">Col 1</th>
-                                                        <th>Col 2</th>
-                                                        <th>Col 3</th>
-                                                        <th>Col 4</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {% for i in items %}
-                                                    <tr>
-                                                        <td>{{ i.col_1 }}</td>
-                                                        <td>{{ i.col_2 }}</td>
-                                                        <td>{{ i.col_3 }}</td>
-                                                        <td>{{ i.col_4 }}</td>
-                                                        <td class="table-action">
-                                                            <a href="#!" class="btn btn-icon btn-outline-primary"><i class="feather icon-eye"></i></a>
-                                                            <a href="#!" class="btn btn-icon btn-outline-success"><i class="feather icon-edit"></i></a>
-                                                            <a href="#!" class="btn btn-icon btn-outline-danger"><i class="feather icon-trash-2"></i></a>
-                                                        </td>
-                                                    </tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped mb-0 data-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>DOCUMENT TYPE</th>
+                                                    <th>DOCUMENT NAME</th>
+                                                    <th>DATE UPLOADED</th>
+                                                    <th>UPLOADED BY</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Document rows will be populated here -->
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -262,7 +207,7 @@
             </div>
             <!-- Main Content End -->
         </div>
-    
+
     <!-- Main Content End -->
 {% endblock content %}
 
@@ -279,8 +224,7 @@
         // Initialize DataTable
         $('.data-table').DataTable({
             dom: 'Bfrtip',
-            // Uncomment the following line to enable buttons
-            // buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+            searching: false,  // Disable search
         });
     </script>
 {% endblock js %}
