@@ -1,7 +1,6 @@
 from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
-from .fields import FileField
 from .base import BaseModel
 
 
@@ -78,12 +77,15 @@ class InventionDisclosure(BaseModel):
     approval_or_rejection_date = models.DateField(
         blank=True, null=True, verbose_name="Approval/Rejection Date"
     )
-    approved_by = models.CharField(
-        max_length=256, blank=True, null=True, verbose_name="Approved By"
+    approved_by = models.ForeignKey(
+        "app.Contact", blank=True, null=True, verbose_name="Approved By", on_delete=models.SET_NULL
     )
 
     files = models.ManyToManyField(
         "app.File", verbose_name="Attached Files"
+    )
+    joint_venture_with_whom = models.CharField(
+        max_length=256, blank=True, null=True, verbose_name="Joint Venture With Whom"
     )
 
 # Signal for auto-generating the Reference ID

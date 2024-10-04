@@ -57,6 +57,7 @@ class InventionDisclosureForm(forms.ModelForm):
 
                     "approved_by",
                     "proposed_inventors",
+                    "joint_venture_with_whom",
 
                     css_class="col-lg-4 small-input"
                 ),
