@@ -30,53 +30,74 @@ class InventionDisclosureForm(forms.ModelForm):
 
         date_fields = ["date_of_invention", "approval_or_rejection_date", "date_file_opened"]
         for field_name in date_fields:
-            self.fields[field_name].widget = forms.TextInput(attrs={'type': 'date'})
+            self.fields[field_name].widget = forms.TextInput(attrs={'type': 'date', 'placeholder': 'dd/mm/yyyy'})
 
         # Layout adjusted to have one row and three columns containing all model fields
         self.helper.layout = Layout(
             Row(
                 Column(
-                    "id_ref_number",  # Auto-generated ID, can be read-only or hidden in the form
-                    "date_file_opened",
+                    "id_ref_number",  # Auto-generated ID, can be read-only or hidden in the form 
                     "title",
                     "status",
-                    "keyword",
-                    "date_of_invention",
-                    "agreement",
-                    "approval_or_rejection_date",
-
+                    "cost_centre",
                     "joint_venture",
 
+                    
+                    
+
+                    
+
                     css_class="col-lg-4 small-input"
                 ),
                 Column(
-                    "attorney_1",
-                    "primary_paralegal",
-                    "cost_centre",
-                    "approved_for_filing",
-
-                    "approved_by",
-                    "proposed_inventors",
+                    "date_file_opened",
+                    "date_of_invention",
+                    "keyword",
+                    "cost_centre_code",
                     "joint_venture_with_whom",
 
+                    
+                    
+                    
+                    
+
                     css_class="col-lg-4 small-input"
                 ),
                 Column(
+
+                    "attorney_1",
                     "attorney_2",
+                    "primary_paralegal",    
                     "secondary_paralegal",
-                    "cost_centre_code",
-
-                    "confirmed_inventors",
-                    "reasons_of_approval_or_rejection",
-
+                    "agreement",
+                
                       # Assuming it's a file upload field
                     css_class="col-lg-4 small-input"
                 ),
             ),
             Row(
                 Column(
-                     "invention_description", "general_notes",
+                     "invention_description",
+                     "general_notes",
+                     "proposed_inventors",
+                     "confirmed_inventors",
+                     "reasons_of_approval_or_rejection",
+
                     css_class="col-12"  # This makes the field span across the entire width
+                )
+            ),
+            Row(
+                Column(
+                    "approved_for_filing",
+                    css_class="col-lg-4 small-input"
+                ),
+                Column(
+                    "approval_or_rejection_date",
+                    css_class="col-lg-4 small-input"
+                ),
+                Column(
+                    "approved_by",
+                    css_class="col-lg-4 small-input"
                 )
             ),
             Row(

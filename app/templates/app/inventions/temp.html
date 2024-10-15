@@ -123,14 +123,52 @@
                                             <table class="table table-bordered table-striped mb-0 data-table">
                                                 <thead>
                                                     <tr>
-                                                        <th>DOCUMENT TYPE</th>
-                                                        <th>DOCUMENT NAME</th>
-                                                        <th>DATE UPLOADED</th>
-                                                        <th>UPLOADED BY</th>
+                                                        <th>Patentee/Applicant</th>
+                                                        <th>Application No</th>
+                                                        <th>Country</th>
+                                                        <th>Application Date</th>
+                                                        <th>Publication No</th>
+                                                        <th>Publication Date</th>
+                                                        <th>Grant No</th>
+                                                        <th>Grant Date</th>
+                                                        <th>Publication Author</th>
+                                                        <th>Kind Code</th>
+                                                        <th>Include in IDS</th>
+                                                        <th>Submitted as IDS?</th>
+                                                        <th>On which Case Ref</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <!-- Document rows will be populated here -->
+                                                    <tr>
+                                                        <td><input type="text" name="patentee_applicant"></td>
+                                                        <td><input type="text" name="applicatin_no"></td>
+                                                        <td>
+                                                            <select id="id_Country" name="country">
+                                                                <!-- Options for countries -->
+                                                            </select>
+                                                        </td>
+                                                        <td><input type="text" name="applicatin_date"></td>
+                                                        <td><input type="text" name="publication_no"></td>
+                                                        <td><input type="date" name="applicatin_date"></td>
+                                                        <td><input type="text" name="grant_no"></td>
+                                                        <td><input type="date" name="grant_date"></td>
+                                                        <td><input type="text" name="publication_author"></td>
+                                                        <td><input type="text" name="kind_code"></td>
+                                                        <td>
+                                                            <select name="include_in_ids">
+                                                                <option value="yes">Yes</option>
+                                                                <option value="no">No</option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <select name="submitted_as_ids">
+                                                                <option value="yes">Yes</option>
+                                                                <option value="no">No</option>
+                                                            </select>
+                                                        </td>
+                                                        <td><input type="text" name="on_case_ref"></td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>

@@ -72,13 +72,13 @@ class InventionDisclosure(BaseModel):
         max_length=512, blank=True, null=True, verbose_name="Reasons of Approval/Rejection"
     )
     approved_for_filing = models.CharField(
-        max_length=3, choices=[('Yes', 'Yes'), ('No', 'No')], verbose_name="Approved for Filing"
+        max_length=8, choices=[('Accepted', 'Accepted'), ('Rejected', 'Rejected')], verbose_name="Approved/Rejected for Filing"
     )
     approval_or_rejection_date = models.DateField(
         blank=True, null=True, verbose_name="Approval/Rejection Date"
     )
     approved_by = models.ForeignKey(
-        "app.Contact", blank=True, null=True, verbose_name="Approved By", on_delete=models.SET_NULL
+        "app.Contact", blank=True, null=True, verbose_name="Approved/Rejected By", on_delete=models.SET_NULL
     )
 
     files = models.ManyToManyField(

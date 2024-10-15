@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'website',
     'widget_tweaks',
     'bootstrap_datepicker_plus',
+    'auditlog',
 ]
 
 MIDDLEWARE = [
@@ -93,7 +94,9 @@ DATABASES = {
     }
 }
 
-
+USE_L10N = False
+DATE_INPUT_FORMATS = ['%d/%m/%Y']
+USE_I18N = True
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
