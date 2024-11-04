@@ -114,8 +114,10 @@ urlpatterns = [
     path("modules/patents/add/", modules.patents_create_view),
     path("modules/patents/adds/", modules.patents_create_views),
     path("modules/patents/detail/<int:pk>/", modules.patents_detail_view),
-    path("modules/patents/edit/<int:pk>/", modules.patents_update_view),
+    path("modules/patents/edit/<int:pk>/", modules.patents_update_view, name="patent_update"),
     path("modules/patents/delete/<int:pk>/", modules.patents_delete_view),
+
+
     path('modules/inventor-autocomplete/', modules.inventor_autocomplete, name='inventor_autocomplete'),
     path('modules/applicant-autocomplete/', modules.applicant_autocomplete, name='applicant_autocomplete'),
     path("modules/patents/patent_pct_form_view/", modules.patent_pct_form_view, name='patent_pct_form_view'),

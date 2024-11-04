@@ -94,9 +94,8 @@ DATABASES = {
     }
 }
 
-USE_L10N = False
-DATE_INPUT_FORMATS = ['%d/%m/%Y']
-USE_I18N = True
+
+
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -119,14 +118,23 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-gb'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Harare'
 
 USE_I18N = True
 
 USE_TZ = True
 
+# Set default date format for display
+DATE_FORMAT = 'd/m/Y'  # Example: 25/12/2023
+SHORT_DATE_FORMAT = 'd/m/Y'
+
+# Set date input formats for form fields
+DATE_INPUT_FORMATS = [
+    '%d/%m/%Y',  # Example: 25/12/2023
+    '%d-%m-%Y',  # Example: 25-12-2023
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/

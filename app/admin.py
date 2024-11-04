@@ -8,6 +8,7 @@ for model in [
     Inventor,
     Applicant,
     Licensor,
+    InventionDisclosure,
     Licensee,
     Consultant,
     Associate,

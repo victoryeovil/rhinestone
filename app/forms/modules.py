@@ -448,7 +448,7 @@ class PatentForm(forms.ModelForm):
         date_fields = ["priority_provisional_date", "PCT_application_Date", "application_date", "publication_date",
                        "grant_date", "next_annuity_due"]
         for field_name in date_fields:
-            self.fields[field_name].widget = forms.DateInput(attrs={'type': 'date'})
+            self.fields[field_name].widget = forms.DateInput(attrs={'type': 'date'}, format='%d/%m/%Y')
 
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
