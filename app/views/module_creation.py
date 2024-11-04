@@ -16,22 +16,12 @@ tabs = [
 ]
 
 def module_create(request: HttpRequest):
-    try:
-        # Retrieve all entries from each specified model
-        inventions = InventionDisclosure.objects.all()
-        patents = Patent.objects.all()
-        families = Family.objects.all()
-        designs = Design.objects.all()
-        trademarks = Trademark.objects.all()
-
-        # Combine all entries into a single list
-        items = list(inventions) + list(patents) + list(families) + list(designs) + list(trademarks)
-    except Exception as e:
-        # Handle any potential exceptions that may arise
-        items = []
-    
     context = {
         "tabs": tabs,
-        "items": items,
+        "inventions": InventionDisclosure.objects.all(),
+        "patents": Patent.objects.all(),
+        "families": Family.objects.all(),
+        "designs": Design.objects.all(),
+        "trademarks": Trademark.objects.all(),
     }
     return render(request, "app/address-book/module_c/list.html", context)

@@ -1,5 +1,7 @@
-{% extends 'app/address-book/base.html' %}
+{% extends 'app/address-book/module_c/base.html' %}
 {% block tab-content %}
+
+<!-- Search Fields -->
 <div class="row mb-3">
     <div class="col-12">
         <div class="form-row">
@@ -19,51 +21,67 @@
     </div>
 </div>
 
+<!-- Result Tables for Each Model -->
 <div class="row">
     <div class="col-12">
-        <div id="result-table" class="table-responsive" style="display: none;">
-            <table class="table table-bordered table-striped mb-0 data-table">
+        <h5>Inventions</h5>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped mb-0 data-table" id="invention-table">
                 <thead>
                     <tr>
-                        <th scope="col">ID</th>
-                        <th>Name</th>
-                        <th>Type</th>
+                        <th scope="col">ID Reference</th>
+                        <th>Title</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody id="contacts-table-body">
-                    {% for i in items %}
+                <tbody>
+                    {% for item in inventions %}
                     <tr>
-                        <td scope="col">{{ i.MID }}</td>
-                        <td>{{ i.name }}</td>
-                        <td>{{ i.type }}</td>
+                        <td>{{ item.id_ref_number }}</td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.status }}</td>
                         <td>
-                            {% if i.type %}
-                                {% with i.type|capfirst as model_name %}
-                                <a href="{% url 'contact_detail' model_name i.pk %}"><i class="fas fa-eye"></i></a>
-                                <a href="{% url 'contact_edit' model_name i.pk %}"><i class="fas fa-edit"></i></a>
-                                <a href="{% url 'contact_delete' model_name i.pk %}"><i class="fas fa-trash"></i></a>
-                                {% endwith %}
-                            {% else %}
-                                <span class="text-muted">No model</span>
-                            {% endif %}
+                            <!-- <a href="{% url 'invention_detail' item.pk %}"><i class="fas fa-eye"></i></a>
+                            <a href="{% url 'invention_edit' item.pk %}"><i class="fas fa-edit"></i></a>
+                            <a href="{% url 'invention_delete' item.pk %}"><i class="fas fa-trash"></i></a> -->
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-12">
-        <h5>Invalid Records</h5>
-        <ul>
-            {% for i in invalid_items %}
-                <li>ID: {{ i.MID }}, Name: {{ i.name }} - <span class="text-muted">No model</span></li>
-            {% endfor %}
-        </ul>
+        
+        <!-- Repeat similar tables for each model: Patents, Families, Designs, and Trademarks -->
+        <h5>Patents</h5>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped mb-0 data-table" id="patent-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Case No</th>
+                        <th>Internal Title</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in patents %}
+                    <tr>
+                        <td>{{ item.case_no }}</td>
+                        <td>{{ item.internal_title }}</td>
+                        <td>{{ item.status }}</td>
+                        <td>
+                            {% comment %}<a href="{% url 'patent_detail' item.pk %}"><i class="fas fa-eye"></i></a>
+                            <a href="{% url 'patent_edit' item.pk %}"><i class="fas fa-edit"></i></a>
+                            <a href="{% url 'patent_delete' item.pk %}"><i class="fas fa-trash"></i></a> {% endcomment %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Continue similarly for Families, Designs, and Trademarks -->
     </div>
 </div>
 
@@ -73,27 +91,34 @@ document.getElementById('search-button').addEventListener('click', function() {
     const idFilter = document.getElementById('search-id').value.toLowerCase();
     const typeFilter = document.getElementById('search-type').value.toLowerCase();
 
-    const tableBody = document.getElementById('contacts-table-body');
-    const rows = tableBody.getElementsByTagName('tr');
-    let hasResults = false;
+    // Apply filter to each table separately
+    filterTable('invention-table', nameFilter, idFilter, typeFilter);
+    filterTable('patent-table', nameFilter, idFilter, typeFilter);
+    // Call filterTable for each model-specific table as needed
 
-    for (let i = 0; i < rows.length; i++) {
-        const name = rows[i].getElementsByTagName('td')[1].textContent.toLowerCase();
-        const id = rows[i].getElementsByTagName('td')[0].textContent.toLowerCase();
-        const type = rows[i].getElementsByTagName('td')[2].textContent.toLowerCase();
+    function filterTable(tableId, nameFilter, idFilter, typeFilter) {
+        const table = document.getElementById(tableId);
+        const rows = table.getElementsByTagName('tr');
+        let hasResults = false;
 
-        if (name.includes(nameFilter) && id.includes(idFilter) && type.includes(typeFilter)) {
-            rows[i].style.display = '';
-            hasResults = true;
-        } else {
-            rows[i].style.display = 'none';
+        for (let i = 1; i < rows.length; i++) { // Start from index 1 to skip header
+            const id = rows[i].getElementsByTagName('td')[0].textContent.toLowerCase();
+            const name = rows[i].getElementsByTagName('td')[1].textContent.toLowerCase();
+            const type = rows[i].getElementsByTagName('td')[2].textContent.toLowerCase();
+
+            if (id.includes(idFilter) && name.includes(nameFilter) && type.includes(typeFilter)) {
+                rows[i].style.display = '';
+                hasResults = true;
+            } else {
+                rows[i].style.display = 'none';
+            }
         }
-    }
 
-    if (hasResults) {
-        document.getElementById('result-table').style.display = 'block';
-    } else {
-        document.getElementById('result-table').style.display = 'none';
+        if (hasResults) {
+            table.parentElement.style.display = 'block';
+        } else {
+            table.parentElement.style.display = 'none';
+        }
     }
 });
 </script>
