@@ -6,7 +6,7 @@ from .base import BaseModel
 
 class InventionDisclosure(BaseModel):
     id_ref_number = models.CharField(
-        max_length=10, unique=True, blank=True, verbose_name="Reference ID"
+        max_length=10, unique=True, blank=True, verbose_name="ID Reference"
     )
     title = models.CharField(
         max_length=128, verbose_name="Title"

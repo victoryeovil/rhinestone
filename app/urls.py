@@ -9,6 +9,7 @@ from app.views import (
     modules
 )
 from app.views.contacts_crud import contact_detail_view, contact_edit_view, contact_delete_view
+from app.views.module_creation import module_create
 
 urlpatterns = [
     # ADMIN VIEWS
@@ -96,6 +97,7 @@ urlpatterns = [
     path("billing/invoices/", dashboard.coming_soon_view),
     # INVENTIONS
     path("inventions/disclosures/", inventions.invention_disclosures_view, name="inventions"),
+    path("inventions/disclosures_list/", inventions.invention_disclosures_view, name="inventions"),
     path("inventions/disclosures/file-upload/",
          files.upload_file),  # file.upload),
     # MODULES
@@ -140,5 +142,8 @@ urlpatterns = [
     path("reports/", dashboard.coming_soon_view),
 
     #related cases links
-    path("modules/related_cases_view", modules.related_cases_view)
+    path("modules/related_cases_view", modules.related_cases_view),
+
+    #module creation
+    path("modules/create_modules/list/", module_create, name="create_modules"),
 ]

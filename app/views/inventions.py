@@ -16,3 +16,8 @@ def invention_disclosures_view(request):
         "file_form" : FileForm
     }
     return render(request, "app/inventions/temp.html", context)
+
+
+def invention_disclosure_list_view(request):
+    inventions = InventionDisclosure.all()
+    return render(request, 'app/inventions/list.html', inventions)

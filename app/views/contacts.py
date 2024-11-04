@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.http.request import HttpRequest
-from django.http.request import HttpRequest
+
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDict
 import logging

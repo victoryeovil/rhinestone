@@ -109,7 +109,18 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <!-- Action rows will be populated here -->
+                                                    <tr>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td><input type="text" name="action_code" class="form-control"></td>
+                                                                <td><input type="text" name="action_spellout" class="form-control"></td>
+                                                                <td><input type="date" name="due_date" class="form-control" placeholder="dd/mm/yyyy"></td>
+                                                                <td><input type="date" name="taken_date" class="form-control" placeholder="DD/MM/YYYY"></td>
+                                                                <td><input type="date" name="completed_date" class="form-control" placeholder="DD/MM/YYYY"></td>
+                                                                <td><input type="text" name="responsible_person" class="form-control"></td>
+                                                                <td><input type="text" name="action_notes" class="form-control"></td>
+                                                            </tr>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -131,7 +142,7 @@
                                                         <th>Publication Date</th>
                                                         <th>Grant No</th>
                                                         <th>Grant Date</th>
-                                                        <th>Publication Author</th>
+                                                        <th>Publication Author: Vol, No. Pages e.t.c</th>
                                                         <th>Kind Code</th>
                                                         <th>Include in IDS</th>
                                                         <th>Submitted as IDS?</th>
@@ -194,6 +205,9 @@
                                                 </thead>
                                                 <tbody>
                                                     <!-- Related case rows will be populated here -->
+                                                    <tr id="related_case">
+                                                            
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -215,6 +229,13 @@
                                             </thead>
                                             <tbody>
                                                 <!-- Inventor compensation rows will be populated here -->
+                                                 <tr>
+                                                    <td><input type="text" name="inventor_name"></td>
+                                                    <td><input type="text" name="percentage_cont"></td>
+                                                    <td><input type="text" name="compensation_calc"></td>
+                                                    <td><input type="text" name="compensation_paid"></td>
+                                                    <td><input type="date" name="date_compensation_paid"></td>
+                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -256,6 +277,8 @@
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         // Initialize Select2
         $(".page-form select").select2();
@@ -264,5 +287,18 @@
             dom: 'Bfrtip',
             searching: false,  // Disable search
         });
+    </script>
+    <script>
+        document.querySelectorAll('input[type="date"]').forEach(function(input) {
+        input.addEventListener('change', function() {
+            let date = new Date(this.value);
+            if (!isNaN(date)) {
+                let day = String(date.getDate()).padStart(2, '0');
+                let month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+                let year = date.getFullYear();
+                this.value = `${year}-${month}-${day}`; // Internal value remains ISO 8601
+            }
+        });
+    });
     </script>
 {% endblock js %}
