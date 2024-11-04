@@ -60,11 +60,11 @@
                                 {% endfor %}
                             </div>
                         </div>
-                        <div class="tab-content" id="contacts-tabs-content">
+                        <div class="tabContent" id="contacts-tabs-content">
                             {% for tab in tabs %}
                             <div class="tab-pane fade show {% if tab.tab == active %}active{% endif %}" id="{{tab.tab}}" role="tabpanel" aria-labelledby="{{tab.tab}}-tab">
                                 <div class="mb-0">
-                                    {% block tab-content %}{% endblock tab-content %}
+                                    {% block tabContent %}{% endblock tabContent %}
                                 </div>
                             </div>
                             {% endfor %}
