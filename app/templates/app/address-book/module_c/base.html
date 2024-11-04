@@ -55,16 +55,16 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="tab-content" id="contacts-tabs-content">
-                        {% for tab in tabs %}
+                    <div class="tabContent" id="contacts-tabs-content">
+                        {% comment %} {% for tab in tabs %} {% endcomment %}
                         <div class="tab-pane fade show {% if tab.tab == active|default:"modules" %}active{% endif %}" id="{{ tab.tab }}" role="tabpanel" aria-labelledby="{{ tab.tab }}-tab">
                             <div class="mb-0">
-                                {% block tab-content %}
+                                {% block tabContent %}
 
-                                {% endblock tab-content %}
+                                {% endblock tabContent %}
                             </div>
                         </div>
-                        {% endfor %}
+                        {% comment %} {% endfor %} {% endcomment %}
                     </div>
                 </div>
             </div>
