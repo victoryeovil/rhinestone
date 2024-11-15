@@ -153,21 +153,21 @@ class Patent(ModuleBaseModel):
                                   verbose_name="Sub-Status")
     primary_attorney = models.ForeignKey(
         "app.Attorney", on_delete=models.SET_NULL, related_name="patent_primary_attorney_set", blank=True, null=True,
-        verbose_name="Primary Attorney")
+        verbose_name="Attorney 1")
     secondary_attorney = models.ForeignKey(
         "app.Attorney", on_delete=models.SET_NULL, related_name="patent_secondary_attorney_set", blank=True, null=True,
-        verbose_name="Secondary Attorney")
+        verbose_name="Attorney 2")
     primary_paralegal = models.ForeignKey(
         "app.Paralegal", on_delete=models.SET_NULL, related_name="patent_primary_set", blank=True, null=True,
-        verbose_name="Primary Paralegal")
+        verbose_name="Paralegal 1")
     secondary_paralegal = models.ForeignKey(
         "app.Paralegal", on_delete=models.SET_NULL, related_name="patent_secondary_set", blank=True, null=True,
-        verbose_name="Secondary Paralegal")
+        verbose_name="Paralegal 2")
     inventor = models.ManyToManyField(Inventor)
     associate = models.ForeignKey("app.Associate", on_delete=models.SET_NULL,
                               related_name="patent_associate_set", blank=True, null=True, verbose_name="Associate")
     associate_ref = models.ForeignKey("app.Associate", on_delete=models.SET_NULL, related_name="patent_associate_ref_set",
-                                  blank=True, null=True, verbose_name="Associate Reference")
+                                  blank=True, null=True, verbose_name="Associate Ref")
     associate_2 = models.ForeignKey("app.Associate", on_delete=models.SET_NULL, related_name="patent_associate_2_set", blank=True,
                                 null=True, verbose_name="Associate 2")
     associate_ref_2 = models.ForeignKey("app.Associate", on_delete=models.SET_NULL,
@@ -177,12 +177,10 @@ class Patent(ModuleBaseModel):
     associate_2_ref = models.ForeignKey("app.Associate", on_delete=models.SET_NULL,
                                     related_name="patent_associate_ref_2_sets", blank=True, null=True,
                                     verbose_name="Associate Ref 2")
-    cost_centre = models.CharField(max_length=128, blank=True, null=True, choices=[
-        (i, i) for i in ["Cost 1", "Cost 2"]], verbose_name="Cost Centre")
+    cost_centre = models.ForeignKey("app.CostCenter",max_length=128, blank=True, null=True, on_delete=models.SET_NULL, verbose_name="Cost Centre", related_name="cost_center")
     licence = models.CharField(max_length=128, blank=True, null=True, choices=[
         (i, i) for i in ["Yes", "No"]], verbose_name="Licence")
-    cost_centre_code = models.CharField(max_length=128, blank=True, null=True, choices=[
-        (i, i) for i in ["Applicant 1", "Applicant 2", "Applicant 3"]], verbose_name="Cost Centre Code")
+    cost_centre_code = models.ForeignKey('app.CostCenter',max_length=128, blank=True, null=True,on_delete=models.SET_NULL, verbose_name="Cost Centre Code")
     priority_provisional_application_no = models.CharField(
         max_length=128, blank=True, null=True, verbose_name="Priority/Provisional Application No")
     priority_provisional_date = models.DateField(
@@ -195,7 +193,7 @@ class Patent(ModuleBaseModel):
     annuity_no = models.IntegerField(blank=True, null=True, choices=[
         (i, i) for i in range(1, 16)], verbose_name="Annuity No")
     application_no = models.CharField(max_length=128, blank=True, null=True, verbose_name="National Application No")
-    application_date = models.DateField(blank=True, null=True, verbose_name="National Application Date")
+    application_date = models.DateField(blank=True, null=True, verbose_name="National App Date")
     taxs_paid_by = models.CharField(max_length=128, blank=True, null=True, choices=[
         (i, i) for i in ["Contact 1", "Contact 2", "Contact 3"]], verbose_name="Taxes Paid By")
     publication_no = models.CharField(max_length=128, blank=True, null=True, verbose_name="Publication No")

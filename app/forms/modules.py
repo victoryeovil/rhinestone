@@ -426,14 +426,34 @@ class TrademarkForm(forms.ModelForm):
         return cleaned_data
 
 
-
 class PatentForm(forms.ModelForm):
-    # status=forms.ChoiceField(widget = forms.Select(),
-    # # choices=[(i, i) for i in ["Open", "Pending", "Filed", "Allowed", "Granted(Live)", "Abandoned", "Granted(DEA)", "Converted", "Expired", "Published"]],required = False,)
-    PCT_Country = forms.ModelMultipleChoiceField(queryset=Country.objects.all(), widget=forms.SelectMultiple,
-                                                 required=False, label="PCT Country")
-    inventor = forms.ModelMultipleChoiceField(queryset=Inventor.objects.all(), widget=forms.SelectMultiple,
-                                              required=False, label="Inventor")
+    PCT_Country = forms.ModelMultipleChoiceField(
+        queryset=Country.objects.all(), 
+        widget=forms.SelectMultiple, 
+        required=False, 
+        label="PCT Country"
+    )
+    inventor = forms.ModelMultipleChoiceField(
+        queryset=Inventor.objects.all(), 
+        widget=forms.SelectMultiple, 
+        required=False, 
+        label="Inventor"
+    )
+    sub_filing_type = forms.ChoiceField(
+        choices=[
+            ('', "---"), 
+            ('PCT National Phase', 'PCT National Phase'), 
+            ('Divisional', 'Divisional'), 
+            ('Non Provisional', 'Non Provisional'),
+            ('US Continuation', 'US Continuation'), 
+            ('EP National', 'EP National'),
+            ('EP Regional', 'EP Regional'), 
+            ('EP-PCT National', 'EP-PCT National'),
+            ("US Continuation in Part", "US Continuation in Part")
+        ],
+        required=False, 
+        label="Sub Filing Type"
+    )
 
     class Meta:
         model = Patent
@@ -443,51 +463,99 @@ class PatentForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['PCT_Country'].queryset = Country.objects.all()
 
-        # Set the choices for PCT_Country field
-        #self.fields['PCT_Country'].choices = [(country["code"], country["name"]) for country in data.countries.PCT_COUNTRIES]
-        date_fields = ["priority_provisional_date", "PCT_application_Date", "application_date", "publication_date",
-                       "grant_date", "next_annuity_due"]
+         # Define the desired date format
+        date_format = '%d/%m/%Y'
+        
+        # Set date fields with HTML5 date input and specify input formats for processing
+        date_fields = [
+            "priority_provisional_date", "PCT_application_Date", 
+            "application_date", "publication_date", "grant_date", 
+            "next_annuity_due"
+        ]
+        
         for field_name in date_fields:
-            self.fields[field_name].widget = forms.DateInput(attrs={'type': 'date'}, format='%d/%m/%Y')
+            # Use DateInput with type="date" to keep the HTML5 date picker
+            self.fields[field_name].widget = forms.DateInput(
+                attrs={'type': 'date'}
+            )
+            # Specify input_formats to allow parsing in dd/mm/yyyy format
+            self.fields[field_name].input_formats = [date_format]
 
+        # Initialize Crispy Form Helper
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
         self.helper.label_class = 'col-sm-4'
         self.helper.field_class = 'col-sm-8'
+
+        # Layout structure for three columns
         self.helper.layout = Layout(
             Row(
+                # Column 1
                 Column(
-                    Row(
-                        Column(
-                            "case_no", "internal_title", "formal_title", "case_type", "status", "sub_status","filing_type",
-                            "sub_filing_type", "cost_centre", "cost_centre_code", "priority_provisional_application_no",
-                            "PCT_application_no", "application_no", "publication_no", "grant_number",
-                            css_class="col-md-12"
-                        ),
-                    ),
-                    css_class="col-md-6"
+                    Field('case_no'),
+                    Field('internal_title'),
+                    Field('formal_title'),
+                    Field('case_type'),
+                    Field('status'),
+                    Field('sub_status'),
+                    Field('filing_type'),
+                    Field('sub_filing_type'),
+                    Field('cost_centre'),
+                    Field('priority_provisional_application_no'),
+                    Field('PCT_application_no'),
+                    Field('application_no'),
+                    Field('publication_no'),
+                    Field('grant_number'),
+                    css_class="col-md-4"
                 ),
+                
+                # Column 2 (with dates aligned horizontally next to their respective fields)
                 Column(
-                    Row(
-                        Column(
-                            "country", "primary_attorney", "secondary_attorney", "primary_paralegal",
-                            "secondary_paralegal", "inventor", "priority_provisional_date", "PCT_application_Date",
-                            "application_date", "publication_date", "grant_date",
-                            css_class="col-md-6 col-sm-12"  # Modify col-md-6 to col-md-6 col-sm-12
-                        ),
-                        Column(
-                            "associate", "associate_ref", "associate_2", "associate_2_ref", "PCT_Country", "licence",
-                            "next_annuity_due", "annuity_no", "taxs_paid_by", "patent_term_no_of_days",
-                            "large_small_entity",
-                            css_class="col-md-6 col-sm-12"  # Modify col-md-6 to col-md-6 col-sm-12
-                        ),
-                    ),
-                    css_class="col-md-6"
+                    Field('country'),
+                    Field('primary_attorney'),
+                    Field('secondary_attorney'),
+                    Field('primary_paralegal'),
+                    Field('secondary_paralegal'),
+                    Field('inventor'),
+                    HTML('<div class="form-group" style="height: 20px;"></div>'), 
+                    HTML('<div class="form-group" style="height: 20px;"></div>'), 
+                    HTML('<div class="form-group" style="height: 20px;"></div>'), 
+                    Field('cost_centre_code'),
+                    Field('priority_provisional_date'),
+                    HTML('<div class="form-group" style="height: 10px;"></div>'), 
+                    Field('PCT_application_Date'),
+                    Field('application_date'),
+                    HTML('<div class="form-group" style="height: 5px;"></div>'), 
+                    Field('publication_date'),
+                    Field('grant_date'),
+                    css_class="col-md-4"
+                ),
+                
+                # Column 3
+                Column(
+                    Field('associate'),
+                    Field('associate_ref'),
+                    Field('associate_2'),
+                    Field('associate_2_ref'),
+                    Field('licence'),
+                    Field('next_annuity_due'),
+                    Field('annuity_no'),
+                    Field('taxs_paid_by'),
+                    Field('patent_term_no_of_days'),
+                    Field('large_small_entity'),
+                    css_class="col-md-4"
                 ),
             )
         )
 
+        # Apply custom styles to each field
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control form-control-sm'
+            field.widget.attrs['style'] = 'font-size: 13px; height: auto; padding: 2px 3px; margin-bottom: 2px;'
 
+
+
+        
 class PatentPCTForm(forms.Form):
     pct_country = forms.ModelMultipleChoiceField(queryset=Country.objects.all(), widget=forms.CheckboxSelectMultiple,
                                                  required=False)

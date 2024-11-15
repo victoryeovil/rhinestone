@@ -18,145 +18,252 @@
 
 {% block content %}
 <!-- [ Main Content ] start -->
- 
-    <div class="pcoded-content">
-        <!-- [ breadcrumb ] start -->
-        <div class="page-header">
-            <div class="page-block">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <div class="page-header-title">
-                            <h5 class="m-b-10">Patent Module</h5>
-                        </div>
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/app/"><i class="feather icon-home"></i>&nbsp;Dashboard</a></li>
-                            <li class="breadcrumb-item"><a href="/app/modules/patents/list/">Patent List</a></li>
-                            <li class="breadcrumb-item"><a href="/app/modules/patents/add/">Patent Add</a></li>
-                        </ul>
+<div class="pcoded-content">
+    <!-- [ breadcrumb ] start -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-12">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Patent Module</h5>
                     </div>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/app/"><i class="feather icon-home"></i>&nbsp;Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="/app/modules/patents/list/">Patent List</a></li>
+                        <li class="breadcrumb-item"><a href="/app/modules/patents/add/">Patent Add</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
-        <!-- [ breadcrumb ] end -->
-        <!-- [ Main Content ] start -->
-         <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-body">
-            <div class="row">
-                            <!-- <div class="col-12">
-                                                <button class="btn btn-primary float-right">Add Family</button>
-                                            </div> -->
-                            <div class="col-12 mb-4">
-                                <form
-                                class="page-form"
-                                action="{% url 'patent_update' pk=item.id %}" 
-                                method="post"
-                              >
-                              
+    </div>
+    <!-- [ breadcrumb ] end -->
+    
+    <!-- [ Main Content ] start -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 mb-4">
+                            <form action="/app/modules/patents/edit/{{ item.id }}" method="post" class="page-form">
                                 {% csrf_token %}
                                 <div class="form-row">
-                                  <div class="col-12 mb-4 text-center">
-                                    <button class="btn btn-sm btn-outline-primary">
-                                      Audit Trail
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary">
-                                      <i class="feather icon-copy"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary">
-                                      Customer Special Instructions
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary">
-                                        Create Country
-                                      </button>
-                                    <button class="btn btn-sm btn-outline-primary">
-                                      <i class="feather icon-arrow-left"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary">
-                                      <i class="feather icon-arrow-right"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary">
-                                      <i class="feather icon-printer"></i>
-                                    </button>
-                                    <button
-                                      type="reset"
-                                      class="btn btn-sm btn-outline-primary"
-                                    >
-                                      <i class="feather icon-delete"></i>&nbsp;Delete
-                                    </button>
-                                    <button
-                                      type="submit"
-                                      class="btn btn-sm btn-outline-primary"
-                                    >
-                                      <i class="feather icon-save"></i>&nbsp;Save
-                                    </button>
-                                  </div>
-                                  <div id="id_add_new" class="col-12 mb-4 text-center"></div>
+                                    <div class="col-12 mb-4 text-center">
+                                        
+                                        <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-left"></i></button>
+                                        <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-right"></i></button>
+                                        <button class="btn btn-sm btn-outline-primary"><i class="feather icon-printer"></i></button>
+                                        <button type="reset" class="btn btn-sm btn-outline-primary"><i class="feather icon-delete"></i>&nbsp;Delete</button>
+                                        <button type="submit" class="btn btn-sm btn-outline-primary"><i class="feather icon-save"></i>&nbsp;Save</button>
+                                    </div>
+                                    <div id="id_add_new" class="col-12 mb-4 text-center"></div>
                                 </div>
-                                {% crispy form %}
-                              </form>
-                            </div>
-                            <div class="col-12 mb-4">
-                              <ul class="nav nav-tabs mb-3" id="family-tabs" role="tablist">
-                                  <li class="nav-item">
-                                      <a class="nav-link text active" id="pills-Actions-tab" data-toggle="pill" href="#pills-Actions" role="tab" aria-controls="pills-Actions" aria-selected="true"><b> Actions </b></a>
-                                  </li>
-                                  <li class="nav-item">
-                                      <a class="nav-link" id="pills-applicant-tab" data-toggle="pill" href="#pills-applicant" role="tab" aria-controls="pills-applicant" aria-selected="false"><b> Applicant(s) </b></a>
-                                  </li>
-                                  <li class="nav-item">
-                                      <a class="nav-link" id="pills-Inventors-tab" data-toggle="pill" href="#pills-Inventors" role="tab" aria-controls="pills-Inventors" aria-selected="false"><b> Inventor(s) </b></a>
-                                  </li>
-                                  <li class="nav-item">
-                                      <a class="nav-link" id="pills-Title-tab" data-toggle="pill" href="#pills-Title" role="tab" aria-controls="pills-Title" aria-selected="false"><b> Title </b></a>
-                                  </li>
-                                  <li class="nav-item">
-                                      <a class="nav-link" id="pills-Invoices-tab" data-toggle="pill" href="#pills-Invoices" role="tab" aria-controls="pills-Invoices" aria-selected="false"><b> Invoices </b></a>
-                                  </li>
-                                  <li class="nav-item">
-                                      <a class="nav-link" id="pills-Annuities-tab" data-toggle="pill" href="#pills-Annuities" role="tab" aria-controls="pills-Annuities" aria-selected="false"><b> Annuities </b></a>
-                                  </li>
-                                <!--  <li class="nav-item">
-                                      <a class="nav-link" id="pills-Prior-tab" data-toggle="pill" href="#pills-Prior" role="tab" aria-controls="pills-Prior" aria-selected="false"><b> Prior Art </b></a>
-                                  </li>-->
-                                  <li class="nav-item">
-                                      <a class="nav-link" id="pills-Related-tab" data-toggle="pill" href="#pills-Related" role="tab" aria-controls="pills-Related" aria-selected="false"><b> Related Case Links </b></a>
-                                  </li>
-                                  <li class="nav-item">
-                                      <a class="nav-link" id="pills-Abstract-tab" data-toggle="pill" href="#pills-Abstract" role="tab" aria-controls="pills-Abstract" aria-selected="false"><b> Abstract & Figures Files</b></a>
-                                  </li>
-                                  <li class="nav-item">
-                                      <a class="nav-link" id="pills-Documents-tab" data-toggle="pill" href="#pills-Documents" role="tab" aria-controls="pills-Documents" aria-selected="false"><b> Documents </b></a>
-                                  </li>
-                                  <li class="nav-item">
-                                      <a class="nav-link" id="pills-Notes-tab" data-toggle="pill" href="#pills-Notes" role="tab" aria-controls="pills-Notes" aria-selected="false"><b>Notes</b></a>
-                                  </li>
-                              </ul>
-                              <div class="tabContent" id="family-tabs-content">
-                                  <div class="tab-pane fade show active" id="pills-Actions" role="tabpanel" aria-labelledby="pills-Actions-tab">
-                                      <div class="media">
-                                          <div class="table-responsive">
-                                              <table class="table">
-                                                  <thead>
-                                                      <tr>
-                                                          <th>Action Code</th>
-                                                          <th>Action Spellout</th>
-                                                          <th>Due Date</th>
-                                                          <th>Taken Date</th>
-                                                          <th>Completed Date</th>
-                                                          <th>Responsible Person</th>
-                                                          <th>Notes</th>
-                                                      </tr>
-                                                  </thead>
-                                                  <tbody id="tablebody">
-
-                                                    
-                                                  </tbody>
-                                              </table>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="tab-pane fade" id="pills-applicant" role="tabpanel" aria-labelledby="pills-applicant-tab">
+                            
+                                <!-- Top Fields in Rows as per Design -->
+                                <div class="form-row">
+                                    <div class="col-md-3">
+                                        {{ form.case_no|as_crispy_field }}
+                                    </div>
+                                    <div class="col-md-3">
+                                        {{ form.country|as_crispy_field }}
+                                    </div>
+                                    <div class="col-md-3">
+                                        {{ form.internal_title|as_crispy_field }}
+                                    </div>
+                                    <div class="col-md-3">
+                                        {{ form.formal_title|as_crispy_field }}
+                                    </div>
+                                </div>
+                            
+                                <div class="form-row mt-3">
+                                    <div class="col-md-3">
+                                        {{ form.status|as_crispy_field }}
+                                    </div>
+                                    <div class="col-md-3">
+                                        {{ form.sub_status|as_crispy_field }}
+                                    </div>
+                                    <div class="col-md-3">
+                                        {{ form.filing_type|as_crispy_field }}
+                                    </div>
+                                    <div class="col-md-3">
+                                        {{ form.sub_filing_type|as_crispy_field }}
+                                    </div>
+                                </div>
+                            
+                                <div class="form-row mt-3">
+                                    <div class="col-md-3">
+                                        {{ form.primary_attorney|as_crispy_field }}
+                                    </div>
+                                    <div class="col-md-3">
+                                        {{ form.case_type|as_crispy_field }}
+                                    </div>
+                                    <div class="col-md-3">
+                                        {{ form.licence|as_crispy_field }}
+                                    </div>
+                                    <div class="col-md-3">
+                                        {{ form.taxs_paid_by|as_crispy_field }}
+                                    </div>
+                                </div>
+                            
+                                <div class="form-row mt-3">
+                                    <div class="col-md-6">
+                                        {{ form.priority_provisional_application_no|as_crispy_field }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{ form.priority_provisional_date|as_crispy_field }}
+                                    </div>
+                                </div>
+                            
+                                <!-- Expandable Sections Buttons in One Row -->
+                                <div class="form-row mt-4">
+                                    <div class="col-md-6 text-center">
+                                        <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="collapse" data-target="#contactsSection">
+                                            Names +
+                                        </button>
+                                    </div>
+                                    <div class="col-md-6 text-center">
+                                        <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="collapse" data-target="#officialNoSection">
+                                            Official No +
+                                        </button>
+                                    </div>
+                                </div>
+                            
+                                <!-- Expandable Contacts Section -->
+                                <div id="contactsSection" class="collapse mt-3">
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            {{ form.associate|as_crispy_field }}
+                                        </div>
+                                        <div class="col-md-4">
+                                            {{ form.associate_ref|as_crispy_field }}
+                                        </div>
+                                        <div class="col-md-4">
+                                            {{ form.associate_2|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                    <div class="form-row mt-3">
+                                        <div class="col-md-4">
+                                            {{ form.associate_ref_2|as_crispy_field }}
+                                        </div>
+                                        <div class="col-md-4">
+                                            {{ form.secondary_attorney|as_crispy_field }}
+                                        </div>
+                                        <div class="col-md-4">
+                                            {{ form.primary_paralegal|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                    <div class="form-row mt-3">
+                                        <div class="col-md-4">
+                                            {{ form.secondary_paralegal|as_crispy_field }}
+                                        </div>
+                                        <div class="col-md-4">
+                                            {{ form.cost_centre|as_crispy_field }}
+                                        </div>
+                                        <div class="col-md-4">
+                                            {{ form.cost_centre_code|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                <!-- Expandable Official No Section -->
+                                <div id="officialNoSection" class="collapse mt-3">
+                                    <div class="form-row">
+                                        <div class="col-md-3">
+                                            {{ form.PCT_application_no|as_crispy_field }}
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{ form.PCT_application_Date|as_crispy_field }}
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{ form.application_no|as_crispy_field }}
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{ form.application_date|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                    <div class="form-row mt-3">
+                                        <div class="col-md-3">
+                                            {{ form.publication_no|as_crispy_field }}
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{ form.publication_date|as_crispy_field }}
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{ form.grant_number|as_crispy_field }}
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{ form.grant_date|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                <!-- Submit Button -->
+                                <!-- <div class="form-row mt-4">
+                                    <div class="col text-center">
+                                        <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                                    </div>
+                                </div> -->
+                            </form>
+                            
+                        </div>
+                        
+                        <!-- Tab Navigation -->
+                        <div class="col-12 mb-4">
+                            <ul class="nav nav-tabs mb-3" id="family-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="pills-Actions-tab" data-bs-toggle="pill" href="#pills-Actions" role="tab" aria-controls="pills-Actions" aria-selected="true"><b>Actions</b></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pills-applicant-tab" data-bs-toggle="pill" href="#pills-applicant" role="tab" aria-controls="pills-applicant" aria-selected="false"><b>Applicant(s)</b></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pills-Inventors-tab" data-bs-toggle="pill" href="#pills-Inventors" role="tab" aria-controls="pills-Inventors" aria-selected="false"><b>Inventor(s)</b></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pills-Title-tab" data-bs-toggle="pill" href="#pills-Title" role="tab" aria-controls="pills-Title" aria-selected="false"><b>Title</b></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pills-Invoices-tab" data-bs-toggle="pill" href="#pills-Invoices" role="tab" aria-controls="pills-Invoices" aria-selected="false"><b>Invoices</b></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pills-Annuities-tab" data-bs-toggle="pill" href="#pills-Annuities" role="tab" aria-controls="pills-Annuities" aria-selected="false"><b>Annuities</b></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pills-Related-tab" data-bs-toggle="pill" href="#pills-Related" role="tab" aria-controls="pills-Related" aria-selected="false"><b>Related Case Links</b></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pills-Abstract-tab" data-bs-toggle="pill" href="#pills-Abstract" role="tab" aria-controls="pills-Abstract" aria-selected="false"><b>Abstract & Figures Files</b></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pills-Documents-tab" data-bs-toggle="pill" href="#pills-Documents" role="tab" aria-controls="pills-Documents" aria-selected="false"><b>Documents</b></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pills-Notes-tab" data-bs-toggle="pill" href="#pills-Notes" role="tab" aria-controls="pills-Notes" aria-selected="false"><b>Notes</b></a>
+                                </li>
+                            </ul>
+                            <!-- Tab Content -->
+                            <div class="tab-content" id="family-tabs-content">
+                                <div class="tab-pane fade show active" id="pills-Actions" role="tabpanel" aria-labelledby="pills-Actions-tab">
+                                    <div class="media">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Action Code</th>
+                                                        <th>Action Spellout</th>
+                                                        <th>Due Date</th>
+                                                        <th>Taken Date</th>
+                                                        <th>Completed Date</th>
+                                                        <th>Responsible Person</th>
+                                                        <th>Notes</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tablebody"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pills-applicant" role="tabpanel" aria-labelledby="pills-applicant-tab">
                                     <div class="media">
                                         <div class="table-responsive">
                                             <table class="table">
@@ -169,192 +276,115 @@
                                                         <th>Employment Status</th>
                                                     </tr>
                                                 </thead>
+                                                <tbody id="selected-applicant-details"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pills-Inventors" role="tabpanel" aria-labelledby="pills-Inventors-tab">
+                                    <div class="media">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Inventor ID</th>
+                                                        <th>Surname</th>
+                                                        <th>Given Name(s)</th>
+                                                        <th>Nationality</th>
+                                                        <th>Employment Status</th>
+                                                    </tr>
+                                                </thead>
                                                 <tbody>
-                                                    <tr id="selected-applicant-details">
-                                                        
+                                                    <tr>
+                                                        <td><input type="text" name="inventor_id" oninput="updateInventorFields(this)"></td>
+                                                        <td><input type="text" name="surname" oninput="updateInventorFields(this)"></td>
+                                                        <td><input type="text" name="given_names" oninput="updateInventorFields(this)"></td>
+                                                        <td><input type="text" name="nationality" oninput="updateInventorFields(this)"></td>
+                                                        <td><input type="text" name="employment_status" oninput="updateInventorFields(this)"></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="pills-Inventors" role="tabpanel" aria-labelledby="pills-Inventors-tab">
-                                  <div class="media">
-                                      <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
-                                              <tr>
-                                                <th>Inventor ID</th>
-                                                <th>Surname</th>
-                                                <th>Given Name(s)</th>
-                                                <th>Nationality</th>
-                                                <th>Employment Status</th>
-                                              </tr>
-                                            </thead>
-                                            <tbody>
-                                              <tr>
-                                                <td><input type="text" name="inventor_id" oninput="updateInventorFields(this)"></td>
-                                                <td><input type="text" name="surname" oninput="updateInventorFields(this)"></td>
-                                                <td><input type="text" name="given_names" oninput="updateInventorFields(this)"></td>
-                                                <td><input type="text" name="nationality" oninput="updateInventorFields(this)"></td>
-                                                <td><input type="text" name="employment_status" oninput="updateInventorFields(this)"></td>
-                                              </tr>
-                                            </tbody>
-                                          </table>
-                                      </div>
-                                  </div>
-                              </div>  
-                                  <div class="tab-pane fade" id="pills-Title" role="tabpanel" aria-labelledby="pills-Title-tab">
-                                      <div class="media">
-                                          <div class="table-responsive">
-                                              <table class="table">
-                                                  <thead>
-                                                      <tr>
-                                                       
-                                                          <th>Formal Title</th>
-                                                          <th>Internal Title</th>
-                                                          
-                                                      </tr>
-                                                  </thead>
-                                                  <tbody>
-                                                      <tr id="title-table">
-                                                        
-                                                        
-                                                      </tr>
-                                                  </tbody>
-                                              </table>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="tab-pane fade" id="pills-Invoices" role="tabpanel" aria-labelledby="pills-Invoices-tab">
-                                      <div class="media">
-                                          <div class="table-responsive">
-                                              <table class="table">
-                                                  <thead>
-                                                      <tr>
-                                                          <th>Invoice No</th>
-                                                          <th>Items</th>
-                                                          <th>Customer Name</th>
-                                                          <th>Address</th>
-                                                          <th>Payment Status</th>
-                                                      </tr>
-                                                  </thead>
-                                                  <tbody>
-                                                      <tr>
-                                                          <td>CA-0000012</td>
-                                                          <td>Service</td>
-                                                          <td>Jems</td>
-                                                          <td>Kenya</td>
-                                                          <td>Pending</td>
-                                                      </tr>
-                                                  </tbody>
-                                              </table>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="tab-pane fade" id="pills-Annuities" role="tabpanel" aria-labelledby="pills-Annuities-tab">
-                                    <div class="media">
-                                      <div class="table-responsive">
-                                        <table class="table">
-                                          <thead>
-                                            <tr>
-                                              <th>Country</th>
-                                              <th>Annuity Year</th>
-                                              <th>Due Date</th>
-                                              <th>Payment Status</th>
-                                              <th>Receipt Received</th>
-                                              
-                                            </tr>
-                                          </thead>
-                                          <tbody id="annuity-table-body">
-                                            
-                                          </tbody>
-                                        </table>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  
-                                   
-                                  <div class="tab-pane fade" id="pills-Prior" role="tabpanel" aria-labelledby="pills-Prior-tab">
+                                <div class="tab-pane fade" id="pills-Title" role="tabpanel" aria-labelledby="pills-Title-tab">
                                     <div class="media">
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Patentee/Applicant</th>
-                                                        <th>Application No</th>
-                                                        <th>Country</th>
-                                                        <th>Application Date</th>
-                                                        <th>Publication No</th>
-                                                        <th>Publication Date</th>
-                                                        <th>Grant No</th>
-                                                        <th>Grant Date</th>
-                                                        <th>Publication Author</th>
-                                                        <th>Kind Code</th>
-                                                        <th>Include in IDS</th>
-                                                        <th>Submitted as IDS?</th>
-                                                        <th>On which Case Ref</th>
+                                                        <th>Formal Title</th>
+                                                        <th>Internal Title</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="title-table"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pills-Invoices" role="tabpanel" aria-labelledby="pills-Invoices-tab">
+                                    <div class="media">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Invoice No</th>
+                                                        <th>Items</th>
+                                                        <th>Customer Name</th>
+                                                        <th>Address</th>
+                                                        <th>Payment Status</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td><input type="text" name="patentee_applicant"></td>
-                                                        <td><input type="text" name="applicatin_no"></td>
-                                                        <td>
-                                                            <select id="id_Country" name="country">
-                                                                <!-- Options for countries -->
-                                                            </select>
-                                                        </td>
-                                                        <td><input type="text" name="applicatin_date"></td>
-                                                        <td><input type="text" name="publication_no"></td>
-                                                        <td><input type="date" name="applicatin_date"></td>
-                                                        <td><input type="text" name="grant_no"></td>
-                                                        <td><input type="date" name="grant_date"></td>
-                                                        <td><input type="text" name="publication_author"></td>
-                                                        <td><input type="text" name="kind_code"></td>
-                                                        <td>
-                                                            <select name="include_in_ids">
-                                                                <option value="yes">Yes</option>
-                                                                <option value="no">No</option>
-                                                            </select>
-                                                        </td>
-                                                        <td>
-                                                            <select name="submitted_as_ids">
-                                                                <option value="yes">Yes</option>
-                                                                <option value="no">No</option>
-                                                            </select>
-                                                        </td>
-                                                        <td><input type="text" name="on_case_ref"></td>
+                                                        <td>CA-0000012</td>
+                                                        <td>Service</td>
+                                                        <td>Jems</td>
+                                                        <td>Kenya</td>
+                                                        <td>Pending</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
-                                </div>                              
-                                
-                                  <div class="tab-pane fade" id="pills-Related" role="tabpanel" aria-labelledby="pills-Related-tab">
-                                        <div class="media">
-                                            <div class="table-responsive">
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Reference Number</th>
-                                                            <th>Country</th>
-                                                            <th>Application Number</th>
-                                                            <th>Application Date</th>
-                                                            <th>Inventors</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr id="related_case">
-                                                            
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                </div>
+                                <div class="tab-pane fade" id="pills-Annuities" role="tabpanel" aria-labelledby="pills-Annuities-tab">
+                                    <div class="media">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Country</th>
+                                                        <th>Annuity Year</th>
+                                                        <th>Due Date</th>
+                                                        <th>Payment Status</th>
+                                                        <th>Receipt Received</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="annuity-table-body"></tbody>
+                                            </table>
                                         </div>
                                     </div>
-                                  <div class="tab-pane fade" id="pills-Abstract" role="tabpanel" aria-labelledby="pills-Abstract-tab">
+                                </div>
+                                <div class="tab-pane fade" id="pills-Related" role="tabpanel" aria-labelledby="pills-Related-tab">
+                                    <div class="media">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Reference Number</th>
+                                                        <th>Country</th>
+                                                        <th>Application Number</th>
+                                                        <th>Application Date</th>
+                                                        <th>Inventors</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="related_case"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pills-Abstract" role="tabpanel" aria-labelledby="pills-Abstract-tab">
                                     <div class="media">
                                         <div class="table-responsive">
                                             <table class="table">
@@ -365,20 +395,19 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                      <form action="/" method="post">
-                                                        {% csrf_token %}
-                                                        <textarea id="input-text" name="Abstract" rows="10" cols="50" maxlength="50" placeholder="Enter your abstract here..."></textarea>
-                                                        <br>
-                                                      </form>
+                                                        <td>
+                                                            <form action="/" method="post">
+                                                                {% csrf_token %}
+                                                                <textarea id="input-text" name="Abstract" rows="10" cols="50" maxlength="50" placeholder="Enter your abstract here..."></textarea>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
-
-
-                                  </div>
-                                  <div class="tab-pane fade" id="pills-Documents" role="tabpanel" aria-labelledby="pills-Documents-tab">
+                                </div>
+                                <div class="tab-pane fade" id="pills-Documents" role="tabpanel" aria-labelledby="pills-Documents-tab">
                                     <div class="media">
                                         <div class="table-responsive">
                                             <table class="table">
@@ -390,11 +419,8 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <!-- Existing table rows -->
                                                     <tr>
-                                                        <td>
-                                                            <input type="file" name="document_file" onchange="uploadDocument(this)">
-                                                        </td>
+                                                        <td><input type="file" name="document_file" onchange="uploadDocument(this)"></td>
                                                         <td id="document-name"></td>
                                                         <td id="upload-date"></td>
                                                     </tr>
@@ -403,144 +429,207 @@
                                         </div>
                                     </div>
                                 </div>
-                                  <div class="tab-pane fade" id="pills-Notes" role="tabpanel" aria-labelledby="pills-Notes-tab">
-                                      <div class="media">
-                                          <div class="table-responsive">
-                                              <table class="table">
-                                                  <thead>
-                                                      <tr>
-                                                          <th>Note</th>
-                                                      </tr>
-                                                  </thead>
-                                                  <tbody>
-                                                      <tr>
-                                                          <td>
-                                                            <form>
-                                                                <input type="text" class="text">
-                                                            </form>
-                                                          </td>
-                                                      </tr>
-                                                  </tbody>
-                                              </table>
-                                          </div>
-                                      </div>
-                                  </div>
-                          </div>
+                                <div class="tab-pane fade" id="pills-Notes" role="tabpanel" aria-labelledby="pills-Notes-tab">
+                                    <div class="media">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Note</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><form><input type="text" class="text"></form></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-					
+                        <!-- End of Tab Navigation -->
+                    </div>
                 </div>
             </div>
         </div>
-        <!-- [ Main Content ] end -->
-
     </div>
-
-<!-- [ Main Content ] end -->
-
+</div>
 {% endblock content %}
-  {% block js %}
+
+{% block js %}
 <!-- Required Js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <script src="{% static 'assets/js/vendor-all.min.js' %}"></script>
 <script src="{% static 'assets/js/plugins/bootstrap.min.js' %}"></script>
 <script src="{% static 'assets/js/ripple.js' %}"></script>
 <script src="{% static 'assets/js/pcoded.min.js' %}"></script>
+<!-- select2 Js -->
 <script src="{% static 'assets/js/plugins/select2.full.min.js' %}"></script>
+<!-- datatables Js -->
+<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
 <script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    // Initialize Select2 and DataTables
-    $(".page-form select").select2();
-    $(".data-table").DataTable({ dom: 'Bfrtip' });
-
-    // Function to load rules based on existing dates
-    function applyDateRules(dateFieldId, ruleFunction) {
-      const dateField = document.getElementById(dateFieldId);
-      if (dateField && dateField.value) {
-        ruleFunction(new Date(dateField.value));  // Apply rules if date is already set
+  // Action rules
+  document.addEventListener("DOMContentLoaded", function () {
+      // Helper functions for setting form values
+      function setInputValue(form, fieldName, value) {
+          const inputField = form.querySelector(`input[name="${fieldName}"]`);
+          if (inputField) {
+              inputField.value = value || '';
+          }
       }
-      dateField.addEventListener("change", () => ruleFunction(new Date(dateField.value)));  // Listen for changes
-    }
-
-    // Date-based rules functions
-    function differenceInMonths(date) {
-      const table = document.getElementById("tablebody");
-      const monthOffsets = [1, 2, 3, 12, 16, 24, 54, 30, 18, 19, 22, 28];
-      const dates = monthOffsets.map(offset => {
-        const newDate = new Date(date);
-        newDate.setMonth(newDate.getMonth() + offset);
-        return newDate;
-      });
-
-      const codes = ['FFREM1', 'FFREM2', 'FFREM3', 'FF', 'CER', 'NP', 'PUB', 'DEM', 'WOSA2', 'IPRP'];
-      const descriptions = [
-        'Foreign Filing Due in 1 month',
-        'Foreign Filing Due in 2 months',
-        'Foreign Filing Due in 3 months',
-        'Foreign Filing due',
-        'Certified Copy of Priority document due',
-        'National/Regional Phase Entry due',
-        'Check application has published',
-        'File Demand',
-        'Respond to WOSA',
-        'Check IPRP been issued'
+  
+      function setSelectValue(form, fieldName, value) {
+          const selectField = form.querySelector(`select[name="${fieldName}"]`);
+          if (selectField) {
+              selectField.value = value || '';
+              selectField.dispatchEvent(new Event('change'));
+          }
+      }
+  
+      function populateFormFields(form, data, country) {
+          setInputValue(form, "case_no", data.case_no);
+          setInputValue(form, "internal_title", data.internal_title);
+          setInputValue(form, "formal_title", data.formal_title);
+          setSelectValue(form, "cost_centre_code", data.cost_centre_code);
+          setSelectValue(form, "primary_attorney", data.primary_attorney);
+          setSelectValue(form, "secondary_attorney", data.secondary_attorney);
+          setSelectValue(form, "primary_paralegal", data.primary_paralegal);
+          setSelectValue(form, "secondary_paralegal", data.secondary_paralegal);
+          setSelectValue(form, "licence", data.licenced);
+          setSelectValue(form, "type_of_filing", data.type_of_filing);
+          setSelectValue(form, "family", data.family);
+          setInputValue(form, "country", country);
+      }
+  
+      // Extract URL parameters and parse content JSON
+      const urlParams = new URLSearchParams(window.location.search);
+      const content = urlParams.get("content");
+      if (content) {
+          const jsonString = content.replace(/None/g, 'null').replace(/'/g, '"');
+          try {
+              const data = JSON.parse(jsonString);
+              const form = document.querySelector("form.page-form");
+              if (form) {
+                  populateFormFields(form, data);
+              }
+          } catch (error) {
+              console.error("Error parsing JSON:", error);
+          }
+      }
+  
+      // Function to populate due dates in the action table without replacing content
+      function populateDueDates(baseDate, actions, tableId) {
+          const table = document.getElementById(tableId);
+          actions.forEach(action => {
+              const dueDate = new Date(baseDate);
+              dueDate.setMonth(dueDate.getMonth() + action.offset);
+              const row = document.createElement("tr");
+              row.innerHTML = `
+                  <td>${action.code}</td>
+                  <td>${action.description}</td>
+                  <td>${dueDate.toLocaleDateString('en-GB')}</td>
+                  <td><input type="date"></td>
+                  <td><input type="date"></td>
+                  <td><input type="text"></td>
+                  <td><input type="text"></td>
+              `;
+              table.appendChild(row);
+          });
+      }
+  
+      // Define action groups
+      const universalActions = [
+          { code: 'FFREM3', description: 'Foreign Filing Due in 3 months', offset: 9 },
+          { code: 'FFREM2', description: 'Foreign Filing Due in 2 months', offset: 10 },
+          { code: 'FFREM1', description: 'Foreign Filing Due in 1 month', offset: 11 },
+          { code: 'FF', description: 'Foreign Filing due', offset: 12 }
+      ];
+  
+      const conditionalActions = [
+          { code: 'CER', description: 'Certified Copy of Priority document due', offset: 16 },
+          { code: 'NP', description: 'National/Regional Phase Entry due (30/31 months)', offset: 30 },
+          { code: 'PUB', description: 'Check application has published', offset: 18 },
+          { code: 'ISR', description: 'Check ISR issued', offset: 4, base: 'pct' },
+          { code: 'WOSA1', description: 'Respond to WOSA', offset: 3, base: 'pct' },
+          { code: 'DEM', description: 'File Demand', offset: 19 },
+          { code: 'WOSA2', description: 'Respond to WOSA (later)', offset: 22 },
+          { code: 'IPRP', description: 'Check IPRP been issued', offset: 28 }
       ];
 
-      table.innerHTML = "";  // Clear existing rows
-      dates.forEach((dueDate, index) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${codes[index]}</td>
-          <td>${descriptions[index]}</td>
-          <td>${dueDate.toLocaleDateString()}</td>
-          <td><input type="date"></td>
-          <td><input type="date"></td>
-          <td><input type="text"></td>
-          <td><input type="text"></td>
-        `;
-        table.appendChild(row);
-      });
-    }
-
-    function pctTableRules(date) {
-      const table = document.getElementById("tablebody");
-      const dueDate = new Date(date);
-      dueDate.setMonth(dueDate.getMonth() + 28);
-
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>ISR</td>
-        <td>Check ISR issued</td>
-        <td>${dueDate.toLocaleDateString()}</td>
-        <td><input type="date"></td>
-        <td><input type="date"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-      `;
-      table.appendChild(row);
-    }
-
-    // Apply rules on load and on date change for specific fields
-    applyDateRules("id_priority_provisional_date", differenceInMonths);
-    applyDateRules("id_PCT_application_Date", pctTableRules);
-  });
-
-  // Helper function to get CSRF token
-  function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== "") {
-      const cookies = document.cookie.split(";");
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        if (cookie.substring(0, name.length + 1) === (name + "=")) {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
-        }
+      // Request for Exam rules for specific countries
+      const examRules = {
+          "AU": { code: "REQ", description: "Request Exam - Calculated 5 years from PCT/International Filing date", offset: 60 },
+          "BR": { code: "REQ", description: "Request Exam - Calculated 36 months from International Filing date", offset: 36 },
+          "CA": { code: "REQ", description: "Request Exam - Calculated 5 years from International Filing date", offset: 60 },
+          "CL": { code: "REQ", description: "Request Exam - Calculated 60 days from expiration of the time limit for opposition", offset: 2 },
+          "CN": { code: "REQ", description: "Request Exam - Calculated 3 years from priority date", offset: 36 },
+          "IN": { code: "REQ", description: "Request Exam - Calculated 48 months from earliest priority date", offset: 48 },
+          "JP": { code: "REQ", description: "Request Exam - Calculated 3 years from International Filing date", offset: 36 },
+          "KR": { code: "REQ", description: "Request Exam - Calculated 5 years from International Filing date", offset: 60 },
+          "MY": { code: "REQ", description: "Request Exam - Calculated 4 years from international filing date", offset: 48 },
+          "NZ": { code: "REQ", description: "Request Exam - Calculated 5 years from international filing date", offset: 60 },
+          "PE": { code: "REQ", description: "Request Exam on filing or within 6 months from publication", offset: 6 },
+          "PH": { code: "REQ", description: "Automatic but fee needs to be paid within 6 months from national phase entry date", offset: 6 },
+          "RU": { code: "REQ", description: "Request Exam - Calculated 3 years from international filing date", offset: 36 },
+          "SG": { code: "REQ", description: "Request Exam - Calculated 36 months and 54 months from earliest priority", offset: 36 },
+          "ZA": { code: "NA", description: "No Exam Required", offset: 0 }
+      };
+  
+      // Apply rules based on conditions
+      function applyActionRules() {
+          const countrySelect = document.getElementById("id_country");
+          const priorityProvisionalDateInput = document.getElementById("id_priority_provisional_date");
+          const pctApplicationDateInput = document.getElementById("id_PCT_application_Date");
+          const caseTypeInput = document.getElementById("id_case_type");
+  
+          const tableBody = document.getElementById("tablebody");
+          tableBody.innerHTML = ""; // Clear existing rows before applying rules
+  
+          if (priorityProvisionalDateInput && priorityProvisionalDateInput.value) {
+              const baseDate = new Date(priorityProvisionalDateInput.value);
+              let actionsToDisplay = [...universalActions];
+  
+              // Check if "Patent Application" is selected, add conditional actions
+              if (caseTypeInput && caseTypeInput.value === "Patent Application") {
+                  actionsToDisplay.push(...conditionalActions.filter(action => !action.base || action.base === 'priority'));
+              }
+  
+              // Add country-specific examination actions based on the priority date
+              const country = countrySelect ? countrySelect.value : null;
+              if (country && examRules[country]) {
+                  const examAction = examRules[country];
+                  actionsToDisplay.push(examAction);
+              }
+  
+              // Populate actions based on the priority provisional date
+              populateDueDates(baseDate, actionsToDisplay, "tablebody");
+  
+              // Populate PCT-based actions if PCT application date is set
+              if (pctApplicationDateInput && pctApplicationDateInput.value && caseTypeInput && caseTypeInput.value === "Patent Application") {
+                  const pctBaseDate = new Date(pctApplicationDateInput.value);
+                  const pctActions = conditionalActions.filter(action => action.base === 'pct');
+                  populateDueDates(pctBaseDate, pctActions, "tablebody"); // Append without clearing existing rows
+              }
+          }
       }
-    }
-    return cookieValue;
-  }
+  
+      // Event listeners to trigger rule application on relevant changes
+      document.getElementById("id_country").addEventListener("change", applyActionRules);
+      document.getElementById("id_priority_provisional_date").addEventListener("change", applyActionRules);
+      document.getElementById("id_PCT_application_Date").addEventListener("change", applyActionRules);
+      document.getElementById("id_case_type").addEventListener("change", applyActionRules);
+  
+      // Initial call to apply rules on page load
+      applyActionRules();
+  });
 </script>
 
 <script>
@@ -610,8 +699,14 @@
     `;
   }
 
+  // Add event listeners to both title fields to trigger updates on input
+  document.getElementById("id_internal_title").addEventListener("input", extractAndPopulateTitles);
+  document.getElementById("id_formal_title").addEventListener("input", extractAndPopulateTitles);
+
+  // Ensure the titles are populated when the tab is clicked
   document.getElementById("pills-Title-tab").addEventListener("click", extractAndPopulateTitles);
 </script>
+
 
 <script>
   // Method to update inventor fields
@@ -648,5 +743,6 @@
       });
   }
 </script>
+
 
 {% endblock js %}
