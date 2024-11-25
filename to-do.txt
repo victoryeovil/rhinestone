@@ -38,4 +38,4 @@ Add Customer special Instruction field in other provide and or applicant-- done
 make the tabs get selected items from the above form.
 
 Get countries from Dileen.
-
+python man

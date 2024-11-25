@@ -481,6 +481,11 @@ class PatentForm(forms.ModelForm):
             # Specify input_formats to allow parsing in dd/mm/yyyy format
             self.fields[field_name].input_formats = [date_format]
 
+        for field_name, field in self.fields.items():
+            if isinstance(field.widget, forms.DateInput):
+                field.widget.attrs['type'] = 'date'  # Use HTML5 date input
+                field.input_formats = ['%d/%m/%Y']
+
         # Initialize Crispy Form Helper
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
@@ -551,7 +556,10 @@ class PatentForm(forms.ModelForm):
         # Apply custom styles to each field
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control form-control-sm'
-            field.widget.attrs['style'] = 'font-size: 13px; height: auto; padding: 2px 3px; margin-bottom: 2px;'
+            field.widget.attrs['style'] = (
+                'font-size: 13px; height: 38px; padding: 5px 10px; margin-bottom: 1px;'
+            )
+
 
 
 

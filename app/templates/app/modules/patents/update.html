@@ -47,200 +47,141 @@
                         <div class="col-12 mb-4">
                             <form action="/app/modules/patents/edit/{{ item.id }}" method="post" class="page-form">
                                 {% csrf_token %}
-                                <div class="form-row">
-                                    <div class="col-12 mb-4 text-center">
-                                        
+                                <!-- Top Buttons -->
+                                <div class="form-row" style="margin-bottom: 10px; text-align: right;">
+                                    <div class="col-12">
                                         <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-left"></i></button>
                                         <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-right"></i></button>
                                         <button class="btn btn-sm btn-outline-primary"><i class="feather icon-printer"></i></button>
                                         <button type="reset" class="btn btn-sm btn-outline-primary"><i class="feather icon-delete"></i>&nbsp;Delete</button>
                                         <button type="submit" class="btn btn-sm btn-outline-primary"><i class="feather icon-save"></i>&nbsp;Save</button>
                                     </div>
-                                    <div id="id_add_new" class="col-12 mb-4 text-center"></div>
                                 </div>
-                            
-                                <!-- Top Fields in Rows as per Design -->
-                                <div class="form-row">
-                                    <div class="col-md-3">
-                                        {{ form.case_no|as_crispy_field }}
-                                    </div>
-                                    <div class="col-md-3">
-                                        {{ form.country|as_crispy_field }}
-                                    </div>
-                                    <div class="col-md-3">
-                                        {{ form.internal_title|as_crispy_field }}
-                                    </div>
-                                    <div class="col-md-3">
-                                        {{ form.formal_title|as_crispy_field }}
-                                    </div>
+    
+                                <!-- Top Fields -->
+                                <div class="form-row" style="margin-bottom: 1px;">
+                                    <div class="col-md-3">{{ form.case_no|as_crispy_field }}</div>
+                                    <div class="col-md-3">{{ form.country|as_crispy_field }}</div>
+                                    <div class="col-md-3">{{ form.internal_title|as_crispy_field }}</div>
+                                    <div class="col-md-3">{{ form.formal_title|as_crispy_field }}</div>
                                 </div>
-                            
-                                <div class="form-row mt-3">
-                                    <div class="col-md-3">
-                                        {{ form.status|as_crispy_field }}
-                                    </div>
-                                    <div class="col-md-3">
-                                        {{ form.sub_status|as_crispy_field }}
-                                    </div>
-                                    <div class="col-md-3">
-                                        {{ form.filing_type|as_crispy_field }}
-                                    </div>
-                                    <div class="col-md-3">
-                                        {{ form.sub_filing_type|as_crispy_field }}
-                                    </div>
+                                <div class="form-row" style="margin-bottom: 8px;">
+                                    <div class="col-md-3">{{ form.status|as_crispy_field }}</div>
+                                    <div class="col-md-3">{{ form.sub_status|as_crispy_field }}</div>
+                                    <div class="col-md-3">{{ form.filing_type|as_crispy_field }}</div>
+                                    <div class="col-md-3">{{ form.sub_filing_type|as_crispy_field }}</div>
                                 </div>
-                            
-                                <div class="form-row mt-3">
-                                    <div class="col-md-3">
-                                        {{ form.primary_attorney|as_crispy_field }}
-                                    </div>
-                                    <div class="col-md-3">
-                                        {{ form.case_type|as_crispy_field }}
-                                    </div>
-                                    <div class="col-md-3">
-                                        {{ form.licence|as_crispy_field }}
-                                    </div>
-                                    <div class="col-md-3">
-                                        {{ form.taxs_paid_by|as_crispy_field }}
-                                    </div>
+                                <div class="form-row" style="margin-bottom: 8px;">
+                                    <div class="col-md-3">{{ form.primary_attorney|as_crispy_field }}</div>
+                                    <div class="col-md-3">{{ form.case_type|as_crispy_field }}</div>
+                                    <div class="col-md-3">{{ form.licence|as_crispy_field }}</div>
+                                    <div class="col-md-3">{{ form.taxs_paid_by|as_crispy_field }}</div>
                                 </div>
-                            
-                                <div class="form-row mt-3">
-                                    <div class="col-md-6">
-                                        {{ form.priority_provisional_application_no|as_crispy_field }}
-                                    </div>
-                                    <div class="col-md-6">
-                                        {{ form.priority_provisional_date|as_crispy_field }}
-                                    </div>
+                                <div class="form-row" style="margin-bottom: 8px;">
+                                    <div class="col-md-6">{{ form.priority_provisional_application_no|as_crispy_field }}</div>
+                                    <div class="col-md-6">{{ form.priority_provisional_date|as_crispy_field }}</div>
                                 </div>
-                            
-                                <!-- Expandable Sections Buttons in One Row -->
-                                <div class="form-row mt-4">
-                                    <div class="col-md-6 text-center">
-                                        <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="collapse" data-target="#contactsSection">
-                                            Names +
-                                        </button>
-                                    </div>
-                                    <div class="col-md-6 text-center">
-                                        <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="collapse" data-target="#officialNoSection">
-                                            Official No +
-                                        </button>
-                                    </div>
-                                </div>
-                            
-                                <!-- Expandable Contacts Section -->
-                                <div id="contactsSection" class="collapse mt-3">
+    
+                                <!-- Hidden Fields for Dynamic Tabs -->
+                                <div id="names-section" style="display: none;">
                                     <div class="form-row">
-                                        <div class="col-md-4">
-                                            {{ form.associate|as_crispy_field }}
-                                        </div>
-                                        <div class="col-md-4">
-                                            {{ form.associate_ref|as_crispy_field }}
-                                        </div>
-                                        <div class="col-md-4">
-                                            {{ form.associate_2|as_crispy_field }}
-                                        </div>
+                                        <div class="col-md-4">{{ form.associate|as_crispy_field }}</div>
+                                        <div class="col-md-4">{{ form.associate_ref|as_crispy_field }}</div>
+                                        <div class="col-md-4">{{ form.associate_2|as_crispy_field }}</div>
                                     </div>
-                                    <div class="form-row mt-3">
-                                        <div class="col-md-4">
-                                            {{ form.associate_ref_2|as_crispy_field }}
-                                        </div>
-                                        <div class="col-md-4">
-                                            {{ form.secondary_attorney|as_crispy_field }}
-                                        </div>
-                                        <div class="col-md-4">
-                                            {{ form.primary_paralegal|as_crispy_field }}
-                                        </div>
-                                    </div>
-                                    <div class="form-row mt-3">
-                                        <div class="col-md-4">
-                                            {{ form.secondary_paralegal|as_crispy_field }}
-                                        </div>
-                                        <div class="col-md-4">
-                                            {{ form.cost_centre|as_crispy_field }}
-                                        </div>
-                                        <div class="col-md-4">
-                                            {{ form.cost_centre_code|as_crispy_field }}
-                                        </div>
-                                    </div>
-                                </div>
-                            
-                                <!-- Expandable Official No Section -->
-                                <div id="officialNoSection" class="collapse mt-3">
                                     <div class="form-row">
-                                        <div class="col-md-3">
-                                            {{ form.PCT_application_no|as_crispy_field }}
-                                        </div>
-                                        <div class="col-md-3">
-                                            {{ form.PCT_application_Date|as_crispy_field }}
-                                        </div>
-                                        <div class="col-md-3">
-                                            {{ form.application_no|as_crispy_field }}
-                                        </div>
-                                        <div class="col-md-3">
-                                            {{ form.application_date|as_crispy_field }}
-                                        </div>
+                                        <div class="col-md-4">{{ form.secondary_attorney|as_crispy_field }}</div>
+                                        <div class="col-md-4">{{ form.primary_paralegal|as_crispy_field }}</div>
+                                        <div class="col-md-4">{{ form.secondary_paralegal|as_crispy_field }}</div>
                                     </div>
-                                    <div class="form-row mt-3">
-                                        <div class="col-md-3">
-                                            {{ form.publication_no|as_crispy_field }}
-                                        </div>
-                                        <div class="col-md-3">
-                                            {{ form.publication_date|as_crispy_field }}
-                                        </div>
-                                        <div class="col-md-3">
-                                            {{ form.grant_number|as_crispy_field }}
-                                        </div>
-                                        <div class="col-md-3">
-                                            {{ form.grant_date|as_crispy_field }}
-                                        </div>
+                                    <div class="form-row">
+                                        <div class="col-md-4">{{ form.cost_centre|as_crispy_field }}</div>
+                                        <div class="col-md-4">{{ form.cost_centre_code|as_crispy_field }}</div>
                                     </div>
                                 </div>
-                            
-                                <!-- Submit Button -->
-                                <!-- <div class="form-row mt-4">
-                                    <div class="col text-center">
-                                        <button type="submit" class="btn btn-primary btn-sm">Save</button>
+    
+                                <div id="official-numbers-section" style="display: none;">
+                                    <div class="form-row">
+                                        <div class="col-md-3">{{ form.PCT_application_no|as_crispy_field }}</div>
+                                        <div class="col-md-3">{{ form.PCT_application_Date|as_crispy_field }}</div>
+                                        <div class="col-md-3">{{ form.application_no|as_crispy_field }}</div>
+                                        <div class="col-md-3">{{ form.application_date|as_crispy_field }}</div>
                                     </div>
-                                </div> -->
+                                    <div class="form-row">
+                                        <div class="col-md-3">{{ form.publication_no|as_crispy_field }}</div>
+                                        <div class="col-md-3">{{ form.publication_date|as_crispy_field }}</div>
+                                        <div class="col-md-3">{{ form.grant_number|as_crispy_field }}</div>
+                                        <div class="col-md-3">{{ form.grant_date|as_crispy_field }}</div>
+                                    </div>
+                                </div>
                             </form>
-                            
                         </div>
                         
                         <!-- Tab Navigation -->
                         <div class="col-12 mb-4">
-                            <ul class="nav nav-tabs mb-3" id="family-tabs" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="pills-Actions-tab" data-bs-toggle="pill" href="#pills-Actions" role="tab" aria-controls="pills-Actions" aria-selected="true"><b>Actions</b></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-applicant-tab" data-bs-toggle="pill" href="#pills-applicant" role="tab" aria-controls="pills-applicant" aria-selected="false"><b>Applicant(s)</b></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-Inventors-tab" data-bs-toggle="pill" href="#pills-Inventors" role="tab" aria-controls="pills-Inventors" aria-selected="false"><b>Inventor(s)</b></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-Title-tab" data-bs-toggle="pill" href="#pills-Title" role="tab" aria-controls="pills-Title" aria-selected="false"><b>Title</b></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-Invoices-tab" data-bs-toggle="pill" href="#pills-Invoices" role="tab" aria-controls="pills-Invoices" aria-selected="false"><b>Invoices</b></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-Annuities-tab" data-bs-toggle="pill" href="#pills-Annuities" role="tab" aria-controls="pills-Annuities" aria-selected="false"><b>Annuities</b></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-Related-tab" data-bs-toggle="pill" href="#pills-Related" role="tab" aria-controls="pills-Related" aria-selected="false"><b>Related Case Links</b></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-Abstract-tab" data-bs-toggle="pill" href="#pills-Abstract" role="tab" aria-controls="pills-Abstract" aria-selected="false"><b>Abstract & Figures Files</b></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-Documents-tab" data-bs-toggle="pill" href="#pills-Documents" role="tab" aria-controls="pills-Documents" aria-selected="false"><b>Documents</b></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-Notes-tab" data-bs-toggle="pill" href="#pills-Notes" role="tab" aria-controls="pills-Notes" aria-selected="false"><b>Notes</b></a>
-                                </li>
-                            </ul>
+                            
+                            <div class="tile" style="border: 1px solid #ddd; border-radius: 5px; padding: 10px; background-color: #f9f9f9; color: #333;">
+                                <ul class="nav" id="family-tabs" role="tablist" style="padding: 0; margin: 0; list-style-type: none;">
+                                    <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
+                                        <a class="nav-link active" id="pills-Actions-tab" data-bs-toggle="pill" href="#pills-Actions" role="tab" aria-controls="pills-Actions" aria-selected="true" style="text-decoration: none; color: #333;">
+                                            <b>Actions</b>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
+                                        <a class="nav-link" id="pills-applicant-tab" data-bs-toggle="pill" href="#pills-applicant" role="tab" aria-controls="pills-applicant" aria-selected="false" style="text-decoration: none; color: #333;">
+                                            <b>Applicant(s)</b>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
+                                        <a class="nav-link" id="pills-Inventors-tab" data-bs-toggle="pill" href="#pills-Inventors" role="tab" aria-controls="pills-Inventors" aria-selected="false" style="text-decoration: none; color: #333;">
+                                            <b>Inventor(s)</b>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
+                                        <a class="nav-link" id="pills-Title-tab" data-bs-toggle="pill" href="#pills-Title" role="tab" aria-controls="pills-Title" aria-selected="false" style="text-decoration: none; color: #333;">
+                                            <b>Title</b>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
+                                        <a class="nav-link" id="pills-Invoices-tab" data-bs-toggle="pill" href="#pills-Invoices" role="tab" aria-controls="pills-Invoices" aria-selected="false" style="text-decoration: none; color: #333;">
+                                            <b>Invoices</b>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
+                                        <a class="nav-link" id="pills-Annuities-tab" data-bs-toggle="pill" href="#pills-Annuities" role="tab" aria-controls="pills-Annuities" aria-selected="false" style="text-decoration: none; color: #333;">
+                                            <b>Annuities</b>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
+                                        <a class="nav-link" id="pills-Related-tab" data-bs-toggle="pill" href="#pills-Related" role="tab" aria-controls="pills-Related" aria-selected="false" style="text-decoration: none; color: #333;">
+                                            <b>Related Case Links</b>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
+                                        <a class="nav-link" id="pills-Abstract-tab" data-bs-toggle="pill" href="#pills-Abstract" role="tab" aria-controls="pills-Abstract" aria-selected="false" style="text-decoration: none; color: #333;">
+                                            <b>Abstract & Figures Files</b>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
+                                        <a class="nav-link" id="pills-Documents-tab" data-bs-toggle="pill" href="#pills-Documents" role="tab" aria-controls="pills-Documents" aria-selected="false" style="text-decoration: none; color: #333;">
+                                            <b>Documents</b>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
+                                        <a class="nav-link" id="pills-names-tab" onclick="displayNamesSection()" role="tab" style="text-decoration: none; color: #333;">
+                                            <b>Names</b>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
+                                        <a class="nav-link" id="pills-officialnumbers-tab" onclick="displayOfficialNumbersSection()" role="tab" style="text-decoration: none; color: #333;">
+                                            <b>Official Numbers</b>
+                                        </a>
+                                    </li>
+                                                                      
+                                </ul>
+                            </div>
+                        
+                            
                             <!-- Tab Content -->
                             <div class="tab-content" id="family-tabs-content">
                                 <div class="tab-pane fade show active" id="pills-Actions" role="tabpanel" aria-labelledby="pills-Actions-tab">
@@ -249,13 +190,13 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Action Code</th>
-                                                        <th>Action Spellout</th>
-                                                        <th>Due Date</th>
-                                                        <th>Taken Date</th>
-                                                        <th>Completed Date</th>
-                                                        <th>Responsible Person</th>
-                                                        <th>Notes</th>
+                                                        <th style="text-transform: none;">Action Code</th>
+                                                        <th style="text-transform: none;">Action Spellout</th>
+                                                        <th style="text-transform: none;">Due Date</th>
+                                                        <th style="text-transform: none;">Taken Date</th>
+                                                        <th style="text-transform: none;">Completed Date</th>
+                                                        <th style="text-transform: none;">Responsible Person</th>
+                                                        <th style="text-transform: none;">Notes</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tablebody"></tbody>
@@ -287,11 +228,11 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Inventor ID</th>
-                                                        <th>Surname</th>
-                                                        <th>Given Name(s)</th>
-                                                        <th>Nationality</th>
-                                                        <th>Employment Status</th>
+                                                        <th style="text-transform: none;">Inventor ID</th>
+                                                        <th style="text-transform: none;">Surname</th>
+                                                        <th style="text-transform: none;">Given Name(s)</th>
+                                                        <th style="text-transform: none;">Nationality</th>
+                                                        <th style="text-transform: none;">Employment Status</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -447,6 +388,12 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="tab-pane fade" id="names-section-content" role="tabpanel" aria-labelledby="pills-names-tab">
+                                    <!-- Fields for Names will appear here dynamically -->
+                                </div>
+                                <div class="tab-pane fade" id="official-numbers-section-content" role="tabpanel" aria-labelledby="pills-officialnumbers-tab">
+                                    <!-- Fields for Official Numbers will appear here dynamically -->
+                                </div>
                             </div>
                         </div>
                         <!-- End of Tab Navigation -->
@@ -476,161 +423,174 @@
 <script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
 
 <script>
-  // Action rules
-  document.addEventListener("DOMContentLoaded", function () {
-      // Helper functions for setting form values
-      function setInputValue(form, fieldName, value) {
-          const inputField = form.querySelector(`input[name="${fieldName}"]`);
-          if (inputField) {
-              inputField.value = value || '';
-          }
-      }
-  
-      function setSelectValue(form, fieldName, value) {
-          const selectField = form.querySelector(`select[name="${fieldName}"]`);
-          if (selectField) {
-              selectField.value = value || '';
-              selectField.dispatchEvent(new Event('change'));
-          }
-      }
-  
-      function populateFormFields(form, data, country) {
-          setInputValue(form, "case_no", data.case_no);
-          setInputValue(form, "internal_title", data.internal_title);
-          setInputValue(form, "formal_title", data.formal_title);
-          setSelectValue(form, "cost_centre_code", data.cost_centre_code);
-          setSelectValue(form, "primary_attorney", data.primary_attorney);
-          setSelectValue(form, "secondary_attorney", data.secondary_attorney);
-          setSelectValue(form, "primary_paralegal", data.primary_paralegal);
-          setSelectValue(form, "secondary_paralegal", data.secondary_paralegal);
-          setSelectValue(form, "licence", data.licenced);
-          setSelectValue(form, "type_of_filing", data.type_of_filing);
-          setSelectValue(form, "family", data.family);
-          setInputValue(form, "country", country);
-      }
-  
-      // Extract URL parameters and parse content JSON
-      const urlParams = new URLSearchParams(window.location.search);
-      const content = urlParams.get("content");
-      if (content) {
-          const jsonString = content.replace(/None/g, 'null').replace(/'/g, '"');
-          try {
-              const data = JSON.parse(jsonString);
-              const form = document.querySelector("form.page-form");
-              if (form) {
-                  populateFormFields(form, data);
-              }
-          } catch (error) {
-              console.error("Error parsing JSON:", error);
-          }
-      }
-  
-      // Function to populate due dates in the action table without replacing content
-      function populateDueDates(baseDate, actions, tableId) {
-          const table = document.getElementById(tableId);
-          actions.forEach(action => {
-              const dueDate = new Date(baseDate);
-              dueDate.setMonth(dueDate.getMonth() + action.offset);
-              const row = document.createElement("tr");
-              row.innerHTML = `
-                  <td>${action.code}</td>
-                  <td>${action.description}</td>
-                  <td>${dueDate.toLocaleDateString('en-GB')}</td>
-                  <td><input type="date"></td>
-                  <td><input type="date"></td>
-                  <td><input type="text"></td>
-                  <td><input type="text"></td>
-              `;
-              table.appendChild(row);
-          });
-      }
-  
-      // Define action groups
-      const universalActions = [
-          { code: 'FFREM3', description: 'Foreign Filing Due in 3 months', offset: 9 },
-          { code: 'FFREM2', description: 'Foreign Filing Due in 2 months', offset: 10 },
-          { code: 'FFREM1', description: 'Foreign Filing Due in 1 month', offset: 11 },
-          { code: 'FF', description: 'Foreign Filing due', offset: 12 }
-      ];
-  
-      const conditionalActions = [
-          { code: 'CER', description: 'Certified Copy of Priority document due', offset: 16 },
-          { code: 'NP', description: 'National/Regional Phase Entry due (30/31 months)', offset: 30 },
-          { code: 'PUB', description: 'Check application has published', offset: 18 },
-          { code: 'ISR', description: 'Check ISR issued', offset: 4, base: 'pct' },
-          { code: 'WOSA1', description: 'Respond to WOSA', offset: 3, base: 'pct' },
-          { code: 'DEM', description: 'File Demand', offset: 19 },
-          { code: 'WOSA2', description: 'Respond to WOSA (later)', offset: 22 },
-          { code: 'IPRP', description: 'Check IPRP been issued', offset: 28 }
-      ];
+    document.addEventListener("DOMContentLoaded", function () {
+        // Helper functions for setting form values
+        function setInputValue(form, fieldName, value) {
+            const inputField = form.querySelector(`input[name="${fieldName}"]`);
+            if (inputField) {
+                inputField.value = value || '';
+            }
+        }
 
-      // Request for Exam rules for specific countries
-      const examRules = {
-          "AU": { code: "REQ", description: "Request Exam - Calculated 5 years from PCT/International Filing date", offset: 60 },
-          "BR": { code: "REQ", description: "Request Exam - Calculated 36 months from International Filing date", offset: 36 },
-          "CA": { code: "REQ", description: "Request Exam - Calculated 5 years from International Filing date", offset: 60 },
-          "CL": { code: "REQ", description: "Request Exam - Calculated 60 days from expiration of the time limit for opposition", offset: 2 },
-          "CN": { code: "REQ", description: "Request Exam - Calculated 3 years from priority date", offset: 36 },
-          "IN": { code: "REQ", description: "Request Exam - Calculated 48 months from earliest priority date", offset: 48 },
-          "JP": { code: "REQ", description: "Request Exam - Calculated 3 years from International Filing date", offset: 36 },
-          "KR": { code: "REQ", description: "Request Exam - Calculated 5 years from International Filing date", offset: 60 },
-          "MY": { code: "REQ", description: "Request Exam - Calculated 4 years from international filing date", offset: 48 },
-          "NZ": { code: "REQ", description: "Request Exam - Calculated 5 years from international filing date", offset: 60 },
-          "PE": { code: "REQ", description: "Request Exam on filing or within 6 months from publication", offset: 6 },
-          "PH": { code: "REQ", description: "Automatic but fee needs to be paid within 6 months from national phase entry date", offset: 6 },
-          "RU": { code: "REQ", description: "Request Exam - Calculated 3 years from international filing date", offset: 36 },
-          "SG": { code: "REQ", description: "Request Exam - Calculated 36 months and 54 months from earliest priority", offset: 36 },
-          "ZA": { code: "NA", description: "No Exam Required", offset: 0 }
-      };
-  
-      // Apply rules based on conditions
-      function applyActionRules() {
-          const countrySelect = document.getElementById("id_country");
-          const priorityProvisionalDateInput = document.getElementById("id_priority_provisional_date");
-          const pctApplicationDateInput = document.getElementById("id_PCT_application_Date");
-          const caseTypeInput = document.getElementById("id_case_type");
-  
-          const tableBody = document.getElementById("tablebody");
-          tableBody.innerHTML = ""; // Clear existing rows before applying rules
-  
-          if (priorityProvisionalDateInput && priorityProvisionalDateInput.value) {
-              const baseDate = new Date(priorityProvisionalDateInput.value);
-              let actionsToDisplay = [...universalActions];
-  
-              // Check if "Patent Application" is selected, add conditional actions
-              if (caseTypeInput && caseTypeInput.value === "Patent Application") {
-                  actionsToDisplay.push(...conditionalActions.filter(action => !action.base || action.base === 'priority'));
-              }
-  
-              // Add country-specific examination actions based on the priority date
-              const country = countrySelect ? countrySelect.value : null;
-              if (country && examRules[country]) {
-                  const examAction = examRules[country];
-                  actionsToDisplay.push(examAction);
-              }
-  
-              // Populate actions based on the priority provisional date
-              populateDueDates(baseDate, actionsToDisplay, "tablebody");
-  
-              // Populate PCT-based actions if PCT application date is set
-              if (pctApplicationDateInput && pctApplicationDateInput.value && caseTypeInput && caseTypeInput.value === "Patent Application") {
-                  const pctBaseDate = new Date(pctApplicationDateInput.value);
-                  const pctActions = conditionalActions.filter(action => action.base === 'pct');
-                  populateDueDates(pctBaseDate, pctActions, "tablebody"); // Append without clearing existing rows
-              }
-          }
-      }
-  
-      // Event listeners to trigger rule application on relevant changes
-      document.getElementById("id_country").addEventListener("change", applyActionRules);
-      document.getElementById("id_priority_provisional_date").addEventListener("change", applyActionRules);
-      document.getElementById("id_PCT_application_Date").addEventListener("change", applyActionRules);
-      document.getElementById("id_case_type").addEventListener("change", applyActionRules);
-  
-      // Initial call to apply rules on page load
-      applyActionRules();
-  });
+        function setSelectValue(form, fieldName, value) {
+            const selectField = form.querySelector(`select[name="${fieldName}"]`);
+            if (selectField) {
+                selectField.value = value || '';
+                selectField.dispatchEvent(new Event('change'));
+            }
+        }
+
+        function populateFormFields(form, data, country) {
+            setInputValue(form, "case_no", data.case_no);
+            setInputValue(form, "internal_title", data.internal_title);
+            setInputValue(form, "formal_title", data.formal_title);
+            setSelectValue(form, "cost_centre_code", data.cost_centre_code);
+            setSelectValue(form, "primary_attorney", data.primary_attorney);
+            setSelectValue(form, "secondary_attorney", data.secondary_attorney);
+            setSelectValue(form, "primary_paralegal", data.primary_paralegal);
+            setSelectValue(form, "secondary_paralegal", data.secondary_paralegal);
+            setSelectValue(form, "licence", data.licenced);
+            setSelectValue(form, "type_of_filing", data.type_of_filing);
+            setSelectValue(form, "family", data.family);
+            setInputValue(form, "country", country);
+        }
+
+        // Function to populate due dates in the action table
+        function populateDueDates(baseDate, actions, tableId) {
+            const table = document.getElementById(tableId);
+            actions.forEach(action => {
+                const dueDate = new Date(baseDate);
+                dueDate.setMonth(dueDate.getMonth() + action.offset);
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${action.code}</td>
+                    <td>${action.description}</td>
+                    <td>${dueDate.toLocaleDateString('en-GB')}</td>
+                    <td><input type="date" ></td>
+                    <td><input type="date" class="close-date" data-code="${action.code}"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                `;
+                table.appendChild(row);
+            });
+
+            // Add close date functionality
+            handleCloseDates();
+        }
+
+        // Handle close dates: Removes a row 2 seconds after a close date is provided
+        function handleCloseDates() {
+            const closeDateInputs = document.querySelectorAll(".close-date");
+            closeDateInputs.forEach(input => {
+                input.addEventListener("change", function () {
+                    // Check if a close date has been entered
+                    if (input.value) {
+                        const row = input.closest("tr");
+                        // Delay removal of row by 2 seconds after close date is entered
+                        setTimeout(() => {
+                            row.remove(); // Remove the row from the table
+                        }, 2000); // 2-second delay
+                    }
+                });
+            });
+        }
+
+        // Define action groups
+        const universalActions = [
+            { code: 'FFREM3', description: 'Foreign Filing Due in 3 months', offset: 9 },
+            { code: 'FFREM2', description: 'Foreign Filing Due in 2 months', offset: 10 },
+            { code: 'FFREM1', description: 'Foreign Filing Due in 1 month', offset: 11 },
+            { code: 'FF', description: 'Foreign Filing due', offset: 12 }
+        ];
+
+        const gbActions = [
+            { code: "AF1A", description: "Pay Application Fee", offset: 12 },
+            { code: "F7", description: "File Form 7 - Inventor Details", offset: 16 },
+            { code: "F9", description: "File Form 9 – Search and Fee", offset: 12 },
+            { code: "F10", description: "File Form 10 – Sub. Exam and Fee", offset: 24 },
+            { code: "ACC", description: "Acceptance", offset: 54 }
+        ];
+
+        const nationalPhaseActions = [
+            { code: "NPREM3", description: "National Phase Filing Reminder (3 months)", offset: 27 },
+            { code: "NPREM2", description: "National Phase Filing Reminder (2 months)", offset: 28 },
+            { code: "NPREM1", description: "National Phase Filing Reminder (1 month)", offset: 29 },
+            { code: "NP30", description: "National/Regional Phase Entry (30 months)", offset: 30 },
+            { code: "NP31", description: "National/Regional Phase Entry (31 months)", offset: 31 }
+        ];
+
+        const conditionalActions = [
+            { code: 'CER', description: 'Certified Copy of Priority document due', offset: 16 },
+            { code: 'NP', description: 'National/Regional Phase Entry due (30/31 months)', offset: 30 },
+            { code: 'PUB', description: 'Check application has published', offset: 18 },
+            { code: 'ISR', description: 'Check ISR issued', offset: 4, base: 'pct' },
+            { code: 'WOSA1', description: 'Respond to WOSA', offset: 3, base: 'pct' },
+            { code: 'DEM', description: 'File Demand', offset: 19 },
+            { code: 'WOSA2', description: 'Respond to WOSA (later)', offset: 22 },
+            { code: 'IPRP', description: 'Check IPRP been issued', offset: 28 }
+        ];
+
+        const examRules = {
+            "AU": { code: "REQ", description: "Request Exam - Calculated 5 years from PCT/International Filing date", offset: 60 },
+            "BR": { code: "REQ", description: "Request Exam - Calculated 36 months from International Filing date", offset: 36 },
+            "CA": { code: "REQ", description: "Request Exam - Calculated 5 years from International Filing date", offset: 60 },
+            "CL": { code: "REQ", description: "Request Exam - Calculated 60 days from expiration of the time limit for opposition", offset: 2 },
+            "CN": { code: "REQ", description: "Request Exam - Calculated 3 years from priority date", offset: 36 },
+            "IN": { code: "REQ", description: "Request Exam - Calculated 48 months from earliest priority date", offset: 48 },
+            "JP": { code: "REQ", description: "Request Exam - Calculated 3 years from International Filing date", offset: 36 },
+            "KR": { code: "REQ", description: "Request Exam - Calculated 5 years from International Filing date", offset: 60 },
+            "MY": { code: "REQ", description: "Request Exam - Calculated 4 years from international filing date", offset: 48 },
+            "NZ": { code: "REQ", description: "Request Exam - Calculated 5 years from international filing date", offset: 60 },
+            "PE": { code: "REQ", description: "Request Exam on filing or within 6 months from publication", offset: 6 },
+            "PH": { code: "REQ", description: "Automatic but fee needs to be paid within 6 months from national phase entry date", offset: 6 },
+            "RU": { code: "REQ", description: "Request Exam - Calculated 3 years from international filing date", offset: 36 },
+            "SG": { code: "REQ", description: "Request Exam - Calculated 36 months and 54 months from earliest priority", offset: 36 },
+            "ZA": { code: "NA", description: "No Exam Required", offset: 0 }
+        };
+
+        // Apply rules based on conditions
+        function applyActionRules() {
+            const countrySelect = document.getElementById("id_country");
+            const priorityProvisionalDateInput = document.getElementById("id_priority_provisional_date");
+            const pctApplicationDateInput = document.getElementById("id_PCT_application_Date");
+            const caseTypeInput = document.getElementById("id_case_type");
+
+            const tableBody = document.getElementById("tablebody");
+            tableBody.innerHTML = ""; // Clear existing rows before applying rules
+
+            let actionsToDisplay = [];
+
+            // Rules calculated from provisional date
+            if (priorityProvisionalDateInput && priorityProvisionalDateInput.value && countrySelect && countrySelect.value) {
+                const baseDate = new Date(priorityProvisionalDateInput.value);
+                actionsToDisplay = [...universalActions];
+                if (countrySelect.value === "GB") {
+                    actionsToDisplay.push(...gbActions);
+                }
+                populateDueDates(baseDate, actionsToDisplay, "tablebody");
+            }
+
+            // Rules calculated from PCT date
+            if (pctApplicationDateInput && pctApplicationDateInput.value && caseTypeInput && caseTypeInput.value === "Patent Application") {
+                const pctBaseDate = new Date(pctApplicationDateInput.value);
+                populateDueDates(pctBaseDate, [...nationalPhaseActions, ...conditionalActions], "tablebody");
+                if (countrySelect && examRules[countrySelect.value]) {
+                    populateDueDates(pctBaseDate, [examRules[countrySelect.value]], "tablebody");
+                }
+            }
+        }
+
+        // Event listeners to trigger rule application on relevant changes
+        document.getElementById("id_country").addEventListener("change", applyActionRules);
+        document.getElementById("id_priority_provisional_date").addEventListener("change", applyActionRules);
+        document.getElementById("id_PCT_application_Date").addEventListener("change", applyActionRules);
+        document.getElementById("id_case_type").addEventListener("change", applyActionRules);
+
+        // Initial call to apply rules on page load
+        applyActionRules();
+    });
 </script>
+
 
 <script>
   // Populate tables based on tab click events
@@ -743,6 +703,59 @@
       });
   }
 </script>
+<script>
+    // Function to toggle sections expanding and compressing
+    function toggleSection(sectionId, toggleElement) {
+            const section = document.getElementById(sectionId);
+            const icon = toggleElement.querySelector('span');
 
+            if (section.classList.contains('show')) {
+                section.classList.remove('show');
+                icon.innerText = '+';
+            } else {
+                section.classList.add('show');
+                icon.innerText = '-';
+            }
+        }
+
+        // JS to ensure the checkboxes are properly aligned into columns
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkboxes = document.querySelectorAll('.status-checkbox input[type="checkbox"]');
+            const container = document.querySelector('.status-checkbox');
+
+            if (container && checkboxes.length) {
+                const columns = 5; // Number of columns
+                const rows = Math.ceil(checkboxes.length / columns);
+                container.style.gridTemplateRows = `repeat(${rows}, auto)`;
+            }
+        });
+  </script>
+  <script>
+    // JS Functions
+    function displayNamesSection() {
+        const namesSection = document.getElementById("names-section");
+        const namesContent = document.getElementById("names-section-content");
+        namesContent.innerHTML = ""; // Clear content
+        while (namesSection.firstChild) {
+            namesContent.appendChild(namesSection.firstChild);
+        }
+        namesContent.classList.add("show", "active");
+        document.getElementById("official-numbers-section-content").classList.remove("show", "active");
+    }
+
+    function displayOfficialNumbersSection() {
+        console.log("I have been clicked");
+        const officialNumbersSection = document.getElementById("official-numbers-section");
+        const officialNumbersContent = document.getElementById("official-numbers-section-content");
+        officialNumbersContent.innerHTML = ""; // Clear content
+        while (officialNumbersSection.firstChild) {
+            officialNumbersContent.appendChild(officialNumbersSection.firstChild);
+        }
+        officialNumbersContent.classList.add("show", "active");
+        console.log("I am showing the table now")
+        document.getElementById("names-section-content").classList.remove("show", "active");
+    }
+</script>
+  
 
 {% endblock js %}

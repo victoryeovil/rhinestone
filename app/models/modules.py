@@ -184,7 +184,7 @@ class Patent(ModuleBaseModel):
     priority_provisional_application_no = models.CharField(
         max_length=128, blank=True, null=True, verbose_name="Priority/Provisional Application No")
     priority_provisional_date = models.DateField(
-        max_length=128, blank=True, null=True, verbose_name="Provisional Date")
+        max_length=128, blank=True, null=True, verbose_name="Priority/Provisional Date")
     next_annuity_due = models.CharField(max_length=128, blank=True, null=True, verbose_name="Next Annuity Due")
     PCT_application_no = models.CharField(
         max_length=128, blank=True, null=True, verbose_name="PCT Application No")

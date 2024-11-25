@@ -120,21 +120,17 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-gb'
 
-TIME_ZONE = 'Africa/Harare'
+TIME_ZONE = 'Europe/London'
 
 USE_I18N = True
 
 USE_TZ = True
 
-# Set default date format for display
-DATE_FORMAT = 'd/m/Y'  # Example: 25/12/2023
-SHORT_DATE_FORMAT = 'd/m/Y'
+# Date and time input/output formats
+DATE_INPUT_FORMATS = ['%d/%m/%Y']  # Input format for dates (forms)
+DATETIME_INPUT_FORMATS = ['%d/%m/%Y %H:%M:%S']  # Input format for date-times
+USE_L10N = False  # Disable locale-based formatting
 
-# Set date input formats for form fields
-DATE_INPUT_FORMATS = [
-    '%d/%m/%Y',  # Example: 25/12/2023
-    '%d-%m-%Y',  # Example: 25-12-2023
-]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
