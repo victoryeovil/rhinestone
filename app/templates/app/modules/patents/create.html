@@ -121,78 +121,220 @@
                         <!-- Tab Navigation -->
                         <div class="col-12 mb-4">
                             
-                                <div class="tile" style="border: 1px solid #ddd; border-radius: 5px; padding: 10px; background-color: #f9f9f9; color: #333;">
-                                    <ul class="nav" id="family-tabs" role="tablist" style="padding: 0; margin: 0; list-style-type: none;">
-                                        <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                            <a class="nav-link active" id="pills-Actions-tab" data-bs-toggle="pill" href="#pills-Actions" role="tab" aria-controls="pills-Actions" aria-selected="true" style="text-decoration: none; color: #333;">
-                                                <b>Actions</b>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                            <a class="nav-link" id="pills-applicant-tab" data-bs-toggle="pill" href="#pills-applicant" role="tab" aria-controls="pills-applicant" aria-selected="false" style="text-decoration: none; color: #333;">
-                                                <b>Applicant(s)</b>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                            <a class="nav-link" id="pills-Inventors-tab" data-bs-toggle="pill" href="#pills-Inventors" role="tab" aria-controls="pills-Inventors" aria-selected="false" style="text-decoration: none; color: #333;">
-                                                <b>Inventor(s)</b>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                            <a class="nav-link" id="pills-Title-tab" data-bs-toggle="pill" href="#pills-Title" role="tab" aria-controls="pills-Title" aria-selected="false" style="text-decoration: none; color: #333;">
-                                                <b>Title</b>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                            <a class="nav-link" id="pills-Invoices-tab" data-bs-toggle="pill" href="#pills-Invoices" role="tab" aria-controls="pills-Invoices" aria-selected="false" style="text-decoration: none; color: #333;">
-                                                <b>Invoices</b>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                            <a class="nav-link" id="pills-Annuities-tab" data-bs-toggle="pill" href="#pills-Annuities" role="tab" aria-controls="pills-Annuities" aria-selected="false" style="text-decoration: none; color: #333;">
-                                                <b>Annuities</b>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                            <a class="nav-link" id="pills-Related-tab" data-bs-toggle="pill" href="#pills-Related" role="tab" aria-controls="pills-Related" aria-selected="false" style="text-decoration: none; color: #333;">
-                                                <b>Related Case Links</b>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                            <a class="nav-link" id="pills-Abstract-tab" data-bs-toggle="pill" href="#pills-Abstract" role="tab" aria-controls="pills-Abstract" aria-selected="false" style="text-decoration: none; color: #333;">
-                                                <b>Abstract & Figures Files</b>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                            <a class="nav-link" id="pills-Documents-tab" data-bs-toggle="pill" href="#pills-Documents" role="tab" aria-controls="pills-Documents" aria-selected="false" style="text-decoration: none; color: #333;">
-                                                <b>Documents</b>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                            <a class="nav-link" id="pills-names-tab" onclick="displayNamesSection()" role="tab" style="text-decoration: none; color: #333;">
-                                                <b>Names</b>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                            <a class="nav-link" id="pills-officialnumbers-tab" onclick="displayOfficialNumbersSection()" role="tab" style="text-decoration: none; color: #333;">
-                                                <b>Official Numbers</b>
-                                            </a>
-                                        </li>
-                                                                          
-                                    </ul>
-                                </div>
-                            
+                            <div class="tile" style="
+                            border: 1px solid #ddd; 
+                            border-radius: 10px; 
+                            padding: 1px; 
+                            background-color: #f9f9f9; 
+                            color: #333; 
+                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+                            margin-top: 1px;">
+                            <ul class="nav nav-tabs" id="family-tabs" role="tablist" style="
+                                display: flex; 
+                                justify-content: space-between; 
+                                padding: 0; 
+                                margin: 0; 
+                                height: 30px; /* Uniform height for all tabs */
+                            ">
+                                <!-- Actions Tab -->
+                                <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    border-right: 0.2px solid #aeaeae; 
+                                    height: 100%; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link active" id="pills-Actions-tab" data-bs-toggle="pill" href="#pills-Actions" role="tab" aria-controls="pills-Actions" aria-selected="true" style="
+                                        text-decoration: none; 
+                                        color: #333; 
+                                        font-size: 12px;">
+                                        <b>Actions</b>
+                                    </a>
+                                </li>
+                    
+                                <!-- Applicant(s) Tab -->
+                                <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    border-right: 0.2px solid #aeaeae; 
+                                    height: 100%; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link" id="pills-applicant-tab" data-bs-toggle="pill" href="#pills-applicant" role="tab" aria-controls="pills-applicant" aria-selected="false" style="
+                                        text-decoration: none; 
+                                        color: #333; 
+                                        font-size: 12px;">
+                                        <b>Applicant(s)</b>
+                                    </a>
+                                </li>
+                    
+                                <!-- Inventor(s) Tab -->
+                                <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    border-right: 0.2px solid #aeaeae; 
+                                    height: 100%; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link" id="pills-Inventors-tab" data-bs-toggle="pill" href="#pills-Inventors" role="tab" aria-controls="pills-Inventors" aria-selected="false" style="
+                                        text-decoration: none; 
+                                        color: #333; 
+                                        font-size: 12px;">
+                                        <b>Inventor(s)</b>
+                                    </a>
+                                </li>
+                    
+                                <!-- Title Tab -->
+                                <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    border-right: 0.2px solid #aeaeae; 
+                                    height: 100%; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link" id="pills-Title-tab" data-bs-toggle="pill" href="#pills-Title" role="tab" aria-controls="pills-Title" aria-selected="false" style="
+                                        text-decoration: none; 
+                                        color: #333; 
+                                        font-size: 12px;">
+                                        <b>Title</b>
+                                    </a>
+                                </li>
+                    
+                                <!-- Invoices Tab -->
+                                <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    border-right: 0.2px solid #aeaeae; 
+                                    height: 100%; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link" id="pills-Invoices-tab" data-bs-toggle="pill" href="#pills-Invoices" role="tab" aria-controls="pills-Invoices" aria-selected="false" style="
+                                        text-decoration: none; 
+                                        color: #333; 
+                                        font-size: 12px;">
+                                        <b>Invoices</b>
+                                    </a>
+                                </li>
+                    
+                                <!-- Annuities Tab -->
+                                <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    border-right: 0.2px solid #aeaeae; 
+                                    height: 100%; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link" id="pills-Annuities-tab" data-bs-toggle="pill" href="#pills-Annuities" role="tab" aria-controls="pills-Annuities" aria-selected="false" style="
+                                        text-decoration: none; 
+                                        color: #333; 
+                                        font-size: 12px;">
+                                        <b>Annuities</b>
+                                    </a>
+                                </li>
+                    
+                                <!-- Related Case Links Tab -->
+                                <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    border-right: 0.2px solid #aeaeae; 
+                                    height: 100%; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link" id="pills-Related-tab" data-bs-toggle="pill" href="#pills-Related" role="tab" aria-controls="pills-Related" aria-selected="false" style="
+                                        text-decoration: none; 
+                                        color: #333; 
+                                        font-size: 12px;">
+                                        <b>Related Case Links</b>
+                                    </a>
+                                </li>
+                    
+                                <!-- Abstract & Figures Files Tab -->
+                                <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    border-right: 0.2px solid #aeaeae; 
+                                    height: 100%; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link" id="pills-Abstract-tab" data-bs-toggle="pill" href="#pills-Abstract" role="tab" aria-controls="pills-Abstract" aria-selected="false" style="
+                                        text-decoration: none; 
+                                        color: #333; 
+                                        font-size: 12px;">
+                                        <b>Abstract & Figures Files</b>
+                                    </a>
+                                </li>
+                    
+                                <!-- Documents Tab -->
+                                <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    border-right: 0.2px solid #aeaeae; 
+                                    height: 100%; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link" id="pills-Documents-tab" data-bs-toggle="pill" href="#pills-Documents" role="tab" aria-controls="pills-Documents" aria-selected="false" style="
+                                        text-decoration: none; 
+                                        color: #333; 
+                                        font-size: 12px;">
+                                        <b>Documents</b>
+                                    </a>
+                                </li>
+                    
+                                <!-- Names Tab -->
+                                <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    border-right: 0.2px solid #aeaeae; 
+                                    height: 100%; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link" id="pills-names-tab" onclick="displayNamesSection()" role="tab" style="
+                                        text-decoration: none; 
+                                        color: #333; 
+                                        font-size: 12px;">
+                                        <b>Names</b>
+                                    </a>
+                                </li>
+                    
+                                <!-- Official Numbers Tab -->
+                                <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    height: 100%; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link" id="pills-officialnumbers-tab" onclick="displayOfficialNumbersSection()" role="tab" style="
+                                        text-decoration: none; 
+                                        color: #333; 
+                                        font-size: 12px;">
+                                        <b>Official Numbers</b>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+       
+   <br>                     
                                                     
-                        
-                            
                             <!-- Tab Content -->
                             <div class="tab-content" id="family-tabs-content">
                                 <div class="tab-pane fade show active" id="pills-Actions" role="tabpanel" aria-labelledby="pills-Actions-tab">
                                     <div class="media">
                                         <div class="table-responsive">
                                             <table class="table">
-                                                <thead>
-                                                    <tr>
+                                                <thead style="height: 30px;">
+                                                    <tr style="height: 30px;">
                                                         <th style="text-transform: none;">Action Code</th>
                                                         <th style="text-transform: none;">Action Spellout</th>
                                                         <th style="text-transform: none;">Due Date</th>
@@ -201,7 +343,6 @@
                                                         <th style="text-transform: none;">Responsible Person</th>
                                                         <th style="text-transform: none;">Notes</th>
                                                     </tr>
-                                                </thead>
                                                 <tbody id="tablebody"></tbody>
                                             </table>
                                         </div>
@@ -214,11 +355,11 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Applicant ID</th>
-                                                        <th>Surname</th>
-                                                        <th>Given Name(s)</th>
-                                                        <th>Nationality</th>
-                                                        <th>Employment Status</th>
+                                                        <th style="text-transform: none;">Applicant ID</th>
+                                                        <th style="text-transform: none;">Surname</th>
+                                                        <th style="text-transform: none;">Given Name(s)</th>
+                                                        <th style="text-transform: none;">Nationality</th>
+                                                        <th style="text-transform: none;">Employment Status</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="selected-applicant-details"></tbody>
@@ -258,8 +399,8 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Formal Title</th>
-                                                        <th>Internal Title</th>
+                                                        <th style="text-transform: none;">Formal Title</th>
+                                                        <th style="text-transform: none;">Internal Title</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="title-table"></tbody>
@@ -273,11 +414,11 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Invoice No</th>
-                                                        <th>Items</th>
-                                                        <th>Customer Name</th>
-                                                        <th>Address</th>
-                                                        <th>Payment Status</th>
+                                                        <th style="text-transform: none;">Invoice No</th>
+                                                        <th style="text-transform: none;">Items</th>
+                                                        <th style="text-transform: none;">Customer Name</th>
+                                                        <th style="text-transform: none;">Address</th>
+                                                        <th style="text-transform: none;">Payment Status</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -299,11 +440,11 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Country</th>
-                                                        <th>Annuity Year</th>
-                                                        <th>Due Date</th>
-                                                        <th>Payment Status</th>
-                                                        <th>Receipt Received</th>
+                                                        <th style="text-transform: none;">Country</th>
+                                                        <th style="text-transform: none;">Annuity Year</th>
+                                                        <th style="text-transform: none;">Due Date</th>
+                                                        <th style="text-transform: none;">Payment Status</th>
+                                                        <th style="text-transform: none;">Receipt Received</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="annuity-table-body"></tbody>
@@ -317,11 +458,11 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Reference Number</th>
-                                                        <th>Country</th>
-                                                        <th>Application Number</th>
-                                                        <th>Application Date</th>
-                                                        <th>Inventors</th>
+                                                        <th style="text-transform: none;">Reference Number</th>
+                                                        <th style="text-transform: none;">Country</th>
+                                                        <th style="text-transform: none;">Application Number</th>
+                                                        <th style="text-transform: none;">Application Date</th>
+                                                        <th style="text-transform: none;">Inventors</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="related_case"></tbody>
@@ -335,7 +476,7 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Abstract</th>
+                                                        <th style="text-transform: none;">Abstract</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -358,9 +499,9 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Document</th>
-                                                        <th>Name of Document</th>
-                                                        <th>Upload Date</th>
+                                                        <th style="text-transform: none;">Document</th>
+                                                        <th style="text-transform: none;">Name of Document</th>
+                                                        <th style="text-transform: none;">Upload Date</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -380,7 +521,7 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Note</th>
+                                                        <th style="text-transform: none;">Note</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>

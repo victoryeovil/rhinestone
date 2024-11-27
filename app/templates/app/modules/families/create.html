@@ -51,10 +51,8 @@
                 <form class="page-form family" method="post">
                   {% csrf_token %}
                   <div class="form-row">
-                    <div class="col-12 mb-4 text-center">
-                      <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#customerSpecialInstructionsModal">
-                        Customer Special Instructions
-                      </button>
+                    <div class="col-12 mb-4 text-right">
+                     
                       <button class="btn btn-sm btn-outline-primary"><i class="feather icon-copy"></i></button>
                       <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-left"></i></button>
                       <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-right"></i></button>
@@ -114,41 +112,67 @@
               </div>
 
               <div class="col-12 mb-4">
-                <ul class="nav nav-tabs mb-3" id="family-tabs" role="tablist">
-                  <li class="nav-item">
-                    <a class="nav-link text active" id="pills-Actions-tab" data-toggle="pill" href="#pills-Actions" role="tab" aria-controls="pills-Actions" aria-selected="true"><b> Actions </b></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="pills-applicant-tab" data-toggle="pill" href="#pills-applicant" role="tab" aria-controls="pills-applicant" aria-selected="false"><b> Applicant(s) </b></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="pills-Inventors-tab" data-toggle="pill" href="#pills-Inventors" role="tab" aria-controls="pills-Inventors" aria-selected="false"><b> Inventor(s) </b></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="pills-Title-tab" data-toggle="pill" href="#pills-Title" role="tab" aria-controls="pills-Title" aria-selected="false"><b> Title </b></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="pills-Invoices-tab" data-toggle="pill" href="#pills-Invoices" role="tab" aria-controls="pills-Invoices" aria-selected="false"><b> Invoices </b></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="pills-Annuities-tab" data-toggle="pill" href="#pills-Annuities" role="tab" aria-controls="pills-Annuities" aria-selected="false"><b> Annuities </b></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="pills-Prior-tab" data-toggle="pill" href="#pills-Prior" role="tab" aria-controls="pills-Prior" aria-selected="false"><b> Prior Art </b></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="pills-Related-tab" data-toggle="pill" href="#pills-Related" role="tab" aria-controls="pills-Related" aria-selected="false"><b> Related Case Links </b></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="pills-Abstract-tab" data-toggle="pill" href="#pills-Abstract" role="tab" aria-controls="pills-Abstract" aria-selected="false"><b> Abstract & Figures Field</b></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="pills-Documents-tab" data-toggle="pill" href="#pills-Documents" role="tab" aria-controls="pills-Documents" aria-selected="false"><b> Documents </b></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="pills-Notes-tab" data-toggle="pill" href="#pills-Notes" role="tab" aria-controls="pills-Notes" aria-selected="false"><b>Notes</b></a>
-                  </li>
-                </ul>
+                <div class="tile">
+                  <ul class="nav nav-tabs mb-3" id="family-tabs" role="tablist">
+                      <li class="nav-item">
+                          <a class="nav-link active" id="pills-Actions-tab" data-toggle="pill" href="#pills-Actions" role="tab" aria-controls="pills-Actions" aria-selected="true">
+                              <b>Actions</b>
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" id="pills-applicant-tab" data-toggle="pill" href="#pills-applicant" role="tab" aria-controls="pills-applicant" aria-selected="false">
+                              <b>Applicant(s)</b>
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" id="pills-Inventors-tab" data-toggle="pill" href="#pills-Inventors" role="tab" aria-controls="pills-Inventors" aria-selected="false">
+                              <b>Inventor(s)</b>
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" id="pills-Title-tab" data-toggle="pill" href="#pills-Title" role="tab" aria-controls="pills-Title" aria-selected="false">
+                              <b>Title</b>
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" id="pills-Invoices-tab" data-toggle="pill" href="#pills-Invoices" role="tab" aria-controls="pills-Invoices" aria-selected="false">
+                              <b>Invoices</b>
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" id="pills-Annuities-tab" data-toggle="pill" href="#pills-Annuities" role="tab" aria-controls="pills-Annuities" aria-selected="false">
+                              <b>Annuities</b>
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" id="pills-Prior-tab" data-toggle="pill" href="#pills-Prior" role="tab" aria-controls="pills-Prior" aria-selected="false">
+                              <b>Prior Art</b>
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" id="pills-Related-tab" data-toggle="pill" href="#pills-Related" role="tab" aria-controls="pills-Related" aria-selected="false">
+                              <b>Related Case Links</b>
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" id="pills-Abstract-tab" data-toggle="pill" href="#pills-Abstract" role="tab" aria-controls="pills-Abstract" aria-selected="false">
+                              <b>Abstract & Figures Field</b>
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" id="pills-Documents-tab" data-toggle="pill" href="#pills-Documents" role="tab" aria-controls="pills-Documents" aria-selected="false">
+                              <b>Documents</b>
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" id="pills-Notes-tab" data-toggle="pill" href="#pills-Notes" role="tab" aria-controls="pills-Notes" aria-selected="false">
+                              <b>Notes</b>
+                          </a>
+                      </li>
+                  </ul>
+              </div>
+              <br>
+                
 
                 <div class="tabContent" id="family-tabs-content">
                     <div class="tab-pane fade show active" id="pills-Actions" role="tabpanel" aria-labelledby="pills-Actions-tab">
@@ -157,13 +181,13 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Action Code</th>
-                                            <th>Action Spellout</th>
-                                            <th>Due Date</th>
-                                            <th>Taken Date</th>
-                                            <th>Completed Date</th>
-                                            <th>Responsible Person</th>
-                                            <th>Notes</th>
+                                            <th style="text-transform: none;">Action Code</th>
+                                            <th style="text-transform: none;">Action Spellout</th>
+                                            <th style="text-transform: none;">Due Date</th>
+                                            <th style="text-transform: none;">Taken Date</th>
+                                            <th style="text-transform: none;">Completed Date</th>
+                                            <th style="text-transform: none;">Responsible Person</th>
+                                            <th style="text-transform: none;">Notes</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tablebody">
@@ -180,11 +204,11 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Applicant ID</th>
-                                            <th>Surname</th>
-                                            <th>Given Name(s)</th>
-                                            <th>Nationality</th>
-                                            <th>Employment Status</th>
+                                            <th style="text-transform: none;">Applicant ID</th>
+                                            <th style="text-transform: none;">Surname</th>
+                                            <th style="text-transform: none;">Given Name(s)</th>
+                                            <th style="text-transform: none;">Nationality</th>
+                                            <th style="text-transform: none;">Employment Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -207,11 +231,11 @@
                               <table class="table">
                                   <thead>
                                     <tr>
-                                      <th>Inventor ID</th>
-                                      <th>Surname</th>
-                                      <th>Given Name(s)</th>
-                                      <th>Nationality</th>
-                                      <th>Employment Status</th>
+                                      <th style="text-transform: none;">Inventor ID</th>
+                                      <th style="text-transform: none;">Surname</th>
+                                      <th style="text-transform: none;">Given Name(s)</th>
+                                      <th style="text-transform: none;">Nationality</th>
+                                      <th style="text-transform: none;">Employment Status</th>
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -234,8 +258,8 @@
                                     <thead>
                                         <tr>
 
-                                            <th>Formal Title</th>
-                                            <th>Internal Title</th>
+                                            <th style="text-transform: none;">Formal Title</th>
+                                            <th style="text-transform: none;">Internal Title</th>
 
                                         </tr>
                                     </thead>
@@ -255,11 +279,11 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Invoice No</th>
-                                            <th>Items</th>
-                                            <th>Customer Name</th>
-                                            <th>Address</th>
-                                            <th>Payment Status</th>
+                                            <th style="text-transform: none;">Invoice No</th>
+                                            <th style="text-transform: none;">Items</th>
+                                            <th style="text-transform: none;">Customer Name</th>
+                                            <th style="text-transform: none;">Address</th>
+                                            <th style="text-transform: none;">Payment Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -281,11 +305,11 @@
                           <table class="table">
                             <thead>
                               <tr>
-                                <th>Country</th>
-                                <th>Annuity Year</th>
-{#                                <th>Due Date</th>#}
-{#                                <th>Payment Status</th>#}
-{#                                <th>Receipt Received</th>#}
+                                <th style="text-transform: none;">Country</th>
+                                <th style="text-transform: none;">Annuity Year</th>
+{#                                <th style="text-transform: none;">Due Date</th>#}
+{#                                <th style="text-transform: none;">Payment Status</th>#}
+{#                                <th style="text-transform: none;">Receipt Received</th>#}
 
                               </tr>
                             </thead>
@@ -306,10 +330,10 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
-                                            <th>Owners Name</th>
-                                            <th>Address</th>
-                                            <th>Nationality</th>
+                                            <th style="text-transform: none;">No</th>
+                                            <th style="text-transform: none;">Owners Name</th>
+                                            <th style="text-transform: none;">Address</th>
+                                            <th style="text-transform: none;">Nationality</th>
                                         </tr>
                                     </thead>
                                     <tbody>

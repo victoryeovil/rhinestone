@@ -474,17 +474,16 @@ class PatentForm(forms.ModelForm):
         ]
         
         for field_name in date_fields:
-            # Use DateInput with type="date" to keep the HTML5 date picker
-            self.fields[field_name].widget = forms.DateInput(
-                attrs={'type': 'date'}
-            )
-            # Specify input_formats to allow parsing in dd/mm/yyyy format
-            self.fields[field_name].input_formats = [date_format]
-
-        for field_name, field in self.fields.items():
-            if isinstance(field.widget, forms.DateInput):
-                field.widget.attrs['type'] = 'date'  # Use HTML5 date input
-                field.input_formats = ['%d/%m/%Y']
+            if field_name in self.fields:
+                # Use DateInput with type="date" for the HTML5 date picker
+                self.fields[field_name].widget = forms.DateInput(
+                    attrs={
+                        'type': 'date',
+                        'placeholder': 'dd/mm/yyyy',  # Placeholder for clarity
+                    }
+                )
+                # Specify input_formats to allow parsing in dd/mm/yyyy format
+                self.fields[field_name].input_formats = [date_format]
 
         # Initialize Crispy Form Helper
         self.helper = FormHelper()

@@ -127,8 +127,8 @@ USE_I18N = True
 USE_TZ = True
 
 # Date and time input/output formats
-DATE_INPUT_FORMATS = ['%d/%m/%Y']  # Input format for dates (forms)
-DATETIME_INPUT_FORMATS = ['%d/%m/%Y %H:%M:%S']  # Input format for date-times
+DATE_FORMAT = '%d-%m-%Y'
+DATE_INPUT_FORMATS = ['%d-%m-%Y']
 USE_L10N = False  # Disable locale-based formatting
 
 
