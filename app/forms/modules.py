@@ -493,6 +493,7 @@ class PatentForm(forms.ModelForm):
                 # Column 1
                 Column(
                     Field('case_no'),
+                    
                     Field('internal_title'),
                     Field('formal_title'),
                     Field('case_type'),
@@ -520,6 +521,7 @@ class PatentForm(forms.ModelForm):
                     HTML('<div class="form-group" style="height: 20px;"></div>'), 
                     HTML('<div class="form-group" style="height: 20px;"></div>'), 
                     HTML('<div class="form-group" style="height: 20px;"></div>'), 
+                    Field("official_number"),
                     Field('cost_centre_code'),
                     Field('priority_provisional_date'),
                     HTML('<div class="form-group" style="height: 10px;"></div>'), 

@@ -78,7 +78,9 @@
                                     <div class="col-md-3">{{ form.taxs_paid_by|as_crispy_field }}</div>
                                 </div>
                                 <div class="form-row" style="margin-bottom: 8px;">
-                                    <div class="col-md-6">{{ form.priority_provisional_application_no|as_crispy_field }}</div>
+                                    <div class="col-md-3">{{ form.official_number|as_crispy_field }}</div>
+                                    <div class="col-md-3">{{ form.priority_provisional_application_no|as_crispy_field }}</div>
+                                    
                                     <div class="col-md-6">{{ form.priority_provisional_date|as_crispy_field }}</div>
                                      <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -127,7 +129,7 @@
                         </div>
                         
                         <!-- Tab Navigation -->
-                        <div class="col-12 mb-4">
+                        <div class="col-12 mb-4" style="margin-left: -20px;">
                             
                             <div class="tile" style="
                             border: 1px solid #ddd; 

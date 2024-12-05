@@ -137,6 +137,7 @@ class Patent(ModuleBaseModel):
     family = models.ForeignKey(Family, on_delete=models.SET_NULL, blank=True, null=True,
                                verbose_name="Case Ref/Docket No", related_name="patent_family_set")
     case_no = models.CharField(verbose_name="Case No", max_length=128, blank=True, null=True)
+    official_number = models.CharField(max_length=12, verbose_name="Official Number", blank=True, null=True)
     # country = models.MultipleChoiceField(choices=[('1', 'Option 1'), ('2', 'Option 2'), ('3', 'Option 3')], widget=models.SelectMultiple)
     country = models.CharField(max_length=128, blank=True, null=True, choices=data.countries.PCT_COUNTRIES_OPTIONS,
                                verbose_name="Country")

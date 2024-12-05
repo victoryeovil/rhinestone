@@ -32993,3 +32993,58 @@ new-task label input[type=checkbox] {
     color: #0056b3;
 }
 
+
+.inventor-tile {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 2px;
+}
+
+.nav-tabs {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    margin: 0;
+    height: 40px; 
+    border-bottom: none; 
+}
+
+.nav-item {
+    flex: 1;
+    text-align: center;
+    border-right: 1px solid #aeaeae;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.nav-item:last-child {
+    border-right: none;
+}
+
+.nav-link {
+    width: 100%;
+    padding: 10px 0;
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    background-color: transparent;
+    border: none;
+}
+
+.nav-link.active {
+    background-color: #fff;
+    border-bottom: 2px solid #007bff;
+    color: #007bff;
+}
+
+.nav-link:hover {
+    background-color: #e9ecef;
+    color: #0056b3;
+}
+ 
