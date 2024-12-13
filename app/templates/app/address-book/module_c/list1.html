@@ -1,0 +1,225 @@
+{% extends 'app/address-book/module_c/base.html' %}
+{% block tabContent %}
+<div class="row mb-3">
+    <div class="col-12">
+        <div class="form-row">
+            <div class="col">
+                <input type="text" id="search-name" class="form-control" placeholder="Name">
+            </div>
+            <div class="col">
+                <input type="text" id="search-id" class="form-control" placeholder="ID">
+            </div>
+            <div class="col">
+                <input type="text" id="search-type" class="form-control" placeholder="Type">
+            </div>
+            <div class="col">
+                <button id="search-button" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Message when no search criteria is entered -->
+<div id="search-message" class="text-center mt-3">
+    <p>Please enter a search term for any of the following cases: Patents, Invention Disclosures, Families, Designs, or Trademarks.</p>
+</div>
+
+<!-- Result Tables for Each Model, hidden initially -->
+<div class="row">
+    <div class="col-12">
+
+        <!-- Inventions Table -->
+        <h5 style="display: none;" id="invention-header">Inventions</h5>
+        <div class="table-responsive" style="display: none;" id="invention-table-container">
+            <table class="table table-bordered table-striped mb-0 data-table" id="invention-table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID Reference</th>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in inventions %}
+                    <tr>
+                        <td>{{ item.id_ref_number }}</td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.status }}</td>
+                        <td>
+                            <a href="#!" class="btn btn-icon btn-outline-primary"><i class="feather icon-eye"></i></a>
+                                                                    <a href="#!" class="btn btn-icon btn-outline-success"><i class="feather icon-edit"></i></a>
+                                                                    <a href="#!" class="btn btn-icon btn-outline-danger"><i class="feather icon-trash-2"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Patents Table -->
+        <h5 style="display: none;" id="patent-header">Patents</h5>
+        <div class="table-responsive" style="display: none;" id="patent-table-container">
+            <table class="table table-bordered table-striped mb-0 data-table" id="patent-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Case No</th>
+                        <th>Internal Title</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in patents %}
+                    <tr>
+                        <td>{{ item.case_no }}</td>
+                        <td>{{ item.internal_title }}</td>
+                        <td>{{ item.status }}</td>
+                        <td>
+                            <a href="/app/modules/patents/detail/{{i.id}}/" class="btn btn-primary btn-icon"><i class="fa fa-eye"></i></a>
+                                                <a href="/app/modules/patents/edit/{{i.id}}/" class="btn btn-secondary btn-icon"><i class="fa fa-edit"></i></a>
+                                                <a href="/app/modules/patents/delete/{{i.id}}/" class="btn btn-danger btn-icon"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Families Table -->
+        <h5 style="display: none;" id="family-header">Families</h5>
+        <div class="table-responsive" style="display: none;" id="family-table-container">
+            <table class="table table-bordered table-striped mb-0 data-table" id="family-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Family No</th>
+                        <th>Internal Title</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in families %}
+                    <tr>
+                        <td>{{ item.family_no }}</td>
+                        <td>{{ item.internal_title }}</td>
+                        <td>{{ item.status }}</td>
+                        <td>
+                            <a href="/app/modules/families/detail/{{item.id}}/" class="btn btn-primary btn-icon"><i class="fa fa-eye"></i></a>
+                                                <a href="/app/modules/families/edit/{{item.id}}/" class="btn btn-secondary btn-icon"><i class="fa fa-edit"></i></a>
+                                                <a href="/app/modules/families/delete/{{item.id}}/" class="btn btn-danger btn-icon"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Designs Table -->
+        <h5 style="display: none;" id="design-header">Designs</h5>
+        <div class="table-responsive" style="display: none;" id="design-table-container">
+            <table class="table table-bordered table-striped mb-0 data-table" id="design-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Case No</th>
+                        <th>Internal Title</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in designs %}
+                    <tr>
+                        <td>{{ item.case_no }}</td>
+                        <td>{{ item.internal_title }}</td>
+                        <td>{{ item.status }}</td>
+                        <td>
+                            <a href="/app/modules/designs/detail/{{i.id}}/" class="btn btn-primary btn-icon"><i class="fa fa-eye"></i></a>
+                            <a href="/app/modules/designs/edit/{{i.id}}/" class="btn btn-secondary btn-icon"><i class="fa fa-edit"></i></a>
+                            <a href="/app/modules/designs/delete/{{i.id}}/" class="btn btn-danger btn-icon"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Trademarks Table -->
+        <h5 style="display: none;" id="trademark-header">Trademarks</h5>
+        <div class="table-responsive" style="display: none;" id="trademark-table-container">
+            <table class="table table-bordered table-striped mb-0 data-table" id="trademark-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Case No</th>
+                        <th>Trademark Name</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in trademarks %}
+                    <tr>
+                        <td>{{ item.case_no }}</td>
+                        <td>{{ item.trademark_name }}</td>
+                        <td>{{ item.status }}</td>
+                        <td>
+                            <!-- Actions can be added here if needed -->
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<script>
+document.getElementById('search-button').addEventListener('click', function() {
+    const nameFilter = document.getElementById('search-name').value.toLowerCase();
+    const idFilter = document.getElementById('search-id').value.toLowerCase();
+    const typeFilter = document.getElementById('search-type').value.toLowerCase();
+
+    const hasCriteria = nameFilter || idFilter || typeFilter;
+
+    // Hide all tables and headers initially
+    document.getElementById('search-message').style.display = hasCriteria ? 'none' : 'block';
+    filterTable('invention-table', 'invention-table-container', 'invention-header', nameFilter, idFilter, typeFilter);
+    filterTable('patent-table', 'patent-table-container', 'patent-header', nameFilter, idFilter, typeFilter);
+    filterTable('family-table', 'family-table-container', 'family-header', nameFilter, idFilter, typeFilter);
+    filterTable('design-table', 'design-table-container', 'design-header', nameFilter, idFilter, typeFilter);
+    filterTable('trademark-table', 'trademark-table-container', 'trademark-header', nameFilter, idFilter, typeFilter);
+
+    function filterTable(tableId, containerId, headerId, nameFilter, idFilter, typeFilter) {
+        const table = document.getElementById(tableId);
+        const container = document.getElementById(containerId);
+        const header = document.getElementById(headerId);
+        const rows = table.getElementsByTagName('tr');
+        let hasResults = false;
+
+        // Start from index 1 to skip the header row
+        for (let i = 1; i < rows.length; i++) {
+            const id = rows[i].getElementsByTagName('td')[0].textContent.toLowerCase();
+            const name = rows[i].getElementsByTagName('td')[1].textContent.toLowerCase();
+            const type = rows[i].getElementsByTagName('td')[2] ? rows[i].getElementsByTagName('td')[2].textContent.toLowerCase() : '';
+
+            if (id.includes(idFilter) && name.includes(nameFilter) && type.includes(typeFilter)) {
+                rows[i].style.display = '';
+                hasResults = true;
+            } else {
+                rows[i].style.display = 'none';
+            }
+        }
+
+        // Display or hide the table container and header based on search results
+        if (hasResults) {
+            container.style.display = 'block';
+            header.style.display = 'block';
+        } else {
+            container.style.display = 'none';
+            header.style.display = 'none';
+        }
+    }
+});
+</script>
+{% endblock tabContent %}

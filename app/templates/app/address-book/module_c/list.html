@@ -1,7 +1,41 @@
 {% extends 'app/address-book/module_c/base.html' %}
+{% load crispy_forms_tags %}
+
 {% block tabContent %}
-<div class="row mb-3">
-    <div class="col-12">
+
+<!-- Dropdown to Trigger Modals -->
+<!-- Nav Tabs -->
+<ul class="nav nav-tabs" id="caseTabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="new-case-tab" data-bs-toggle="tab" href="#new-case" role="tab">Create New Case</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="existing-case-tab" data-bs-toggle="tab" href="#existing-case" role="tab">Create from Existing Case</a>
+    </li>
+</ul>
+
+<!-- Tab Content -->
+<div class="tab-content mt-3" id="caseTabsContent">
+    <!-- Create New Case Tab -->
+    <div class="tab-pane fade show active" id="new-case" role="tabpanel">
+        <div class="row mb-3">
+            <div class="col">
+                <select id="case-type-dropdown" class="form-control">
+                    <option value="">Create New Case Type</option>
+                    <option value="invention-modal">Invention Disclosure(s)</option>
+                    <option value="patent-family-modal">Patent Family(ies)</option>
+                    <option value="design-family-modal">Design Family(ies)</option>
+                    <option value="trademark-family-modal">Trademark Family(ies)</option>
+                    <option value="patent-country-modal">Patent Country</option>
+                    <option value="design-country-modal">Design Country</option>
+                    <option value="trademark-country-modal">Trademark Country</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create from Existing Case Tab -->
+    <div class="tab-pane fade" id="existing-case" role="tabpanel">
         <div class="form-row">
             <div class="col">
                 <input type="text" id="search-name" class="form-control" placeholder="Name">
@@ -16,15 +50,642 @@
                 <button id="search-button" class="btn btn-primary">Search</button>
             </div>
         </div>
+        <div id="search-message" class="text-center mt-3">
+            <p>Please enter a search term for any of the following cases: Patents, Invention Disclosures, Families, Designs, or Trademarks.</p>
+        </div>
     </div>
 </div>
 
-<!-- Message when no search criteria is entered -->
-<div id="search-message" class="text-center mt-3">
-    <p>Please enter a search term for any of the following cases: Patents, Invention Disclosures, Families, Designs, or Trademarks.</p>
+<br>
+
+<!-- 1. Invention Disclosure Modal -->
+<div class="modal fade" id="invention-modal" tabindex="-1" aria-labelledby="inventionModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 95%; width: 95%;">
+        <div class="modal-content">
+            <form method="POST" enctype="multipart/form-data" class="page-form" id="invention-form">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title">Invention Disclosure</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Top Fields -->
+                    <div class="form-row mb-1">
+                        <div class="col-4">{{ invention_form.id_ref_number|as_crispy_field }}</div>
+                        <div class="col-4">{{ invention_form.date_file_opened|as_crispy_field }}</div>
+                        <div class="col-4">{{ invention_form.attorney_1|as_crispy_field }}</div>
+                    </div>
+                    <div class="form-row mb-1">
+                        <div class="col-4">{{ invention_form.title|as_crispy_field }}</div>
+                        <div class="col-4">{{ invention_form.date_of_invention|as_crispy_field }}</div>
+                        <div class="col-4">{{ invention_form.attorney_2|as_crispy_field }}</div>
+                    </div>
+                    <div class="form-row mb-1">
+                        <div class="col-4">{{ invention_form.status|as_crispy_field }}</div>
+                        <div class="col-4">{{ invention_form.keyword|as_crispy_field }}</div>
+                        <div class="col-4">{{ invention_form.primary_paralegal|as_crispy_field }}</div>
+                    </div>
+                    <div class="form-row mb-1">
+                        <div class="col-4">{{ invention_form.cost_centre|as_crispy_field }}</div>
+                        <div class="col-4">{{ invention_form.cost_centre_code|as_crispy_field }}</div>
+                        <div class="col-4">{{ invention_form.joint_venture|as_crispy_field }}</div>
+                    </div>
+                    <div class="form-row mb-1">
+                        <div class="col-4">{{ invention_form.agreement|as_crispy_field }}</div>
+                        <div class="col-4">{{ invention_form.joint_venture_with_whom|as_crispy_field }}</div>
+                        <div class="col-4">{{ invention_form.secondary_paralegal|as_crispy_field }}</div>
+                    </div>
+
+                    <!-- Full Width Fields -->
+                    <div class="form-row mb-1">
+                        <div class="col-12">{{ invention_form.invention_description|as_crispy_field }}</div>
+                    </div>
+                    <div class="form-row mb-1">
+                        <div class="col-12">{{ invention_form.general_notes|as_crispy_field }}</div>
+                    </div>
+                    <div class="form-row mb-1">
+                        <div class="col-6">{{ invention_form.proposed_inventors|as_crispy_field }}</div>
+                        
+                    </div>
+                    <div class="form-row mb-1">
+                        <div class="col-6">{{ invention_form.confirmed_inventors|as_crispy_field }}</div>
+                    </div>
+                    <div class="form-row mb-1">
+                        <div class="col-12">{{ invention_form.reasons_of_approval_or_rejection|as_crispy_field }}</div>
+                    </div>
+
+                    <!-- Approved/Rejected Fields at the Bottom -->
+                    <div class="form-row mb-1">
+                        <div class="col-4">{{ invention_form.approved_for_filing|as_crispy_field }}</div>
+                        <div class="col-4">{{ invention_form.approval_or_rejection_date|as_crispy_field }}</div>
+                        <div class="col-4">{{ invention_form.approved_by|as_crispy_field }}</div>
+                    </div>
+                </div>
+
+                <!-- Footer Buttons -->
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-outline-danger">Reset</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
-<!-- Result Tables for Each Model, hidden initially -->
+
+<!-- 2. Patent Family Modal -->
+<div class="modal fade" id="patent-family-modal" tabindex="-1" aria-labelledby="patentFamilyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form method="POST" id="patent-family-form">
+                {% csrf_token %}
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="patentFamilyModalLabel">Patent Family</h5>
+                    <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <!-- Family No Section -->
+                    <div class="row align-items-center mb-3 border-bottom pb-2">
+                        <label class="col-sm-2 col-form-label fw-bold text-end">Family No:</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="{{ patent_family_form.family_no.name }}" class="form-control bg-white" 
+                                   value="{{ patent_family_form.family_no.value }}" readonly />
+                        </div>
+                    </div>
+
+                    <!-- Family Information -->
+                    <h6 class="text-muted fw-bold">Family Information</h6>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">{{ patent_family_form.internal_title.label }}</label>
+                            {{ patent_family_form.internal_title }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">{{ patent_family_form.formal_title.label }}</label>
+                            {{ patent_family_form.formal_title }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">{{ patent_family_form.status.label }}</label>
+                            {{ patent_family_form.status }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">{{ patent_family_form.sub_filing.label }}</label>
+                            {{ patent_family_form.sub_filing }}
+                        </div>
+                    </div>
+
+                    <!-- Filing Details -->
+                    <h6 class="text-muted fw-bold mt-3">Filing Details</h6>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">{{ patent_family_form.type_of_filing.label }}</label>
+                            {{ patent_family_form.type_of_filing }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">{{ patent_family_form.licenced.label }}</label>
+                            {{ patent_family_form.licenced }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">{{ patent_family_form.primary_attorney.label }}</label>
+                            {{ patent_family_form.primary_attorney }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">{{ patent_family_form.secondary_attorney.label }}</label>
+                            {{ patent_family_form.secondary_attorney }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <label class="form-label">{{ patent_family_form.keywords.label }}</label>
+                            {{ patent_family_form.keywords }}
+                        </div>
+                    </div>
+
+                    <!-- Cost Centre -->
+                    <h6 class="text-muted fw-bold mt-3">Cost Centre</h6>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">{{ patent_family_form.cost_centre.label }}</label>
+                            {{ patent_family_form.cost_centre }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">{{ patent_family_form.cost_centre_code.label }}</label>
+                            {{ patent_family_form.cost_centre_code }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">{{ patent_family_form.licensor.label }}</label>
+                            {{ patent_family_form.licensor }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">{{ patent_family_form.applicant.label }}</label>
+                            {{ patent_family_form.applicant }}
+                        </div>
+                    </div>
+
+                    <!-- Paralegal Information -->
+                    <h6 class="text-muted fw-bold mt-3">Paralegal Information</h6>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">{{ patent_family_form.primary_paralegal.label }}</label>
+                            {{ patent_family_form.primary_paralegal }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">{{ patent_family_form.secondary_paralegal.label }}</label>
+                            {{ patent_family_form.secondary_paralegal }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Buttons -->
+                <div class="modal-footer bg-light">
+                    <button type="reset" class="btn btn-outline-danger btn-sm">Reset</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- 3. Design Family Modal -->
+<div class="modal fade" id="design-family-modal" tabindex="-1" aria-labelledby="designFamilyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form method="POST" id="design-family-form">
+                {% csrf_token %}
+                <!-- Header -->
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="designFamilyModalLabel">Design Family</h5>
+                    <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <!-- Case No Section -->
+                    <div class="row align-items-center mb-3 border-bottom pb-2">
+                        <label class="col-sm-2 col-form-label fw-bold text-end">Case No:</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="{{ design_family_form.case_no.name }}" class="form-control bg-white" 
+                                   value="{{ design_family_form.case_no.value }}" readonly />
+                        </div>
+                    </div>
+
+                    <!-- Design Family Information -->
+                    <h6 class="text-muted fw-bold">Design Family Information</h6>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">{{ design_family_form.internal_title.label }}</label>
+                            {{ design_family_form.internal_title }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">{{ design_family_form.type_of_filing.label }}</label>
+                            {{ design_family_form.type_of_filing }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">{{ design_family_form.status.label }}</label>
+                            {{ design_family_form.status }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">{{ design_family_form.sub_status.label }}</label>
+                            {{ design_family_form.sub_status }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">{{ design_family_form.sub_filing.label }}</label>
+                            {{ design_family_form.sub_filing }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">{{ design_family_form.licenced.label }}</label>
+                            {{ design_family_form.licenced }}
+                        </div>
+                    </div>
+
+                    <!-- Cost Centre -->
+                    <h6 class="text-muted fw-bold mt-3">Cost Centre</h6>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">{{ design_family_form.cost_centre.label }}</label>
+                            {{ design_family_form.cost_centre }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">{{ design_family_form.cost_centre_code.label }}</label>
+                            {{ design_family_form.cost_centre_code }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">{{ design_family_form.keywords.label }}</label>
+                            {{ design_family_form.keywords }}
+                        </div>
+                    </div>
+
+                    <!-- Attorney and Paralegal Information -->
+                    <h6 class="text-muted fw-bold mt-3">Attorney & Paralegal Information</h6>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">{{ design_family_form.primary_attorney.label }}</label>
+                            {{ design_family_form.primary_attorney }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">{{ design_family_form.secondary_attorney.label }}</label>
+                            {{ design_family_form.secondary_attorney }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">{{ design_family_form.primary_paralegal.label }}</label>
+                            {{ design_family_form.primary_paralegal }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">{{ design_family_form.secondary_paralegal.label }}</label>
+                            {{ design_family_form.secondary_paralegal }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">{{ design_family_form.licensor.label }}</label>
+                            {{ design_family_form.licensor }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Buttons -->
+                <div class="modal-footer bg-light">
+                    <button type="reset" class="btn btn-outline-danger btn-sm">Reset</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- 4. Trademark Family Modal -->
+<div class="modal fade" id="trademark-family-modal" tabindex="-1" aria-labelledby="trademarkFamilyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 95%; width: 95%;">
+        <div class="modal-content">
+            <form method="POST" class="page-form" id="trademark-family-form">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title">Trademark Family</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Top Fields -->
+                    <div class="form-row mb-1">
+                        <div class="col-3">{{ trademark_family_form.case_no|as_crispy_field }}</div>
+                        <div class="col-3">{{ trademark_family_form.status|as_crispy_field }}</div>
+                        <div class="col-3">{{ trademark_family_form.internal_title|as_crispy_field }}</div>
+                        <div class="col-3">{{ trademark_family_form.type_of_filing|as_crispy_field }}</div>
+                    </div>
+                    <div class="form-row mb-1">
+                        <div class="col-3">{{ trademark_family_form.sub_status|as_crispy_field }}</div>
+                        <div class="col-3">{{ trademark_family_form.sub_filing|as_crispy_field }}</div>
+                        <div class="col-3">{{ trademark_family_form.licenced|as_crispy_field }}</div>
+                        <div class="col-3">{{ trademark_family_form.keywords|as_crispy_field }}</div>
+                        
+                    </div>
+
+                    <!-- Tabs Section -->
+                    <ul class="nav nav-tabs" id="trademarkFamilyTabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="official-numbers-tab" data-bs-toggle="tab" href="#trademark-official-numbers" role="tab">Official Numbers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="names-tab" data-bs-toggle="tab" href="#trademark-names" role="tab">Names</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content mt-3" id="trademarkFamilyTabsContent">
+                        <!-- Official Numbers Tab -->
+                        <div class="tab-pane fade show active" id="trademark-official-numbers" role="tabpanel">
+                            <div class="form-row mb-1">
+                                <div class="col-3">{{ trademark_family_form.cost_centre_code|as_crispy_field }}</div>
+                                <div class="col-3">{{ trademark_family_form.cost_centre|as_crispy_field }}</div>
+                            </div>
+                        </div>
+
+                        <!-- Names Tab -->
+                        <div class="tab-pane fade" id="trademark-names" role="tabpanel">
+                            <div class="form-row mb-1">
+                                <div class="col-3">{{ trademark_family_form.primary_attorney|as_crispy_field }}</div>
+                                <div class="col-3">{{ trademark_family_form.secondary_attorney|as_crispy_field }}</div>
+                                <div class="col-3">{{ trademark_family_form.primary_paralegal|as_crispy_field }}</div>
+                                <div class="col-3">{{ trademark_family_form.secondary_paralegal|as_crispy_field }}</div>
+                            </div>
+                            <div class="form-row mb-1">
+                                <div class="col-3">{{ trademark_family_form.licensor|as_crispy_field }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-outline-danger">Reset</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- 5. Patent Country Modal -->
+<div class="modal fade" id="patent-country-modal" tabindex="-1" aria-labelledby="patentCountryModalLabel" aria-hidden="true">
+    <div class="modal-dialog custom-modal-width" style="max-width: 95%; width: 95%;">
+        <div class="modal-content">
+            <form method="POST" enctype="multipart/form-data" class="page-form" id="main-form">
+                {% csrf_token %}
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title">Patent Country</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Top Fields -->
+                <div class="form-row mb-2">
+                    <div class="col-md-3">{{ patent_country_form.case_no|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ patent_country_form.country|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ patent_country_form.internal_title|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ patent_country_form.formal_title|as_crispy_field }}</div>
+                </div>
+                <div class="form-row mb-2">
+                    <div class="col-md-3">{{ patent_country_form.status|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ patent_country_form.sub_status|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ patent_country_form.filing_type|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ patent_country_form.sub_filing_type|as_crispy_field }}</div>
+                </div>
+                <div class="form-row mb-2">
+                    <div class="col-md-3">{{ patent_country_form.primary_attorney|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ patent_country_form.case_type|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ patent_country_form.licence|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ patent_country_form.taxs_paid_by|as_crispy_field }}</div>
+                </div>
+                <div class="form-row mb-2">
+                    <div class="col-md-3">{{ patent_country_form.official_number|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ patent_country_form.priority_provisional_application_no|as_crispy_field }}</div>
+                    <div class="col-md-6">{{ patent_country_form.priority_provisional_date|as_crispy_field }}</div>
+                </div>
+
+                <!-- Tabs Section -->
+                <ul class="nav nav-tabs" id="patentTabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="official-numbers-tab" data-bs-toggle="tab" href="#official-numbers" role="tab">Official Numbers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="names-tab" data-bs-toggle="tab" href="#names" role="tab">Names</a>
+                    </li>
+                </ul>
+                <div class="tab-content mt-3" id="patentTabsContent">
+                    <!-- Official Numbers Tab -->
+                    <div class="tab-pane fade show active" id="official-numbers" role="tabpanel">
+                        <div class="form-row mb-2">
+                            <div class="col-md-3">{{ patent_country_form.PCT_application_no|as_crispy_field }}</div>
+                            <div class="col-md-3">{{ patent_country_form.PCT_application_Date|as_crispy_field }}</div>
+                            <div class="col-md-3">{{ patent_country_form.application_no|as_crispy_field }}</div>
+                            <div class="col-md-3">{{ patent_country_form.application_date|as_crispy_field }}</div>
+                        </div>
+                        <div class="form-row mb-2">
+                            <div class="col-md-3">{{ patent_country_form.publication_no|as_crispy_field }}</div>
+                            <div class="col-md-3">{{ patent_country_form.publication_date|as_crispy_field }}</div>
+                            <div class="col-md-3">{{ patent_country_form.grant_number|as_crispy_field }}</div>
+                            <div class="col-md-3">{{ patent_country_form.grant_date|as_crispy_field }}</div>
+                        </div>
+                    </div>
+                    <!-- Names Tab -->
+                    <div class="tab-pane fade" id="names" role="tabpanel">
+                        <div class="form-row mb-2">
+                            <div class="col-md-3">{{ patent_country_form.associate|as_crispy_field }}</div>
+                            <div class="col-md-3">{{ patent_country_form.associate_ref|as_crispy_field }}</div>
+                            <div class="col-md-3">{{ patent_country_form.associate_2|as_crispy_field }}</div>
+                            <div class="col-md-3">{{ patent_country_form.secondary_attorney|as_crispy_field }}</div>
+                        </div>
+                        <div class="form-row mb-2">
+                            <div class="col-md-3">{{ patent_country_form.primary_paralegal|as_crispy_field }}</div>
+                            <div class="col-md-3">{{ patent_country_form.secondary_paralegal|as_crispy_field }}</div>
+                            <div class="col-md-3">{{ patent_country_form.cost_centre|as_crispy_field }}</div>
+                            <div class="col-md-3">{{ patent_country_form.cost_centre_code|as_crispy_field }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-outline-danger"><i class="feather icon-delete"></i>&nbsp;Reset</button>
+                    <button type="submit" class="btn btn-primary"><i class="feather icon-save"></i>&nbsp;Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- 6. Design Country Modal -->
+<div class="modal fade" id="design-country-modal" tabindex="-1" aria-labelledby="designCountryModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 95%; width: 95%;"> <!-- Increased Modal Width -->
+        <div class="modal-content">
+            <form method="POST" enctype="multipart/form-data" class="page-form" id="design-form">
+                {% csrf_token %}
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title">Design Country</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Top Fields -->
+                <div class="form-row mb-1">
+                    <div class="col-3" style="padding-left: 5px;">{{ design_country_form.family|as_crispy_field }}</div>
+                    <div class="col-3" style="padding-right: 5px;">{{ design_country_form.country|as_crispy_field }}</div>
+                    <div class="col-3" style="padding-right: 5px;">{{ design_country_form.internal_title|as_crispy_field }}</div>
+                    <div class="col-3" style="padding-right: 5px;">{{ design_country_form.formal_title|as_crispy_field }}</div>
+                </div>
+                <div class="form-row mb-1">
+                    <div class="col-3" style="padding-right: 5px;">{{ design_country_form.status|as_crispy_field }}</div>
+                    <div class="col-3" style="padding-right: 5px;">{{ design_country_form.sub_status|as_crispy_field }}</div>
+                    <div class="col-3" style="padding-right: 5px;">{{ design_country_form.filing_type|as_crispy_field }}</div>
+                    <div class="col-3" style="padding-right: 5px;">{{ design_country_form.sub_filing_type|as_crispy_field }}</div>
+                </div>
+                <div class="form-row mb-1">
+                    <div class="col-3" style="padding-right: 5px;">{{ design_country_form.no_of_views|as_crispy_field }}</div>
+                    <div class="col-3" style="padding-right: 5px;">{{ design_country_form.no_of_drawings|as_crispy_field }}</div>
+                    <div class="col-3" style="padding-right: 5px;">{{ design_country_form.licence|as_crispy_field }}</div>
+                    <div class="col-3" style="padding-right: 5px;">{{ design_country_form.design_file|as_crispy_field }}</div>
+                </div>
+
+                <!-- Tabs Section -->
+                <ul class="nav nav-tabs" id="designTabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="official-tab" data-bs-toggle="tab" href="#official-tab-content" role="tab" aria-controls="official-tab-content">Official Numbers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="names-tab" data-bs-toggle="tab" href="#names-tab-content" role="tab" aria-controls="names-tab-content">Names</a>
+                    </li>
+                </ul>
+                <div class="tab-content mt-3" id="designTabsContent">
+                    <!-- Official Numbers Tab -->
+                    <div class="tab-pane fade show active" id="official-tab-content" role="tabpanel" aria-labelledby="official-tab">
+                        <div class="form-row mb-1">
+                            <div class="col-md-4">{{ design_country_form.design_priority_no|as_crispy_field }}</div>
+                            <div class="col-md-4">{{ design_country_form.design_application_no|as_crispy_field }}</div>
+                            <div class="col-md-4">{{ design_country_form.registration_no|as_crispy_field }}</div>
+                        </div>
+                    </div>
+
+                    <!-- Names Tab -->
+                    <div class="tab-pane fade" id="names-tab-content" role="tabpanel" aria-labelledby="names-tab">
+                        <div class="form-row mb-1">
+                            <div class="col-3">{{ design_country_form.primary_attorney|as_crispy_field }}</div>
+                            <div class="col-3">{{ design_country_form.secondary_attorney|as_crispy_field }}</div>
+                            <div class="col-3">{{ design_country_form.primary_paralegal|as_crispy_field }}</div>
+                            <div class="col-3">{{ design_country_form.secondary_paralegal|as_crispy_field }}</div>
+                        </div>
+                        <div class="form-row mb-1">
+                            <div class="col-3">{{ design_country_form.associate|as_crispy_field }}</div>
+                            <div class="col-3">{{ design_country_form.associate_ref|as_crispy_field }}</div>
+                            <div class="col-3">{{ design_country_form.associate_2|as_crispy_field }}</div>
+                            <div class="col-3">{{ design_country_form.licensor|as_crispy_field }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-outline-danger"><i class="feather icon-delete"></i> Reset</button>
+                    <button type="submit" class="btn btn-primary"><i class="feather icon-save"></i> Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- 7. Trademark Country Modal -->
+<div class="modal fade" id="trademark-country-modal" tabindex="-1" aria-labelledby="trademarkCountryModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 95%; width: 95%;"> <!-- Increased modal width -->
+        <div class="modal-content">
+            <form method="POST" enctype="multipart/form-data" class="page-form" id="trademark-form">
+                {% csrf_token %}
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title">Trademark Country</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Top Fields -->
+                <div class="form-row mb-2">
+                    <div class="col-md-3">{{ trademark_country_form.family|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ trademark_country_form.country|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ trademark_country_form.trademark_name|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ trademark_country_form.type_of_trademark|as_crispy_field }}</div>
+                </div>
+                <div class="form-row mb-2">
+                    <div class="col-md-3">{{ trademark_country_form.trademark_priority_no|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ trademark_country_form.trademark_application_no|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ trademark_country_form.trademark_registration_no|as_crispy_field }}</div>
+                    <div class="col-md-3">{{ trademark_country_form.classes|as_crispy_field }}</div>
+                </div>
+
+                <!-- Tabs Section -->
+                <ul class="nav nav-tabs" id="trademarkTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="dates-tab" data-bs-toggle="tab" data-bs-target="#dates" type="button" role="tab" aria-controls="dates" aria-selected="true">Dates</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="names-tab" data-bs-toggle="tab" data-bs-target="#names" type="button" role="tab" aria-controls="names" aria-selected="false">Names</button>
+                    </li>
+                </ul>
+                <div class="tab-content mt-3" id="trademarkTabsContent">
+                    <!-- Dates Tab -->
+                    <div class="tab-pane fade show active" id="dates" role="tabpanel" aria-labelledby="dates-tab">
+                        <div class="form-row mb-2">
+                            <div class="col-md-3">{{ trademark_country_form.applicaation_date|as_crispy_field }}</div>
+                            <div class="col-md-3">{{ trademark_country_form.registration_date|as_crispy_field }}</div>
+                            <div class="col-md-3">{{ trademark_country_form.next_tax_date|as_crispy_field }}</div>
+                            <div class="col-md-3">{{ trademark_country_form.expiry_date|as_crispy_field }}</div>
+                        </div>
+                    </div>
+
+                    <!-- Names Tab -->
+                    <div class="tab-pane fade" id="names" role="tabpanel" aria-labelledby="names-tab">
+                        <div class="form-row mb-2">
+                            <div class="col-md-3">{{ trademark_country_form.primary_attorney|as_crispy_field }}</div>
+                            <div class="col-md-3">{{ trademark_country_form.secondary_attorney|as_crispy_field }}</div>
+                            <div class="col-md-3">{{ trademark_country_form.primary_paralegal|as_crispy_field }}</div>
+                            <div class="col-md-3">{{ trademark_country_form.secondary_paralegal|as_crispy_field }}</div>
+                        </div>
+                        <div class="form-row mb-2">
+                            <div class="col-md-3">{{ trademark_country_form.associate|as_crispy_field }}</div>
+                            <div class="col-md-3">{{ trademark_country_form.associate_ref|as_crispy_field }}</div>
+                            <div class="col-md-3">{{ trademark_country_form.taxes_paid_by|as_crispy_field }}</div>
+                            <div class="col-md-3">{{ trademark_country_form.type_of_filing|as_crispy_field }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-outline-danger"><i class="feather icon-delete"></i>&nbsp;Reset</button>
+                    <button type="submit" class="btn btn-primary"><i class="feather icon-save"></i>&nbsp;Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
 <div class="row">
     <div class="col-12">
 
@@ -48,8 +709,13 @@
                         <td>{{ item.status }}</td>
                         <td>
                             <a href="#!" class="btn btn-icon btn-outline-primary"><i class="feather icon-eye"></i></a>
-                                                                    <a href="#!" class="btn btn-icon btn-outline-success"><i class="feather icon-edit"></i></a>
-                                                                    <a href="#!" class="btn btn-icon btn-outline-danger"><i class="feather icon-trash-2"></i></a>
+                            
+                            <a href="#!" class="btn btn-icon btn-outline-info copy-record" 
+                               data-id="{{ item.id_ref_number }}"
+                               data-title="{{ item.title }}"
+                               data-status="{{ item.status }}">
+                               <i class="fa fa-copy"></i>
+                            </a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -76,9 +742,14 @@
                         <td>{{ item.internal_title }}</td>
                         <td>{{ item.status }}</td>
                         <td>
-                            <a href="/app/modules/patents/detail/{{i.id}}/" class="btn btn-primary btn-icon"><i class="fa fa-eye"></i></a>
-                                                <a href="/app/modules/patents/edit/{{i.id}}/" class="btn btn-secondary btn-icon"><i class="fa fa-edit"></i></a>
-                                                <a href="/app/modules/patents/delete/{{i.id}}/" class="btn btn-danger btn-icon"><i class="fa fa-trash"></i></a>
+                            <a href="#" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                           
+                            <a href="#!" class="btn btn-icon btn-outline-info copy-record" 
+                               data-id="{{ item.case_no }}"
+                               data-title="{{ item.internal_title }}"
+                               data-status="{{ item.status }}">
+                               <i class="fa fa-copy"></i>
+                            </a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -105,9 +776,13 @@
                         <td>{{ item.internal_title }}</td>
                         <td>{{ item.status }}</td>
                         <td>
-                            <a href="/app/modules/families/detail/{{item.id}}/" class="btn btn-primary btn-icon"><i class="fa fa-eye"></i></a>
-                                                <a href="/app/modules/families/edit/{{item.id}}/" class="btn btn-secondary btn-icon"><i class="fa fa-edit"></i></a>
-                                                <a href="/app/modules/families/delete/{{item.id}}/" class="btn btn-danger btn-icon"><i class="fa fa-trash"></i></a>
+                            <a href="#" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                            <a href="#!" class="btn btn-icon btn-outline-info copy-record" 
+                               data-id="{{ item.family_no }}"
+                               data-title="{{ item.internal_title }}"
+                               data-status="{{ item.status }}">
+                               <i class="fa fa-copy"></i>
+                            </a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -134,9 +809,14 @@
                         <td>{{ item.internal_title }}</td>
                         <td>{{ item.status }}</td>
                         <td>
-                            <a href="/app/modules/designs/detail/{{i.id}}/" class="btn btn-primary btn-icon"><i class="fa fa-eye"></i></a>
-                            <a href="/app/modules/designs/edit/{{i.id}}/" class="btn btn-secondary btn-icon"><i class="fa fa-edit"></i></a>
-                            <a href="/app/modules/designs/delete/{{i.id}}/" class="btn btn-danger btn-icon"><i class="fa fa-trash"></i></a>
+                            <a href="#" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                            
+                            <a href="#!" class="btn btn-icon btn-outline-info copy-record" 
+                               data-id="{{ item.case_no }}"
+                               data-title="{{ item.internal_title }}"
+                               data-status="{{ item.status }}">
+                               <i class="fa fa-copy"></i>
+                            </a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -163,7 +843,12 @@
                         <td>{{ item.trademark_name }}</td>
                         <td>{{ item.status }}</td>
                         <td>
-                            <!-- Actions can be added here if needed -->
+                            <a href="#" class="btn btn-icon btn-outline-info copy-record" 
+                               data-id="{{ item.case_no }}"
+                               data-title="{{ item.trademark_name }}"
+                               data-status="{{ item.status }}">
+                               <i class="fa fa-copy"></i>
+                            </a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -174,52 +859,260 @@
     </div>
 </div>
 
+<!-- Copy Record Modal -->
+<div class="modal fade" id="copy-record-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Copy Record</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Select where you want to copy this record:</p>
+                <select id="copy-destination" class="form-select">
+                    <option value="invention-modal">Invention Disclosure</option>
+                    <option value="patent-family-modal">Patent Family</option>
+                    <option value="design-family-modal">Design Family</option>
+                    <option value="trademark-family-modal">Trademark Family</option>
+                    <option value="trademark-family-modal">Trademark Family(ies)</option>
+                    <option value="patent-country-modal">Patent Country</option>
+                    <option value="design-country-modal">Design Country</option>
+                    <option value="trademark-country-modal">Trademark Country</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="proceed-copy">Proceed</button>
+            </div>
+        </div>
+    </div>
+</div>
+ <!-- Bootstrap Bundle JS (includes Popper.js) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
-document.getElementById('search-button').addEventListener('click', function() {
-    const nameFilter = document.getElementById('search-name').value.toLowerCase();
-    const idFilter = document.getElementById('search-id').value.toLowerCase();
-    const typeFilter = document.getElementById('search-type').value.toLowerCase();
-
-    const hasCriteria = nameFilter || idFilter || typeFilter;
-
-    // Hide all tables and headers initially
-    document.getElementById('search-message').style.display = hasCriteria ? 'none' : 'block';
-    filterTable('invention-table', 'invention-table-container', 'invention-header', nameFilter, idFilter, typeFilter);
-    filterTable('patent-table', 'patent-table-container', 'patent-header', nameFilter, idFilter, typeFilter);
-    filterTable('family-table', 'family-table-container', 'family-header', nameFilter, idFilter, typeFilter);
-    filterTable('design-table', 'design-table-container', 'design-header', nameFilter, idFilter, typeFilter);
-    filterTable('trademark-table', 'trademark-table-container', 'trademark-header', nameFilter, idFilter, typeFilter);
-
-    function filterTable(tableId, containerId, headerId, nameFilter, idFilter, typeFilter) {
-        const table = document.getElementById(tableId);
-        const container = document.getElementById(containerId);
-        const header = document.getElementById(headerId);
-        const rows = table.getElementsByTagName('tr');
-        let hasResults = false;
-
-        // Start from index 1 to skip the header row
-        for (let i = 1; i < rows.length; i++) {
-            const id = rows[i].getElementsByTagName('td')[0].textContent.toLowerCase();
-            const name = rows[i].getElementsByTagName('td')[1].textContent.toLowerCase();
-            const type = rows[i].getElementsByTagName('td')[2] ? rows[i].getElementsByTagName('td')[2].textContent.toLowerCase() : '';
-
-            if (id.includes(idFilter) && name.includes(nameFilter) && type.includes(typeFilter)) {
-                rows[i].style.display = '';
-                hasResults = true;
-            } else {
-                rows[i].style.display = 'none';
-            }
-        }
-
-        // Display or hide the table container and header based on search results
-        if (hasResults) {
-            container.style.display = 'block';
-            header.style.display = 'block';
-        } else {
-            container.style.display = 'none';
-            header.style.display = 'none';
-        }
+document.getElementById('case-type-dropdown').addEventListener('change', function () {
+    const modalId = this.value;
+    if (modalId) {
+        const modal = new bootstrap.Modal(document.getElementById(modalId));
+        modal.show();
     }
 });
 </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        /**
+         * SEARCH LOGIC 
+         */
+        document.getElementById('search-button').addEventListener('click', function () {
+            const nameFilter = document.getElementById('search-name').value.toLowerCase();
+            const idFilter = document.getElementById('search-id').value.toLowerCase();
+            const typeFilter = document.getElementById('search-type').value.toLowerCase();
+
+            const hasCriteria = nameFilter || idFilter || typeFilter;
+            document.getElementById('search-message').style.display = hasCriteria ? 'none' : 'block';
+
+            // Call filter function for each table
+            ['invention-table', 'patent-table', 'family-table', 'design-table', 'trademark-table']
+                .forEach(tableId => filterTable(tableId, nameFilter, idFilter, typeFilter));
+        });
+
+        /**
+         * Filter Table Rows
+         * @param {string} tableId - The ID of the table to filter.
+         * @param {string} nameFilter - Filter text for name.
+         * @param {string} idFilter - Filter text for ID.
+         * @param {string} typeFilter - Filter text for type.
+         */
+        function filterTable(tableId, nameFilter, idFilter, typeFilter) {
+            const table = document.getElementById(tableId);
+            const rows = table.getElementsByTagName('tr');
+            let hasResults = false;
+
+            for (let i = 1; i < rows.length; i++) { // Start at 1 to skip the header row
+                const id = rows[i].querySelector('td:nth-child(1)')?.textContent.toLowerCase();
+                const name = rows[i].querySelector('td:nth-child(2)')?.textContent.toLowerCase();
+                const type = rows[i].querySelector('td:nth-child(3)')?.textContent.toLowerCase() || '';
+
+                if (id.includes(idFilter) && name.includes(nameFilter) && type.includes(typeFilter)) {
+                    rows[i].style.display = ''; // Show matching rows
+                    hasResults = true;
+                } else {
+                    rows[i].style.display = 'none'; // Hide non-matching rows
+                }
+            }
+
+            // Show or hide the table container based on results
+            const tableContainer = table.closest('.table-responsive');
+            tableContainer.style.display = hasResults ? 'block' : 'none';
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let copiedData = {}; // Object to store copied data dynamically
+    
+        // Global field arrays for each model
+        const MODEL_FIELDS = {
+            invention: [
+                'id_ref_number', 'title', 'status', 'agreement', 'date_file_opened',
+                'date_of_invention', 'keyword', 'cost_centre', 'cost_centre_code',
+                'joint_venture', 'attorney_1', 'attorney_2', 'primary_paralegal',
+                'secondary_paralegal', 'invention_description', 'general_notes',
+                'proposed_inventors', 'confirmed_inventors', 'reasons_of_approval_or_rejection',
+                'approved_for_filing', 'approval_or_rejection_date', 'approved_by',
+                'joint_venture_with_whom'
+            ],
+            patent: [
+                'case_no', 'official_number', 'country', 'internal_title', 'formal_title',
+                'type_of_filing', 'status', 'filing_type', 'sub_filing_type', 'sub_status',
+                'primary_attorney', 'secondary_attorney', 'primary_paralegal', 'secondary_paralegal',
+                'associate', 'associate_ref', 'associate_2', 'associate_2_ref', 'cost_centre',
+                'licence', 'cost_centre_code', 'priority_provisional_application_no',
+                'priority_provisional_date', 'PCT_application_no', 'PCT_application_Date',
+                'application_no', 'application_date', 'taxs_paid_by', 'publication_no',
+                'publication_date', 'grant_number', 'grant_date', 'large_small_entity',
+                'notes'
+            ],
+            family: [
+                'case_no', 'family_no', 'internal_title', 'formal_title', 'country', 'status',
+                'sub_status', 'type_of_filing', 'sub_filing', 'primary_attorney',
+                'secondary_attorney', 'primary_paralegal', 'secondary_paralegal',
+                'licenced', 'licensor', 'cost_centre', 'cost_centre_code', 'keywords'
+            ],
+            design: [
+                'case_no', 'country', 'internal_title', 'formal_title', 'type_of_filing',
+                'status', 'filing_type', 'sub_status', 'primary_attorney', 'secondary_attorney',
+                'primary_paralegal', 'secondary_paralegal', 'cost_centre', 'cost_centre_code',
+                'design_priority_no', 'design_application_no', 'registration_no', 'licence',
+                'licensor', 'no_of_drawings', 'no_of_views', 'notes'
+            ],
+            trademark: [
+                'case_no', 'country', 'trademark_name', 'type_of_trademark', 'primary_attorney',
+                'secondary_attorney', 'associate', 'associate_ref', 'primary_paralegal',
+                'secondary_paralegal', 'trademark_priority_no', 'trademark_application_no',
+                'trademark_registration_no', 'registration_date', 'next_tax_date', 'taxes_paid_by',
+                'does_it_expire', 'expiry_date', 'classes', 'notes'
+            ]
+        };
+    
+        // Function to display modal
+        function showModal(modalId) {
+            const modalElement = document.getElementById(modalId);
+            if (modalElement) {
+                new bootstrap.Modal(modalElement).show();
+            } else {
+                console.error(`Modal with ID '${modalId}' not found.`);
+            }
+        }
+    
+        // Function to find model type from table identifier
+        function getModelType(buttonElement) {
+            const table = buttonElement.closest('table');
+            if (!table) {
+                console.error("Table not found for the button.");
+                return null;
+            }
+    
+            // Use table ID or class to determine the model
+            const tableId = table.id || table.className;
+            if (tableId.includes("invention")) return "invention";
+            if (tableId.includes("patent")) return "patent";
+            if (tableId.includes("family")) return "family";
+            if (tableId.includes("design")) return "design";
+            if (tableId.includes("trademark")) return "trademark";
+    
+            console.error("Model type not recognized for table:", tableId);
+            return null;
+        }
+    
+        /* IDENTIFY MODEL FROM TABLE ID/CLASS
+     */
+    function getModelTypeFromTable(buttonElement) {
+        const table = buttonElement.closest('table');
+        if (!table) {
+            console.error("Table not found.");
+            return null;
+        }
+        const tableId = table.id || table.className;
+        if (tableId.includes("invention")) return "invention";
+        if (tableId.includes("patent")) return "patent";
+        if (tableId.includes("family")) return "family";
+        if (tableId.includes("design")) return "design";
+        if (tableId.includes("trademark")) return "trademark";
+        console.error("Unrecognized model type.");
+        return null;
+    }
+
+    /**
+     * COPY ROW DATA
+     */
+    document.querySelectorAll('.copy-record').forEach(button => {
+        button.addEventListener('click', function () {
+            const row = this.closest('tr');
+            const modelType = getModelTypeFromTable(this);
+
+            if (!modelType) {
+                alert("Cannot determine model type.");
+                return;
+            }
+
+            const fields = MODEL_FIELDS[modelType];
+            copiedData = {}; // Reset the data
+
+            // Extract data from table cells
+            const rowFields = row.querySelectorAll('td');
+            fields.forEach((fieldName, index) => {
+                copiedData[fieldName] = rowFields[index] ? rowFields[index].textContent.trim() : '';
+            });
+
+            console.log(`Copied Data for ${modelType}:`, copiedData);
+            showModal('copy-record-modal');
+        });
+    });
+
+    /**
+     * PREFILL DESTINATION MODAL LOGIC
+     */
+    document.getElementById('proceed-copy').addEventListener('click', function () {
+        const destinationModalId = document.getElementById('copy-destination').value;
+        const modalElement = document.getElementById(destinationModalId);
+
+        if (!modalElement) {
+            console.error(`Destination modal '${destinationModalId}' not found.`);
+            return;
+        }
+
+        // Update copiedData (adjust ID with country code)
+        let adjustedId = copiedData.case_no || copiedData.family_no;
+        const countryCode = copiedData.country || "XX";
+        if (adjustedId && !adjustedId.includes('-')) {
+            adjustedId = `${countryCode}-${adjustedId}-01`;
+        }
+        copiedData.case_no = adjustedId;
+
+        // Prefill fields in the modal
+        Object.keys(copiedData).forEach(field => {
+            const input = modalElement.querySelector(`[name="${field}"]`);
+            if (input) input.value = copiedData[field];
+        });
+
+        console.log("Prefilled Data:", copiedData);
+        showModal(destinationModalId);
+
+        // Hide copy modal
+        bootstrap.Modal.getInstance(document.getElementById('copy-record-modal')).hide();
+    });
+
+    // Utility function to show modal
+    function showModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) new bootstrap.Modal(modal).show();
+    }
+});
+    </script>
+    
+
 {% endblock tabContent %}
