@@ -1990,15 +1990,19 @@ pre code {
 }
 
 .table th,
-  .table td {
-    padding: 0.75rem;
-    vertical-align: top;
+.table td {
+    padding: 0.3rem; /* Adjust padding for table headers and cells */
+    height: 30px; /* Set uniform height for all cells */
+    vertical-align: middle; /* Center content vertically */
     border-top: 1px solid #e3eaef;
 }
 
 .table thead th {
     vertical-align: bottom;
     border-bottom: 2px solid #e3eaef;
+    height: 30px; /* Set the height to 30px */
+    line-height: 30px; /* Center text vertically */
+    padding: 0; /* Remove extra padding */
 }
 
 .table tbody + tbody {
@@ -32928,3 +32932,119 @@ new-task label input[type=checkbox] {
 }
 
 /**====== user card css end ======**/
+
+/* Styling for the tile container */
+.tile {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 1px;
+    background-color: #f9f9f9;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 1px;
+}
+
+/* Styling for the navigation tabs container */
+#family-tabs {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    margin: 0;
+    height: 30px; /* Uniform height for tabs */
+}
+
+/* Individual tab items */
+#family-tabs .nav-item {
+    flex: 1;
+    text-align: center;
+    border-right: 0.2px solid #aeaeae; /* Divider between tabs */
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Remove the last border-right for the final tab */
+#family-tabs .nav-item:last-child {
+    border-right: none;
+}
+
+/* Styling for the links inside the tabs */
+#family-tabs .nav-link {
+    text-decoration: none;
+    color: #333;
+    font-size: 12px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Active tab styling */
+#family-tabs .nav-link.active {
+    background-color: #e9ecef; /* Background color for the active tab */
+    border-bottom: 2px solid #007bff; /* Active tab underline */
+    color: #007bff;
+}
+
+/* Styling for hover effects on tabs */
+#family-tabs .nav-link:hover {
+    background-color: #f1f1f1; /* Light hover effect */
+    color: #0056b3;
+}
+
+
+.inventor-tile {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 2px;
+}
+
+.nav-tabs {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    margin: 0;
+    height: 40px; 
+    border-bottom: none; 
+}
+
+.nav-item {
+    flex: 1;
+    text-align: center;
+    border-right: 1px solid #aeaeae;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.nav-item:last-child {
+    border-right: none;
+}
+
+.nav-link {
+    width: 100%;
+    padding: 10px 0;
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    background-color: transparent;
+    border: none;
+}
+
+.nav-link.active {
+    background-color: #fff;
+    border-bottom: 2px solid #007bff;
+    color: #007bff;
+}
+
+.nav-link:hover {
+    background-color: #e9ecef;
+    color: #0056b3;
+}
+ 

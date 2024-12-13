@@ -78,8 +78,19 @@
                                     <div class="col-md-3">{{ form.taxs_paid_by|as_crispy_field }}</div>
                                 </div>
                                 <div class="form-row" style="margin-bottom: 8px;">
-                                    <div class="col-md-6">{{ form.priority_provisional_application_no|as_crispy_field }}</div>
+                                    <div class="col-md-3">{{ form.official_number|as_crispy_field }}</div>
+                                    <div class="col-md-3">{{ form.priority_provisional_application_no|as_crispy_field }}</div>
+                                    
                                     <div class="col-md-6">{{ form.priority_provisional_date|as_crispy_field }}</div>
+                                     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const dateField = document.querySelector('[name="priority_provisional_date"]');
+            if (dateField) {
+                dateField.setAttribute('placeholder', 'dd/mm/yyyy');
+                dateField.setAttribute('type', 'date');
+            }
+        });
+    </script>
                                 </div>
     
                                 <!-- Hidden Fields for Dynamic Tabs -->
@@ -118,68 +129,147 @@
                         </div>
                         
                         <!-- Tab Navigation -->
-                        <div class="col-12 mb-4">
+                        <div class="col-12 mb-4" style="margin-left: -20px;">
                             
-                            <div class="tile" style="border: 1px solid #ddd; border-radius: 5px; padding: 10px; background-color: #f9f9f9; color: #333;">
-                                <ul class="nav" id="family-tabs" role="tablist" style="padding: 0; margin: 0; list-style-type: none;">
-                                    <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                        <a class="nav-link active" id="pills-Actions-tab" data-bs-toggle="pill" href="#pills-Actions" role="tab" aria-controls="pills-Actions" aria-selected="true" style="text-decoration: none; color: #333;">
-                                            <b>Actions</b>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                        <a class="nav-link" id="pills-applicant-tab" data-bs-toggle="pill" href="#pills-applicant" role="tab" aria-controls="pills-applicant" aria-selected="false" style="text-decoration: none; color: #333;">
-                                            <b>Applicant(s)</b>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                        <a class="nav-link" id="pills-Inventors-tab" data-bs-toggle="pill" href="#pills-Inventors" role="tab" aria-controls="pills-Inventors" aria-selected="false" style="text-decoration: none; color: #333;">
-                                            <b>Inventor(s)</b>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                        <a class="nav-link" id="pills-Title-tab" data-bs-toggle="pill" href="#pills-Title" role="tab" aria-controls="pills-Title" aria-selected="false" style="text-decoration: none; color: #333;">
-                                            <b>Title</b>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                        <a class="nav-link" id="pills-Invoices-tab" data-bs-toggle="pill" href="#pills-Invoices" role="tab" aria-controls="pills-Invoices" aria-selected="false" style="text-decoration: none; color: #333;">
-                                            <b>Invoices</b>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                        <a class="nav-link" id="pills-Annuities-tab" data-bs-toggle="pill" href="#pills-Annuities" role="tab" aria-controls="pills-Annuities" aria-selected="false" style="text-decoration: none; color: #333;">
-                                            <b>Annuities</b>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                        <a class="nav-link" id="pills-Related-tab" data-bs-toggle="pill" href="#pills-Related" role="tab" aria-controls="pills-Related" aria-selected="false" style="text-decoration: none; color: #333;">
-                                            <b>Related Case Links</b>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                        <a class="nav-link" id="pills-Abstract-tab" data-bs-toggle="pill" href="#pills-Abstract" role="tab" aria-controls="pills-Abstract" aria-selected="false" style="text-decoration: none; color: #333;">
-                                            <b>Abstract & Figures Files</b>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                        <a class="nav-link" id="pills-Documents-tab" data-bs-toggle="pill" href="#pills-Documents" role="tab" aria-controls="pills-Documents" aria-selected="false" style="text-decoration: none; color: #333;">
-                                            <b>Documents</b>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                        <a class="nav-link" id="pills-names-tab" onclick="displayNamesSection()" role="tab" style="text-decoration: none; color: #333;">
-                                            <b>Names</b>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                        <a class="nav-link" id="pills-officialnumbers-tab" onclick="displayOfficialNumbersSection()" role="tab" style="text-decoration: none; color: #333;">
-                                            <b>Official Numbers</b>
-                                        </a>
-                                    </li>
-                                                                      
-                                </ul>
-                            </div>
+                            <div class="tile" style="
+                            border: 1px solid #ddd; 
+                            border-radius: 10px; 
+                            padding: 1px; 
+                            background-color: #f9f9f9; 
+                            color: #333; 
+                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+                            margin-top: 2px;
+                        ">
+                            <ul class="nav nav-tabs" id="family-tabs" role="tablist" style="
+                                display: flex; 
+                                justify-content: space-between; 
+                                padding: 0; 
+                                margin: 0;
+                                
+                            ">
+                                <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    border-right: 0.2px solid #aeaeae; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link active" id="pills-Actions-tab" data-bs-toggle="pill" href="#pills-Actions" role="tab" aria-controls="pills-Actions" aria-selected="true" style="text-decoration: none; color: #333;">
+                                        <b>Actions</b>
+                                    </a>
+                                </li>
+                                <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    border-right: 0.2px solid #aeaeae; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link" id="pills-applicant-tab" data-bs-toggle="pill" href="#pills-applicant" role="tab" aria-controls="pills-applicant" aria-selected="false" style="text-decoration: none; color: #333;">
+                                        <b>Applicant(s)</b>
+                                    </a>
+                                </li>
+                                <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    border-right: 0.2px solid #aeaeae; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link" id="pills-Inventors-tab" data-bs-toggle="pill" href="#pills-Inventors" role="tab" aria-controls="pills-Inventors" aria-selected="false" style="text-decoration: none; color: #333;">
+                                        <b>Inventor(s)</b>
+                                    </a>
+                                </li>
+                                <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    border-right: 0.2px solid #aeaeae; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link" id="pills-Title-tab" data-bs-toggle="pill" href="#pills-Title" role="tab" aria-controls="pills-Title" aria-selected="false" style="text-decoration: none; color: #333;">
+                                        <b>Title</b>
+                                    </a>
+                                </li>
+                                <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    border-right: 0.2px solid #aeaeae; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link" id="pills-Invoices-tab" data-bs-toggle="pill" href="#pills-Invoices" role="tab" aria-controls="pills-Invoices" aria-selected="false" style="text-decoration: none; color: #333;">
+                                        <b>Invoices</b>
+                                    </a>
+                                </li>
+                                <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    border-right: 0.2px solid #aeaeae; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link" id="pills-Annuities-tab" data-bs-toggle="pill" href="#pills-Annuities" role="tab" aria-controls="pills-Annuities" aria-selected="false" style="text-decoration: none; color: #333;">
+                                        <b>Annuities</b>
+                                    </a>
+                                </li>
+                                <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    border-right: 0.2px solid #aeaeae; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link" id="pills-Related-tab" data-bs-toggle="pill" href="#pills-Related" role="tab" aria-controls="pills-Related" aria-selected="false" style="text-decoration: none; color: #333;">
+                                        <b>Related Case Links</b>
+                                    </a>
+                                </li>
+                                <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    border-right: 0.2px solid #aeaeae; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link" id="pills-Abstract-tab" data-bs-toggle="pill" href="#pills-Abstract" role="tab" aria-controls="pills-Abstract" aria-selected="false" style="text-decoration: none; color: #333;">
+                                        <b>Abstract & Figures Files</b>
+                                    </a>
+                                </li>
+                                <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    border-right: 0.2px solid #aeaeae; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link" id="pills-Documents-tab" data-bs-toggle="pill" href="#pills-Documents" role="tab" aria-controls="pills-Documents" aria-selected="false" style="text-decoration: none; color: #333;">
+                                        <b>Documents</b>
+                                    </a>
+                                </li>
+                                <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    border-right: 0.2px solid #aeaeae; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link" id="pills-names-tab" onclick="displayNamesSection()" role="tab" style="text-decoration: none; color: #333;">
+                                        <b>Names</b>
+                                    </a>
+                                </li>
+                                <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link" id="pills-officialnumbers-tab" onclick="displayOfficialNumbersSection()" role="tab" style="text-decoration: none; color: #333;">
+                                        <b>Official Numbers</b>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+<br>
                         
                             
                             <!-- Tab Content -->

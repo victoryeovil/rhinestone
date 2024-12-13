@@ -14,6 +14,24 @@
 <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
 <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
 
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1050;
+    padding: 20px;
+    width: 50%;
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+}
+
 {% endblock css %}
 
 {% block content %}
@@ -78,7 +96,9 @@
                                     <div class="col-md-3">{{ form.taxs_paid_by|as_crispy_field }}</div>
                                 </div>
                                 <div class="form-row" style="margin-bottom: 8px;">
-                                    <div class="col-md-6">{{ form.priority_provisional_application_no|as_crispy_field }}</div>
+                                    <div class="col-md-3">{{ form.official_number|as_crispy_field }}</div>
+                                    <div class="col-md-3">{{ form.priority_provisional_application_no|as_crispy_field }}</div>
+                                    
                                     <div class="col-md-6">{{ form.priority_provisional_date|as_crispy_field }}</div>
                                 </div>
     
@@ -119,79 +139,223 @@
                         </div>
                         
                         <!-- Tab Navigation -->
-                        <div class="col-12 mb-4">
+                        <div class="col-12 mb-4" style="margin-left: -20px;">
                             
-                                <div class="tile" style="border: 1px solid #ddd; border-radius: 5px; padding: 10px; background-color: #f9f9f9; color: #333;">
-                                    <ul class="nav" id="family-tabs" role="tablist" style="padding: 0; margin: 0; list-style-type: none;">
-                                        <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                            <a class="nav-link active" id="pills-Actions-tab" data-bs-toggle="pill" href="#pills-Actions" role="tab" aria-controls="pills-Actions" aria-selected="true" style="text-decoration: none; color: #333;">
-                                                <b>Actions</b>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                            <a class="nav-link" id="pills-applicant-tab" data-bs-toggle="pill" href="#pills-applicant" role="tab" aria-controls="pills-applicant" aria-selected="false" style="text-decoration: none; color: #333;">
-                                                <b>Applicant(s)</b>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                            <a class="nav-link" id="pills-Inventors-tab" data-bs-toggle="pill" href="#pills-Inventors" role="tab" aria-controls="pills-Inventors" aria-selected="false" style="text-decoration: none; color: #333;">
-                                                <b>Inventor(s)</b>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                            <a class="nav-link" id="pills-Title-tab" data-bs-toggle="pill" href="#pills-Title" role="tab" aria-controls="pills-Title" aria-selected="false" style="text-decoration: none; color: #333;">
-                                                <b>Title</b>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                            <a class="nav-link" id="pills-Invoices-tab" data-bs-toggle="pill" href="#pills-Invoices" role="tab" aria-controls="pills-Invoices" aria-selected="false" style="text-decoration: none; color: #333;">
-                                                <b>Invoices</b>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                            <a class="nav-link" id="pills-Annuities-tab" data-bs-toggle="pill" href="#pills-Annuities" role="tab" aria-controls="pills-Annuities" aria-selected="false" style="text-decoration: none; color: #333;">
-                                                <b>Annuities</b>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                            <a class="nav-link" id="pills-Related-tab" data-bs-toggle="pill" href="#pills-Related" role="tab" aria-controls="pills-Related" aria-selected="false" style="text-decoration: none; color: #333;">
-                                                <b>Related Case Links</b>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                            <a class="nav-link" id="pills-Abstract-tab" data-bs-toggle="pill" href="#pills-Abstract" role="tab" aria-controls="pills-Abstract" aria-selected="false" style="text-decoration: none; color: #333;">
-                                                <b>Abstract & Figures Files</b>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                            <a class="nav-link" id="pills-Documents-tab" data-bs-toggle="pill" href="#pills-Documents" role="tab" aria-controls="pills-Documents" aria-selected="false" style="text-decoration: none; color: #333;">
-                                                <b>Documents</b>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                            <a class="nav-link" id="pills-names-tab" onclick="displayNamesSection()" role="tab" style="text-decoration: none; color: #333;">
-                                                <b>Names</b>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" style="padding: 10px; text-align: center; border-bottom: 1px solid #ddd;">
-                                            <a class="nav-link" id="pills-officialnumbers-tab" onclick="displayOfficialNumbersSection()" role="tab" style="text-decoration: none; color: #333;">
-                                                <b>Official Numbers</b>
-                                            </a>
-                                        </li>
-                                                                          
-                                    </ul>
-                                </div>
-                            
+                            <div class="tile" style="
+    border: 1px solid #ddd; 
+    border-radius: 10px; 
+    padding: 1px; 
+    background-color: #f9f9f9; 
+    color: #333; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    margin-top: 1px;">
+    <ul class="nav nav-tabs" id="family-tabs" role="tablist" style="
+        display: flex; 
+        justify-content: space-between; 
+        padding: 0; 
+        margin: 0; 
+        height: 30px; /* Uniform height for all tabs */
+    ">
+        <!-- Actions Tab -->
+        <li class="nav-item" style="
+            flex: 1; 
+            text-align: center; 
+            border-right: 0.2px solid #aeaeae; 
+            height: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;">
+            <a class="nav-link active" id="pills-Actions-tab" data-bs-toggle="pill" href="#pills-Actions" role="tab" aria-controls="pills-Actions" aria-selected="true" style="
+                text-decoration: none; 
+                color: #333; 
+                font-size: 12px;">
+                <b>Actions</b>
+            </a>
+        </li>
+
+        <!-- Abstract & Figures Files Tab -->
+        <li class="nav-item" style="
+            flex: 1; 
+            text-align: center; 
+            border-right: 0.2px solid #aeaeae; 
+            height: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;">
+            <a class="nav-link" id="pills-Abstract-tab" data-bs-toggle="pill" href="#pills-Abstract" role="tab" aria-controls="pills-Abstract" aria-selected="false" style="
+                text-decoration: none; 
+                color: #333; 
+                font-size: 12px;">
+                <b>Abstract & Figures Files</b>
+            </a>
+        </li>
+
+        <!-- Annuities Tab -->
+        <li class="nav-item" style="
+            flex: 1; 
+            text-align: center; 
+            border-right: 0.2px solid #aeaeae; 
+            height: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;">
+            <a class="nav-link" id="pills-Annuities-tab" data-bs-toggle="pill" href="#pills-Annuities" role="tab" aria-controls="pills-Annuities" aria-selected="false" style="
+                text-decoration: none; 
+                color: #333; 
+                font-size: 12px;">
+                <b>Annuities</b>
+            </a>
+        </li>
+
+        <!-- Applicant(s) Tab -->
+        <li class="nav-item" style="
+            flex: 1; 
+            text-align: center; 
+            border-right: 0.2px solid #aeaeae; 
+            height: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;">
+            <a class="nav-link" id="pills-applicant-tab" data-bs-toggle="pill" href="#pills-applicant" role="tab" aria-controls="pills-applicant" aria-selected="false" style="
+                text-decoration: none; 
+                color: #333; 
+                font-size: 12px;">
+                <b>Applicant(s)</b>
+            </a>
+        </li>
+
+        <!-- Documents Tab -->
+        <li class="nav-item" style="
+            flex: 1; 
+            text-align: center; 
+            border-right: 0.2px solid #aeaeae; 
+            height: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;">
+            <a class="nav-link" id="pills-Documents-tab" data-bs-toggle="pill" href="#pills-Documents" role="tab" aria-controls="pills-Documents" aria-selected="false" style="
+                text-decoration: none; 
+                color: #333; 
+                font-size: 12px;">
+                <b>Documents</b>
+            </a>
+        </li>
+
+        <!-- Inventor(s) Tab -->
+        <li class="nav-item" style="
+            flex: 1; 
+            text-align: center; 
+            border-right: 0.2px solid #aeaeae; 
+            height: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;">
+            <a class="nav-link" id="pills-Inventors-tab" data-bs-toggle="pill" href="#pills-Inventors" role="tab" aria-controls="pills-Inventors" aria-selected="false" style="
+                text-decoration: none; 
+                color: #333; 
+                font-size: 12px;">
+                <b>Inventor(s)</b>
+            </a>
+        </li>
+
+        <!-- Invoices Tab -->
+        <li class="nav-item" style="
+            flex: 1; 
+            text-align: center; 
+            border-right: 0.2px solid #aeaeae; 
+            height: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;">
+            <a class="nav-link" id="pills-Invoices-tab" data-bs-toggle="pill" href="#pills-Invoices" role="tab" aria-controls="pills-Invoices" aria-selected="false" style="
+                text-decoration: none; 
+                color: #333; 
+                font-size: 12px;">
+                <b>Invoices</b>
+            </a>
+        </li>
+
+        <!-- Names Tab -->
+        <li class="nav-item" style="
+                                    flex: 1; 
+                                    text-align: center; 
+                                    border-right: 0.2px solid #aeaeae; 
+                                    height: 100%; 
+                                    display: flex; 
+                                    align-items: center; 
+                                    justify-content: center;">
+                                    <a class="nav-link" id="pills-names-tab" onclick="displayNamesSection()"  role="tab" style="
+                                        text-decoration: none; 
+                                        color: #333; 
+                                        font-size: 12px;">
+                                        <b>Names</b>
+                                    </a>
+                                </li>
+
+        <!-- Official Numbers Tab -->
+        <li class="nav-item" style="
+            flex: 1; 
+            text-align: center; 
+            border-right: 0.2px solid #aeaeae; 
+            height: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;">
+            <a class="nav-link" id="pills-officialnumbers-tab" data-bs-toggle="pill" href="#official-numbers-section-content" role="tab" aria-controls="pills-officialnumbers" aria-selected="false" style="
+                text-decoration: none; 
+                color: #333; 
+                font-size: 12px;">
+                <b>Official Numbers</b>
+            </a>
+        </li>
+
+        <!-- Related Case Links Tab -->
+        <li class="nav-item" style="
+            flex: 1; 
+            text-align: center; 
+            border-right: 0.2px solid #aeaeae; 
+            height: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;">
+            <a class="nav-link" id="pills-Related-tab" data-bs-toggle="pill" href="#pills-Related" role="tab" aria-controls="pills-Related" aria-selected="false" style="
+                text-decoration: none; 
+                color: #333; 
+                font-size: 12px;">
+                <b>Related Case Links</b>
+            </a>
+        </li>
+
+        <!-- Title Tab -->
+        <li class="nav-item" style="
+            flex: 1; 
+            text-align: center; 
+            height: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;">
+            <a class="nav-link" id="pills-Title-tab" data-bs-toggle="pill" href="#pills-Title" role="tab" aria-controls="pills-Title" aria-selected="false" style="
+                text-decoration: none; 
+                color: #333; 
+                font-size: 12px;">
+                <b>Title</b>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+       
+   <br>                     
                                                     
-                        
-                            
                             <!-- Tab Content -->
                             <div class="tab-content" id="family-tabs-content">
+                                <!-- Actions Tab -->
                                 <div class="tab-pane fade show active" id="pills-Actions" role="tabpanel" aria-labelledby="pills-Actions-tab">
                                     <div class="media">
                                         <div class="table-responsive">
                                             <table class="table">
-                                                <thead>
+                                                <thead style="height: 30px;">
                                                     <tr>
                                                         <th style="text-transform: none;">Action Code</th>
                                                         <th style="text-transform: none;">Action Spellout</th>
@@ -207,18 +371,19 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+                            
+                                <!-- Applicant(s) Tab -->
                                 <div class="tab-pane fade" id="pills-applicant" role="tabpanel" aria-labelledby="pills-applicant-tab">
                                     <div class="media">
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Applicant ID</th>
-                                                        <th>Surname</th>
-                                                        <th>Given Name(s)</th>
-                                                        <th>Nationality</th>
-                                                        <th>Employment Status</th>
+                                                        <th style="text-transform: none;">Applicant ID</th>
+                                                        <th style="text-transform: none;">Surname</th>
+                                                        <th style="text-transform: none;">Given Name(s)</th>
+                                                        <th style="text-transform: none;">Nationality</th>
+                                                        <th style="text-transform: none;">Employment Status</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="selected-applicant-details"></tbody>
@@ -226,6 +391,8 @@
                                         </div>
                                     </div>
                                 </div>
+                            
+                                <!-- Inventor(s) Tab -->
                                 <div class="tab-pane fade" id="pills-Inventors" role="tabpanel" aria-labelledby="pills-Inventors-tab">
                                     <div class="media">
                                         <div class="table-responsive">
@@ -239,7 +406,7 @@
                                                         <th style="text-transform: none;">Employment Status</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody id="inventor-details">
                                                     <tr>
                                                         <td><input type="text" name="inventor_id" oninput="updateInventorFields(this)"></td>
                                                         <td><input type="text" name="surname" oninput="updateInventorFields(this)"></td>
@@ -252,14 +419,16 @@
                                         </div>
                                     </div>
                                 </div>
+                            
+                                <!-- Title Tab -->
                                 <div class="tab-pane fade" id="pills-Title" role="tabpanel" aria-labelledby="pills-Title-tab">
                                     <div class="media">
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Formal Title</th>
-                                                        <th>Internal Title</th>
+                                                        <th style="text-transform: none;">Formal Title</th>
+                                                        <th style="text-transform: none;">Internal Title</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="title-table"></tbody>
@@ -267,20 +436,22 @@
                                         </div>
                                     </div>
                                 </div>
+                            
+                                <!-- Invoices Tab -->
                                 <div class="tab-pane fade" id="pills-Invoices" role="tabpanel" aria-labelledby="pills-Invoices-tab">
                                     <div class="media">
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Invoice No</th>
-                                                        <th>Items</th>
-                                                        <th>Customer Name</th>
-                                                        <th>Address</th>
-                                                        <th>Payment Status</th>
+                                                        <th style="text-transform: none;">Invoice No</th>
+                                                        <th style="text-transform: none;">Items</th>
+                                                        <th style="text-transform: none;">Customer Name</th>
+                                                        <th style="text-transform: none;">Address</th>
+                                                        <th style="text-transform: none;">Payment Status</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody id="invoice-details">
                                                     <tr>
                                                         <td>CA-0000012</td>
                                                         <td>Service</td>
@@ -293,17 +464,19 @@
                                         </div>
                                     </div>
                                 </div>
+                            
+                                <!-- Annuities Tab -->
                                 <div class="tab-pane fade" id="pills-Annuities" role="tabpanel" aria-labelledby="pills-Annuities-tab">
                                     <div class="media">
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Country</th>
-                                                        <th>Annuity Year</th>
-                                                        <th>Due Date</th>
-                                                        <th>Payment Status</th>
-                                                        <th>Receipt Received</th>
+                                                        <th style="text-transform: none;">Country</th>
+                                                        <th style="text-transform: none;">Annuity Year</th>
+                                                        <th style="text-transform: none;">Due Date</th>
+                                                        <th style="text-transform: none;">Payment Status</th>
+                                                        <th style="text-transform: none;">Receipt Received</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="annuity-table-body"></tbody>
@@ -311,31 +484,35 @@
                                         </div>
                                     </div>
                                 </div>
+                            
+                                <!-- Related Case Links Tab -->
                                 <div class="tab-pane fade" id="pills-Related" role="tabpanel" aria-labelledby="pills-Related-tab">
                                     <div class="media">
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Reference Number</th>
-                                                        <th>Country</th>
-                                                        <th>Application Number</th>
-                                                        <th>Application Date</th>
-                                                        <th>Inventors</th>
+                                                        <th style="text-transform: none;">Reference Number</th>
+                                                        <th style="text-transform: none;">Country</th>
+                                                        <th style="text-transform: none;">Application Number</th>
+                                                        <th style="text-transform: none;">Application Date</th>
+                                                        <th style="text-transform: none;">Inventors</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="related_case"></tbody>
+                                                <tbody id="related-case"></tbody>
                                             </table>
                                         </div>
                                     </div>
                                 </div>
+                            
+                                <!-- Abstract Tab -->
                                 <div class="tab-pane fade" id="pills-Abstract" role="tabpanel" aria-labelledby="pills-Abstract-tab">
                                     <div class="media">
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Abstract</th>
+                                                        <th style="text-transform: none;">Abstract</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -352,15 +529,17 @@
                                         </div>
                                     </div>
                                 </div>
+                            
+                                <!-- Documents Tab -->
                                 <div class="tab-pane fade" id="pills-Documents" role="tabpanel" aria-labelledby="pills-Documents-tab">
                                     <div class="media">
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Document</th>
-                                                        <th>Name of Document</th>
-                                                        <th>Upload Date</th>
+                                                        <th style="text-transform: none;">Document</th>
+                                                        <th style="text-transform: none;">Name of Document</th>
+                                                        <th style="text-transform: none;">Upload Date</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -374,33 +553,95 @@
                                         </div>
                                     </div>
                                 </div>
+                            
+                                <!-- Notes Tab -->
                                 <div class="tab-pane fade" id="pills-Notes" role="tabpanel" aria-labelledby="pills-Notes-tab">
                                     <div class="media">
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Note</th>
+                                                        <th style="text-transform: none;">Note</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td><form><input type="text" class="text"></form></td>
+                                                        <td>
+                                                            <form>
+                                                                <input type="text" class="text" placeholder="Enter your note here">
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
                                 </div>
+                            
+                                <!-- Names Tab -->
                                 <div class="tab-pane fade" id="names-section-content" role="tabpanel" aria-labelledby="pills-names-tab">
                                     <!-- Fields for Names will appear here dynamically -->
                                 </div>
+                            
+                                <!-- Official Numbers Tab -->
                                 <div class="tab-pane fade" id="official-numbers-section-content" role="tabpanel" aria-labelledby="pills-officialnumbers-tab">
-                                    <!-- Fields for Official Numbers will appear here dynamically -->
+                                    <div class="media">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="text-transform: none;">Type</th>
+                                                        <th style="text-transform: none;">Official Number</th>
+                                                        <th style="text-transform: none;">Current Number</th>
+                                                        <th style="text-transform: none;">Date In Force</th>
+                                                        <th style="text-transform: none;">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="official-numbers-body"></tbody>
+                                            </table>
+                                            <button class="btn btn-primary mt-3" onclick="showAddOfficialNumberModal()">Add New Number</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal" id="addOfficialNumberModal" tabindex="-1" role="dialog" style="display: none;">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Add Official Number</h5>
+                                                <button type="button" class="close" onclick="closeModal()">
+                                                    &times;
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="addOfficialNumberForm">
+                                                    <div class="form-group">
+                                                        <label for="numberType">Number Type</label>
+                                                        <select id="numberType" class="form-control">
+                                                            <option value="PCT Application No">PCT Application No</option>
+                                                            <option value="National Application No">National Application No</option>
+                                                            <option value="Publication No">Publication No</option>
+                                                            <option value="Grant Number">Grant Number</option>
+                                                            <option value="DAS Access Control Code">DAS Access Control Code</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="officialNumber">Official Number</label>
+                                                        <input type="text" id="officialNumber" class="form-control" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="dateInForce">Date In Force</label>
+                                                        <input type="date" id="dateInForce" class="form-control" />
+                                                    </div>
+                                                    <button type="button" class="btn btn-primary" onclick="addOfficialNumber()">Save</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 
+                                
                             </div>
-                        </div>
+                            
                         <!-- End of Tab Navigation -->
                     </div>
                 </div>
@@ -427,6 +668,15 @@
 <script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
 <script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'assets/js/plugins/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap Datepicker JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+
 <!-- <script src="{% static 'assets/js/plugins/buttons.colVis.min.js' %}"></script>
 <script src="{% static 'assets/js/plugins/buttons.print.min.js' %}"></script>
 <script src="{% static 'assets/js/plugins/pdfmake.min.js' %}"></script>
@@ -1129,5 +1379,88 @@
         console.log("I am showing the table now")
         document.getElementById("names-section-content").classList.remove("show", "active");
     }
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.datepicker').datepicker({
+            format: 'dd-mm-yyyy',
+            autoclose: true,
+            todayHighlight: true
+        });
+    });
+</script>
+<script>
+function showAddOfficialNumberModal() {
+    const modal = document.getElementById("addOfficialNumberModal");
+    modal.style.display = "block";
+}
+
+function closeModal() {
+    const modal = document.getElementById("addOfficialNumberModal");
+    modal.style.display = "none";
+}
+
+function addOfficialNumber() {
+    // Retrieve values from the modal form
+    const numberType = document.getElementById("numberType").value;
+    const officialNumber = document.getElementById("officialNumber").value;
+    const dateInForce = document.getElementById("dateInForce").value;
+
+    if (!numberType || !officialNumber || !dateInForce) {
+        alert("Please fill out all fields.");
+        return;
+    }
+
+    // Add to the official numbers table
+    const tableBody = document.getElementById("official-numbers-body");
+    const newRow = document.createElement("tr");
+    newRow.innerHTML = `
+        <td>${numberType}</td>
+        <td>${officialNumber}</td>
+        <td>✔</td>
+        <td>${dateInForce}</td>
+        <td>
+            <button class="btn btn-danger btn-sm" onclick="removeOfficialNumber(this)">Remove</button>
+        </td>
+    `;
+    tableBody.appendChild(newRow);
+
+    // Update corresponding form fields based on the number type
+    updateFormFields(numberType, officialNumber, dateInForce);
+
+    // Close the modal
+    closeModal();
+}
+
+function updateFormFields(numberType, officialNumber, dateInForce) {
+    switch (numberType) {
+        case "PCT Application No":
+            document.querySelector('input[name="PCT_application_no"]').value = officialNumber;
+            document.querySelector('input[name="PCT_application_Date"]').value = dateInForce;
+            break;
+        case "National Application No":
+            document.querySelector('input[name="application_no"]').value = officialNumber;
+            document.querySelector('input[name="application_date"]').value = dateInForce;
+            break;
+        case "Publication No":
+            document.querySelector('input[name="publication_no"]').value = officialNumber;
+            document.querySelector('input[name="publication_date"]').value = dateInForce;
+            break;
+        case "Grant Number":
+            document.querySelector('input[name="grant_number"]').value = officialNumber;
+            document.querySelector('input[name="grant_date"]').value = dateInForce;
+            break;
+        // Add more cases as needed
+        default:
+            console.warn(`Unhandled number type: ${numberType}`);
+    }
+}
+
+function removeOfficialNumber(button) {
+    // Remove the row from the table
+    const row = button.parentNode.parentNode;
+    row.parentNode.removeChild(row);
+}
+
 </script>
 {% endblock js %}

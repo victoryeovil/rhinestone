@@ -4,6 +4,7 @@ from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit, Row, Column, Reset, Button, Field, HTML
 from app.models.modules import *
+from ridt import settings
 
 
 #from bootstrap_datepicker_plus import DatePickerInput
@@ -463,29 +464,23 @@ class PatentForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['PCT_Country'].queryset = Country.objects.all()
 
-         # Define the desired date format
-        date_format = '%d/%m/%Y'
-        
-        # Set date fields with HTML5 date input and specify input formats for processing
         date_fields = [
-            "priority_provisional_date", "PCT_application_Date", 
-            "application_date", "publication_date", "grant_date", 
-            "next_annuity_due"
+            'priority_provisional_date', 'PCT_application_Date',
+            'application_date', 'publication_date', 'grant_date',
+            'next_annuity_due'
         ]
-        
         for field_name in date_fields:
-            # Use DateInput with type="date" to keep the HTML5 date picker
-            self.fields[field_name].widget = forms.DateInput(
-                attrs={'type': 'date'}
-            )
-            # Specify input_formats to allow parsing in dd/mm/yyyy format
-            self.fields[field_name].input_formats = [date_format]
-
-        for field_name, field in self.fields.items():
-            if isinstance(field.widget, forms.DateInput):
-                field.widget.attrs['type'] = 'date'  # Use HTML5 date input
-                field.input_formats = ['%d/%m/%Y']
-
+            if field_name in self.fields:
+                self.fields[field_name].widget = forms.DateInput(
+                    format='%d-%m-%Y',
+                    attrs={
+                        'type': 'text',
+                        'placeholder': 'dd-mm-yyyy',
+                        'class': 'form-control form-control-sm datepicker',
+                        'style': 'font-size: 13px; height: 38px; padding: 5px 10px; margin-bottom: 1px;'
+                    }
+                )
+                self.fields[field_name].input_formats = ['%d-%m-%Y']
         # Initialize Crispy Form Helper
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
@@ -498,6 +493,7 @@ class PatentForm(forms.ModelForm):
                 # Column 1
                 Column(
                     Field('case_no'),
+                    
                     Field('internal_title'),
                     Field('formal_title'),
                     Field('case_type'),
@@ -525,6 +521,7 @@ class PatentForm(forms.ModelForm):
                     HTML('<div class="form-group" style="height: 20px;"></div>'), 
                     HTML('<div class="form-group" style="height: 20px;"></div>'), 
                     HTML('<div class="form-group" style="height: 20px;"></div>'), 
+                    Field("official_number"),
                     Field('cost_centre_code'),
                     Field('priority_provisional_date'),
                     HTML('<div class="form-group" style="height: 10px;"></div>'), 

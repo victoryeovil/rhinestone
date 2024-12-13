@@ -4,282 +4,137 @@
 {% load super_filters %}
 
 {% block title %}
-	Rhinestone Inventions Disclosure Tools | Patent
+    Rhinestone Inventions Disclosure Tools | Patent
 {% endblock title %}
 
 {% block css %}
-<!-- vendor css -->
+<!-- Vendor CSS -->
 <link rel="stylesheet" href="{% static 'assets/css/plugins/dataTables.bootstrap4.min.css' %}">
 <link rel="stylesheet" href="{% static 'assets/css/plugins/select2.min.css' %}">
 <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
 <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
 {% endblock css %}
-	
 
 {% block content %}
-<!-- [ Main Content ] start -->
- 
-    <div class="pcoded-content">
-        <!-- [ breadcrumb ] start -->
-        <div class="page-header">
-            <div class="page-block">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <div class="page-header-title">
-                            <h5 class="m-b-10">Patent Module</h5>
+<div class="pcoded-content">
+    <!-- Breadcrumb -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-12">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Patent Module</h5>
+                    </div>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/app/"><i class="feather icon-home"></i>&nbsp;Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="/app/modules/patents/list/">Patent List</a></li>
+                        <li class="breadcrumb-item"><a href="/app/modules/patents/detail/{{item.id}}/">Patent Detail</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Key Information Section -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Case Reference:</h6>
+                            <p>{{ item.case_no }}</p>
                         </div>
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/app/"><i class="feather icon-home"></i>&nbsp;Dashboard</a></li>
-                            <li class="breadcrumb-item"><a href="/app/modules/patents/list/">Patent List</a></li>
-                            <li class="breadcrumb-item"><a href="/app/modules/patents/detail/{{i.id}}/">Patent Detail</a></li>
-                        </ul>
+                        <div class="col-md-6">
+                            <h6>Official Number:</h6>
+                            <p>{{ item.official_number }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Client Name:</h6>
+                            <p>{{ item.client_name }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Application Filing Date:</h6>
+                            <p>{{ item.application_filing_date }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Tabs Section -->
+                    <ul class="nav nav-tabs" id="patent-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="official-numbers-tab" data-toggle="tab" href="#official-numbers" role="tab" aria-controls="official-numbers" aria-selected="true">Official Numbers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="file-locations-tab" data-toggle="tab" href="#file-locations" role="tab" aria-controls="file-locations" aria-selected="false">File Locations</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="renewals-tab" data-toggle="tab" href="#renewals" role="tab" aria-controls="renewals" aria-selected="false">Renewals</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="events-tab" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="false">Events</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="patent-tabs-content">
+                        <!-- Official Numbers Tab -->
+                        <div class="tab-pane fade show active" id="official-numbers" role="tabpanel" aria-labelledby="official-numbers-tab">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Official Number</th>
+                                        <th>Current Number</th>
+                                        <th>Date In Force</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Serial No</td>
+                                        <td>3848438</td>
+                                        <td>✓</td>
+                                        <td>10-Apr-2024</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Application No</td>
+                                        <td>201962037.3</td>
+                                        <td>✓</td>
+                                        <td>12-Jul-2007</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- File Locations Tab -->
+                        <div class="tab-pane fade" id="file-locations" role="tabpanel" aria-labelledby="file-locations-tab">
+                            <h6>File Location:</h6>
+                            <p>{{ item.file_location }}</p>
+                        </div>
+
+                        <!-- Renewals Tab -->
+                        <div class="tab-pane fade" id="renewals" role="tabpanel" aria-labelledby="renewals-tab">
+                            <h6>Renewal Status:</h6>
+                            <p>{{ item.renewal_status }}</p>
+                        </div>
+
+                        <!-- Events Tab -->
+                        <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab">
+                            <h6>Events:</h6>
+                            <p>No events logged</p>
+                        </div>
+                    </div>
+
+                    <!-- Actions Section -->
+                    <div class="text-center mt-4">
+                        <a href="/app/modules/patents/list/" class="btn btn-primary">Back to List</a>
+                        <a href="/app/modules/patents/edit/{{ item.id }}/" class="btn btn-secondary">Edit</a>
+                        <a href="/app/modules/patents/delete/{{ item.id }}/" class="btn btn-danger">Delete</a>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- [ breadcrumb ] end -->
-        <!-- [ Main Content ] start -->
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-					<div class="card-body">
-                        <div class="row ">
-                        
-                            <!-- <div class="col-12">
-                                <button class="btn btn-primary float-right">Add Patent</button>
-                            </div> -->
-                            <div class="col-12 mb-4 text-center">
-                                <button class="btn btn-sm btn-outline-primary">Audit Trail</button>
-                                <button class="btn btn-sm btn-outline-primary"><i class="feather icon-copy"></i></button>
-                                <button class="btn btn-sm btn-outline-primary">Customer Special Instructions</button>
-                                <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-left"></i></button>
-                                <button class="btn btn-sm btn-outline-primary"><i class="feather icon-arrow-right"></i></button>
-                                <button class="btn btn-sm btn-outline-primary"><i class="feather icon-printer"></i></button>
-                                <button class="btn btn-sm btn-outline-primary"><i class="feather icon-delete"></i></button>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">case ref docket no</h5>
-                                <p>
-                                    {{item.case_no}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">country</h5>
-                                <p>
-                                    {{item.country}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">internal title</h5>
-                                <p>
-                                    {{item.internal_title}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">formal title</h5>
-                                <p>
-                                    {{item.formal_title}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">type of filing</h5>
-                                <p>
-                                    {{item.type_of_filing}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">status</h5>
-                                <p>
-                                    {{item.status}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">sub filing type</h5>
-                                <p>
-                                    {{item.sub_filing_type}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">sub status</h5>
-                                <p>
-                                    {{item.sub_status}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">primary attorney</h5>
-                                <p>
-                                    {{item.primary_attorney}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">secondary attorney</h5>
-                                <p>
-                                    {{item.secondary_attorney}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">primary paralegal</h5>
-                                <p>
-                                    {{item.primary_paralegal}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">secondary paralegal</h5>
-                                <p>
-                                    {{item.secondary_paralegal}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">Associate</h5>
-                                <p>
-                                    {{item.Associate}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">Associate_ref</h5>
-                                <p>
-                                    {{item.Associate_ref}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">Associate 2</h5>
-                                <p>
-                                    {{item.Associate_2}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">Associate 2 ref</h5>
-                                <p>
-                                    {{item.Associate_2_ref}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">cost centre</h5>
-                                <p>
-                                    {{item.cost_centre}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">licence</h5>
-                                <p>
-                                    {{item.licence}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">cost centre code</h5>
-                                <p>
-                                    {{item.cost_centre_code}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">priority provisional application no</h5>
-                                <p>
-                                    {{item.priority_provisional_application_no}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">priority provisional date</h5>
-                                <p>
-                                    {{item.priority_provisional_date}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">next annuity due</h5>
-                                <p>
-                                    {{item.next_annuity_due}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">PCT application no</h5>
-                                <p>
-                                    {{item.PCT_application_no}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">PCT application Date</h5>
-                                <p>
-                                    {{item.PCT_application_Date}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">annuity no</h5>
-                                <p>
-                                    {{item.annuity_no}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">application no</h5>
-                                <p>
-                                    {{item.application_no}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">application date</h5>
-                                <p>
-                                    {{item.application_date}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">taxs paid by</h5>
-                                <p>
-                                    {{item.taxs_paid_by}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">publication no</h5>
-                                <p>
-                                    {{item.publication_no}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">publication date</h5>
-                                <p>
-                                    {{item.publication_date}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">patent term no of days</h5>
-                                <p>
-                                    {{item.patent_term_no_of_days}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">grant number</h5>
-                                <p>
-                                    {{item.grant_number}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">grant date</h5>
-                                <p>
-                                    {{item.grant_date}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <h5 class="text-uppercase">large small entity</h5>
-                                <p>
-                                    {{item.large_small_entity}}
-                                </p>
-                            </div>
-                            <div class="col-12 mb-3 text-center">
-                                <a href="/app/modules/patents/list/" class="btn btn-primary">
-                                    <i class="fa fa-list"></i>&nbsp;List
-                                </a>
-                                <a href="/app/modules/patents/edit/{{item.id}}/" class="btn btn-secondary">
-                                    <i class="fa fa-edit"></i>&nbsp;Edit
-                                </a>
-                                <a href="/app/modules/patents/delete/{{item.id}}/" class="btn btn-danger">
-                                    <i class="fa fa-trash"></i>&nbsp;Delete
-                                </a>
-                            </div>
-                        </div>
-					</div>
-                </div>
-            </div>
-        </div>
-        <!-- [ Main Content ] end -->
-
     </div>
+</div>
   
 <!-- [ Main Content ] end -->
 
